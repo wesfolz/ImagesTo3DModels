@@ -1,9 +1,11 @@
 package ece473.trekker.imagesto3dmodels;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainMenuActivity extends ActionBarActivity
@@ -40,5 +42,11 @@ public class MainMenuActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected( item );
+    }
+
+    public void initiateCapture(View view)
+    {
+        Intent captureIntent = new Intent( this, ImageCaptureActivity.class );
+        startActivity( captureIntent );
     }
 }

@@ -2,19 +2,50 @@ package ece473.trekker.imagesto3dmodels;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.SurfaceView;
+import android.view.WindowManager;
 
+import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
 
 public class ImageCaptureActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2
 {
+    private CameraBridgeViewBase cameraView;
+
+    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback( this )
+    {
+        @Override
+        public void onManagerConnected( int status )
+        {
+            switch( status )
+            {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    cameraView.enableView();
+                }
+                break;
+                default:
+                {
+                    super.onManagerConnected( status );
+                }
+                break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_image_capture );
+        getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+        cameraView = (CameraBridgeViewBase) findViewById( R.id.camera_view );
+        cameraView.setVisibility( SurfaceView.VISIBLE );
+        cameraView.setCvCameraViewListener( this );
     }
 
     /**
@@ -50,7 +81,35 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public Mat onCameraFrame( CameraBridgeViewBase.CvCameraViewFrame inputFrame )
     {
-        return null;
+        return inputFrame.rgba();
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        OpenCVLoader.initAsync( OpenCVLoader.OPENCV_VERSION_2_4_6, this, loaderCallback );
+
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        if( cameraView != null )
+        {
+            cameraView.disableView();
+        }
+    }
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        if( cameraView != null )
+        {
+            cameraView.disableView();
+        }
     }
 
 
