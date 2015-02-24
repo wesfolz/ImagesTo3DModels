@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".ImageCaptureActivity"
-            android:label="@string/title_activity_image_capture" >
+            android:label="@string/title_activity_image_capture"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 
