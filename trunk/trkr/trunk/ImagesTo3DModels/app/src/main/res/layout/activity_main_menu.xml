@@ -9,19 +9,32 @@
                 tools:context=".MainMenuActivity"
                 android:nestedScrollingEnabled="true">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Image Capture"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="146dp"
-        android:onClick="initiateCapture"/>
+        android:id="@+id/initiate_capture_button"
+        android:onClick="initiateCapture"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="119dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Object Name:"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:ems="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/model_name"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/initiate_capture_button"
+        android:layout_alignEnd="@+id/initiate_capture_button"/>
 
 </RelativeLayout>

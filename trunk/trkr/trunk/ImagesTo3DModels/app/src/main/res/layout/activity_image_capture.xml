@@ -16,10 +16,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Capture"
-        android:id="@+id/captureButton"
+        android:id="@+id/capture_button"
         android:rotation="270"
+        android:onClick="captureImage"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/capture_complete_button"
+        android:rotation="270"
+        android:onClick="captureComplete"
+        android:layout_marginBottom="79dp"
+        android:layout_above="@+id/capture_button"
+        android:layout_alignRight="@+id/capture_button"
+        android:layout_alignEnd="@+id/capture_button"/>
 
 </RelativeLayout>
