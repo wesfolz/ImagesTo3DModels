@@ -1,8 +1,10 @@
 package ece473.trekker.imagesto3dmodels;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -10,42 +12,32 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
-public class ImageCaptureActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2
+public class ImageCaptureActivity extends Activity implements CameraBridgeViewBase
+        .CvCameraViewListener2
 {
-    private CameraBridgeViewBase cameraView;
-
-    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback( this )
-    {
-        @Override
-        public void onManagerConnected( int status )
-        {
-            switch( status )
-            {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    cameraView.enableView();
-                }
-                break;
-                default:
-                {
-                    super.onManagerConnected( status );
-                }
-                break;
-            }
-        }
-    };
-
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_image_capture );
         getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+
+        modelName = getIntent().getStringExtra( "modelName" );
+
+        //create directory to save images in
+        imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
+
         cameraView = (CameraBridgeViewBase) findViewById( R.id.camera_view );
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
+        capture = false;
     }
 
     /**
@@ -81,6 +73,19 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public Mat onCameraFrame( CameraBridgeViewBase.CvCameraViewFrame inputFrame )
     {
+        //if the capture button was clicked save the frame to the Mat array
+        if( capture )
+        {
+            //     Log.e("onCameraFrame", "capturing image " + imageArray.size());
+            capture = false;
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
+            String fileName = imageDirectory.getAbsolutePath() + "/" + date
+                    .format( cal.getTime() ) + ".jpg";
+            //write mat to jpg file
+            Highgui.imwrite( fileName, inputFrame.rgba() );
+        }
+
         return inputFrame.rgba();
     }
 
@@ -103,6 +108,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         }
     }
 
+    @Override
     public void onDestroy()
     {
         super.onDestroy();
@@ -112,5 +118,72 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         }
     }
 
+    /**
+     * Called when capture button is clicked, sets the capture flag to true so that the next
+     * frame is saved
+     *
+     * @param view - capture_button
+     */
+    public void captureImage( View view )
+    {
+        capture = true;
+    }
 
+    /**
+     * Called when the done button is clicked, starts ModelPhotoGalleryActivity
+     *
+     * @param view - capture_complete_button
+     */
+    public void captureComplete( View view )
+    {
+        Intent galleryIntent = new Intent( this, ModelPhotoGalleryActivity.class );
+        galleryIntent.putExtra( "modelName", modelName );
+        galleryIntent.putExtra( "modelImageDirectory", imageDirectory.getAbsolutePath() );
+        startActivity( galleryIntent );
+
+    }
+
+    /**
+     * Callback that enables camera view
+     */
+    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback( this )
+    {
+        @Override
+        public void onManagerConnected( int status )
+        {
+            switch( status )
+            {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    cameraView.enableView();
+                }
+                break;
+                default:
+                {
+                    super.onManagerConnected( status );
+                }
+                break;
+            }
+        }
+    };
+
+    /**
+     * View displaying camera preview
+     */
+    private CameraBridgeViewBase cameraView;
+
+    /**
+     * Boolean specifying that next camera frame should be saved
+     */
+    private boolean capture;
+
+    /**
+     * Name of 3D model to be created
+     */
+    private String modelName;
+
+    /**
+     * Directory storing all images for current model
+     */
+    private File imageDirectory;
 }
