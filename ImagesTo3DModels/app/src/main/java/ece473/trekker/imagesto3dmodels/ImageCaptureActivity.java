@@ -2,7 +2,10 @@ package ece473.trekker.imagesto3dmodels;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,6 +40,24 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView = (CameraBridgeViewBase) findViewById( R.id.camera_view );
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
+
+        cameraView.setOnTouchListener( new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch( View v, MotionEvent event )
+            {
+                Point size = new Point();
+                getWindowManager().getDefaultDisplay().getSize( size );
+                xBackground = (int) (1280 * event.getRawX() / size.x);
+                yBackground = (int) (720 * event.getRawY() / size.y);
+                Log.e( "OnTouch", Integer.toString( xBackground ) );
+                Log.e( "OnTouch", Integer.toString( yBackground ) );
+
+                Log.e( "OnTouch", "WINDOW SIZE " + size );
+                return false;
+            }
+        } );
+
         capture = false;
     }
 
@@ -73,9 +94,12 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public Mat onCameraFrame( CameraBridgeViewBase.CvCameraViewFrame inputFrame )
     {
+
         //if the capture button was clicked save the frame to the Mat array
         if( capture )
         {
+            double[] color = inputFrame.rgba().get( xBackground, yBackground );
+            Log.e( "onCameraFrame", "Color " + color[0] + ", " + color[1] + ", " + color[2] );
             //     Log.e("onCameraFrame", "capturing image " + imageArray.size());
             capture = false;
             Calendar cal = Calendar.getInstance();
@@ -84,6 +108,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                     .format( cal.getTime() ) + ".jpg";
             //write mat to jpg file
             Highgui.imwrite( fileName, inputFrame.rgba() );
+            Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
 
         return inputFrame.rgba();
@@ -186,4 +211,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * Directory storing all images for current model
      */
     private File imageDirectory;
+
+    private int xBackground;
+    private int yBackground;
 }

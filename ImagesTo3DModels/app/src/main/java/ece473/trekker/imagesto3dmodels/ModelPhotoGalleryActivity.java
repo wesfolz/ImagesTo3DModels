@@ -67,9 +67,12 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         Object3DModel model = new Object3DModel( getIntent().getStringExtra( "modelName" ),
                 getIntent().getStringExtra( "modelImageDirectory" ) );
         File cannyEdge = model.detectEdges();
-
+        File noBackground = model.subtractBackground();
         LinearLayout layout = (LinearLayout) findViewById( R.id.photo_gallery_linear_layout );
         ImageView imageView = new ImageView( ModelPhotoGalleryActivity.this );
+        imageView.setImageURI( Uri.parse( noBackground.getAbsolutePath() ) );
+        layout.addView( imageView );
+        imageView = new ImageView( ModelPhotoGalleryActivity.this );
         imageView.setImageURI( Uri.parse( cannyEdge.getAbsolutePath() ) );
         layout.addView( imageView );
     }
