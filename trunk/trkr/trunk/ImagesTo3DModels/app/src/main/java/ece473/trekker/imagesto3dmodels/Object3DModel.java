@@ -8,6 +8,9 @@ import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -59,6 +62,10 @@ public class Object3DModel
         {
             imageArray.add( Highgui.imread( f.getAbsolutePath() ) );
         }
+
+        triangleFaceArray = new ArrayList<>();
+        vertexArray = new ArrayList<>();
+
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );
 
     }
@@ -106,6 +113,10 @@ public class Object3DModel
         //apply mask to imageArray Mat and copy result into noBackground
         imageArray.get( 0 ).copyTo( noBackground, binaryMask );
 
+        triangulateImage2D( noBackground );
+
+        writeOBJFile( directoryName + "/noBackground.obj" );
+
         //write Mat to jpg file and return it
         Highgui.imwrite( directoryName + "/noBackground.jpg", noBackground );
         return new File( directoryName + "/noBackground.jpg" );
@@ -114,11 +125,92 @@ public class Object3DModel
         //     return noBackground;
     }
 
+    /**
+     * Triangulates face by connecting nearest image pixel points
+     *
+     * @param image - image to triangulate
+     */
+    public void triangulateImage2D( Mat image )
+    {
+        TriangleVertex[] tv = new TriangleVertex[3];
+        tv[0] = new TriangleVertex( 0, 0, 0 );
+        tv[1] = new TriangleVertex( 0, 1, 0 );
+        tv[2] = new TriangleVertex( 1, 0, 0 );
+
+        for( int j = 0; j < image.cols() - 1; j++ )
+        {
+            for( int i = 0; i < image.rows() - 1; i++ )
+            {
+                if( image.get( i + i % 2, j + 1 - i % 2 )[0] != 0 )
+                {
+                    tv[i % 3] = new TriangleVertex( i + i % 2, j + 1 - i % 2, 0 );
+
+                    tv[i % 3].setIndex( vertexArray.size() );
+                    vertexArray.add( tv[i % 3] );
+                    //vertexArray.get( vertexArray.size() - 1  ).setIndex( vertexArray.size() - 1 );
+                    triangleFaceArray.add( new TriangleFace( tv.clone() ) );
+                }
+            }
+        }
+        Log.e( "triangulateImage2D", "Number of faces: " + triangleFaceArray.size() );
+        Log.e( "triangulateImage2D", "Number of vertices: " + vertexArray.size() );
+    }
+
+    /**
+     * Writes vertices and triangle faces to an obj file
+     *
+     * @param filepath - complete path to file including name
+     */
+    public void writeOBJFile( String filepath )
+    {
+        try
+        {
+            File file = new File( filepath );
+
+            FileOutputStream fos = new FileOutputStream( file, false );
+
+            //write vertices
+            for( TriangleVertex tv : vertexArray )
+            {
+                tv.writeVertexOBJ( fos );
+            }
+
+            //write faces
+            for( TriangleFace tf : triangleFaceArray )
+            {
+                tf.writeTriangleFaceOBJ( fos );
+            }
+
+            fos.close();
+        }
+        catch( FileNotFoundException e )
+        {
+            e.printStackTrace();
+        }
+        catch( IOException e1 )
+        {
+            e1.printStackTrace();
+        }
+
+        Log.e( "triangulateImage2D", "obj written" );
+    }
+
+
 
     /**
      * ArrayList storing Mat representations of images
      */
     private ArrayList<Mat> imageArray;
+
+    /**
+     * List of triangle faces that compose the model
+     */
+    private ArrayList<TriangleFace> triangleFaceArray;
+
+    /**
+     * List of vertices that compose the model
+     */
+    private ArrayList<TriangleVertex> vertexArray;
 
     /**
      * Name of this model
