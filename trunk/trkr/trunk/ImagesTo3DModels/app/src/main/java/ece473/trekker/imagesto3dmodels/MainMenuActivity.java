@@ -1,31 +1,152 @@
 package ece473.trekker.imagesto3dmodels;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class MainMenuActivity extends ActionBarActivity
 {
 
+
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main_menu );
-
+        super.onCreate(savedInstanceState);
         //creates folder to store application files
-        createApplicationDirectory();
+
+        setContentView(R.layout.activity_main_menu);
+
+        final GridView gridview = (GridView) findViewById(R.id.buttonGrid);
+        gridview.setAdapter(new ImageAdapter(this));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+
+                if (position == parent.getAdapter().getCount() - 1){
+                    final View view = v;
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(MainMenuActivity.this);
+                    builder.setTitle("Title");
+
+                    // Set up the input
+                    final EditText input = new EditText(MainMenuActivity.this);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
+
+                    // Set up the buttons
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            objectName = input.getText().toString();
+                            initiateCapture(view);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        });
+
     }
 
+    /**
+     *
+     */
+    public class ImageAdapter extends BaseAdapter {
+        private Context mContext;
+
+        public ImageAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() {
+                return mThumbIds.size() + 1;
+        }
+
+        public ArrayList<Bitmap> getmThumbIds(){
+            return mThumbIds;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        public ArrayList<Bitmap> getThumbNails(){
+
+            ArrayList<Bitmap> thumbnails = new ArrayList<Bitmap>();
+
+            if (thmNailDir.exists()) {
+                File[] files = thmNailDir.listFiles();
+                for (int i = 0; i < files.length; ++i) {
+                    File file = files[i];
+                    if (file.exists()) {
+                        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        thumbnails.add(myBitmap);
+                    } else {
+                        // do something here with the file
+                    }
+                }
+            }
+            return thumbnails;
+        }
+
+        // create a new ImageView for each item referenced by the Adapter
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null) {  // if it's not recycled, initialize some attributes
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new GridView.LayoutParams(256, 256));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(8, 8, 8, 8);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+
+            if(position == mThumbIds.size()) {
+                imageView.setImageResource(R.drawable.plus);
+            } else if ( position < mThumbIds.size()){
+                imageView.setImageBitmap(mThumbIds.get(position));
+            }
+
+            return imageView;
+        }
+
+        // references to our images
+        private ArrayList<Bitmap> mThumbIds = getThumbNails();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu( Menu menu )
@@ -52,10 +173,12 @@ public class MainMenuActivity extends ActionBarActivity
         return super.onOptionsItemSelected( item );
     }
 
+
+
     /**
      * Creates application directory if it doesn't already exist
      */
-    private void createApplicationDirectory()
+    private static File createApplicationDirectory()
     {
         //ensure external storage is mounted
         if( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) )
@@ -68,12 +191,14 @@ public class MainMenuActivity extends ActionBarActivity
             {
                 applicationDirectory.mkdir();
             }
+            return applicationDirectory;
         }
         //indicate external storage is not mounted
         else
         {
-            Toast.makeText( getApplicationContext(), "Error! External Storage Not Mounted.",
+            Toast.makeText( MyApplication.getAppContext(), "Error! External Storage Not Mounted.",
                     Toast.LENGTH_LONG ).show();
+            return null;
         }
     }
 
@@ -82,14 +207,13 @@ public class MainMenuActivity extends ActionBarActivity
      *
      * @param directoryName name of the directory
      */
-    public static File createDirectory( String directoryName )
+    public static File createDirectory(String directoryName)
     {
         //ensure external storage is mounted
         if( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) )
         {
             //create new folder in the external storage directory
-            File directory = new File( Environment.getExternalStorageDirectory().toString() + "/"
-                    + APPLICATION_DIRECTORY_NAME + "/" + directoryName );
+            File directory = new File( appDir.getPath() + "/" + directoryName );
             //make the directory if one doesn't already exist
             if( ! directory.exists() )
             {
@@ -100,10 +224,11 @@ public class MainMenuActivity extends ActionBarActivity
         //indicate external storage is not mounted
         else
         {
-            //    Toast.makeText( getApplicationContext(), "Error! External Storage Not Mounted.",
-            //           Toast.LENGTH_LONG ).show();
+            Toast.makeText( MyApplication.getAppContext(), "Error! External Storage Not Mounted.",
+                       Toast.LENGTH_LONG ).show();
             return null;
         }
+
     }
 
     /**
@@ -113,13 +238,11 @@ public class MainMenuActivity extends ActionBarActivity
      */
     public void initiateCapture( View view )
     {
-        //create directory for model
-        EditText modelNameText = (EditText) findViewById( R.id.model_name );
-        createDirectory( modelNameText.getText().toString() );
+        createDirectory( objectName );
 
         Intent captureIntent = new Intent( this, ImageCaptureActivity.class );
         //sends name of model to image capture activity
-        captureIntent.putExtra( "modelName", modelNameText.getText().toString() );
+        captureIntent.putExtra( "modelName", objectName );
         startActivity( captureIntent );
     }
 
@@ -127,4 +250,9 @@ public class MainMenuActivity extends ActionBarActivity
      * String storing application file name
      */
     public static final String APPLICATION_DIRECTORY_NAME = "Images_To_3D_Models";
+    public static final File appDir = createApplicationDirectory();
+    public static final File thmNailDir = createDirectory("thumbNails");
+    private String objectName;
+
+
 }
