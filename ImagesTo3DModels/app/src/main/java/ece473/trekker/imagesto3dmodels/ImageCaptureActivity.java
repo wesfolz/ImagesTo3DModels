@@ -2,7 +2,10 @@ package ece473.trekker.imagesto3dmodels;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -17,7 +20,13 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -108,6 +117,35 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                     .format( cal.getTime() ) + ".jpg";
             //write mat to jpg file
             Highgui.imwrite( fileName, inputFrame.rgba() );
+
+
+            FileInputStream thumbNailFile = null;
+            try {
+                byte[] imageData = null;
+
+ //               thumbNailFile = new FileInputStream(MainMenuActivity.thmNailDir.getPath() + "/" + getIntent().getStringExtra( "modelName" ));
+ //               Bitmap thumbImage = BitmapFactory.decodeStream(thumbNailFile);
+                String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent().getStringExtra( "modelName" ) + ".png";
+                Bitmap thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fileName), THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                OutputStream out = null;
+                try {
+                    out = new BufferedOutputStream(new FileOutputStream(outFile));
+                    thumbImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+                }
+                finally {
+                    if (out != null) {
+                        try {
+                                out.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                    }
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
 
@@ -214,4 +252,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
     private int xBackground;
     private int yBackground;
+    final int THUMBNAIL_SIZE = 128;
+
 }
