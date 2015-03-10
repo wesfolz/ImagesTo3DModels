@@ -2,7 +2,7 @@ package ece473.trekker.imagesto3dmodels;
 
 import org.opencv.core.Point3;
 
-import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 
 /**
@@ -12,15 +12,24 @@ public class TriangleVertex extends Point3
 {
     public TriangleVertex()
     {
-
+        this( 0, 0, 0 );
     }
 
     public TriangleVertex( double x, double y, double z )
     {
         super( x, y, z );
-
+        setGrayScale( 0 );
+        setIndex( 0 );
+        setExists( false );
     }
 
+    /**
+     * @return - Grayscale color value of vertex
+     */
+    public double getGrayScale()
+    {
+        return grayScale;
+    }
 
     /**
      * @return - index of vertex in it's arraylist (used for face to reference in obj file)
@@ -29,6 +38,15 @@ public class TriangleVertex extends Point3
     {
         return index;
     }
+
+    /**
+     * @param grayScale - Grayscale color value of vertex
+     */
+    public void setGrayScale( double grayScale )
+    {
+        this.grayScale = grayScale;
+    }
+
 
     /**
      * @param index - index of vertex in it's arraylist (used for face to reference in obj file)
@@ -41,14 +59,16 @@ public class TriangleVertex extends Point3
     /**
      * Writes data of vertex to supplied FileOutputStream (must be obj file)
      *
-     * @param fos - FileOutputStream to obj file
+     * @param bos - BufferedOutputStream to obj file
      */
-    public void writeVertexOBJ( FileOutputStream fos )
+    public void writeVertexOBJ( BufferedOutputStream bos )
     {
         try
         {
             String vertex = "v " + x + " " + y + " " + z + "\n";
-            fos.write( vertex.getBytes() );
+            // BufferedOutputStream bos = new BufferedOutputStream( fos );
+            bos.write( vertex.getBytes() );
+            // fos.write( vertex.getBytes() );
         }
         catch( IOException e )
         {
@@ -56,7 +76,29 @@ public class TriangleVertex extends Point3
         }
     }
 
+    public boolean isExists()
+    {
+        return exists;
+    }
 
+    public void setExists( boolean exists )
+    {
+        this.exists = exists;
+    }
+
+    /**
+     * True if it already exists in the vertex array, false otherwise
+     */
+    private boolean exists;
+
+    /**
+     * Grayscale color value of vertex
+     */
+    private double grayScale;
+
+    /**
+     * index of vertex in it's arraylist (used for face to reference in obj file)
+     */
     private int index;
 
 }

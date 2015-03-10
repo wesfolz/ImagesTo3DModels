@@ -7,6 +7,7 @@ import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -113,9 +114,9 @@ public class Object3DModel
         //apply mask to imageArray Mat and copy result into noBackground
         imageArray.get( 0 ).copyTo( noBackground, binaryMask );
 
-        triangulateImage2D( noBackground );
+        triangulate2DImage( noBackground );
 
-        writeOBJFile( directoryName + "/noBackground.obj" );
+        writeOBJFile( directoryName + "/" + modelName + ".obj" );
 
         //write Mat to jpg file and return it
         Highgui.imwrite( directoryName + "/noBackground.jpg", noBackground );
@@ -128,32 +129,95 @@ public class Object3DModel
     /**
      * Triangulates face by connecting nearest image pixel points
      *
-     * @param image - image to triangulate
+     * @param image - grayscale image to triangulate
      */
-    public void triangulateImage2D( Mat image )
+    public void triangulate2DImage( Mat image )
     {
         TriangleVertex[] tv = new TriangleVertex[3];
         tv[0] = new TriangleVertex( 0, 0, 0 );
         tv[1] = new TriangleVertex( 0, 1, 0 );
         tv[2] = new TriangleVertex( 1, 0, 0 );
+        double grayScale;
+        boolean inBackground;
+        boolean recentlyAdded = false;
+        int column;
+        int row;
+        int clusterSize = 2;
+        int numColumns = image.cols() - clusterSize;
+        int numRows = image.rows() * 2 - clusterSize * 2;
 
-        for( int j = 0; j < image.cols() - 1; j++ )
+        //loop through grayscale image
+        for( int j = 0; j < numColumns; j += clusterSize )
+        // for( int j = 0; j < 10; j+=clusterSize )
         {
-            for( int i = 0; i < image.rows() - 1; i++ )
+            row = 0;
+            for( TriangleVertex v : tv )
             {
-                if( image.get( i + i % 2, j + 1 - i % 2 )[0] != 0 )
-                {
-                    tv[i % 3] = new TriangleVertex( i + i % 2, j + 1 - i % 2, 0 );
+                v.setGrayScale( 0.0 );
+            }
+            for( int i = 0; i < numRows; i += clusterSize )
+            // for( int i = 0; i < 10; i+=clusterSize )
+            {
+                column = j + clusterSize - (i % (2 * clusterSize));
+                row = row + (i % (2 * clusterSize));
 
-                    tv[i % 3].setIndex( vertexArray.size() );
-                    vertexArray.add( tv[i % 3] );
-                    //vertexArray.get( vertexArray.size() - 1  ).setIndex( vertexArray.size() - 1 );
-                    triangleFaceArray.add( new TriangleFace( tv.clone() ) );
+                //Log.e( "triangulate2DImage", "Column " + column + " Row " + row );
+
+                //get grayscale color value of pixel
+                grayScale = image.get( row, column )[0];
+                //update appropriate vertex
+                tv[i % 3] = new TriangleVertex( row, column, 0 );
+                tv[i % 3].setGrayScale( grayScale );
+                //only accept non-zero pixels
+                if( grayScale != 0 )
+                {
+                    inBackground = false;
+                    //make sure all current vertices have non-zero values
+                    for( TriangleVertex vertex : tv )
+                    {
+                        if( vertex.getGrayScale() == 0 )
+                        {
+                            inBackground = true;
+                            recentlyAdded = false;
+                            break;
+                        }
+                    }
+                    //add new triangle if all three vertices are non-background pixels (have
+                    // non-zero grayscale values)
+                    if( ! inBackground )
+                    {
+                        // Log.e( "triangulateImage2D", "tv[0].x " + tv[0].x + " tv[0].y " +
+                        // tv[0].y + " tv[1].x " + tv[1].x + " tv[1].y " + tv[1].y + " tv[2].x "
+                        // + tv[2].x +   " tv[2].y " + tv[2].y );
+                        if( ! recentlyAdded )
+                        {
+                            vertexArray.add( tv[0] );
+                            tv[0].setIndex( vertexArray.size() );
+
+                            vertexArray.add( tv[1] );
+                            tv[1].setIndex( vertexArray.size() );
+
+                            vertexArray.add( tv[2] );
+                            tv[2].setIndex( vertexArray.size() );
+
+                            recentlyAdded = true;
+                        }
+                        else
+                        {
+                            vertexArray.add( tv[i % 3] );
+                            tv[i % 3].setIndex( vertexArray.size() );
+                        }
+                        triangleFaceArray.add( new TriangleFace( tv.clone() ) );
+                    }
+                }
+                else
+                {
+                    recentlyAdded = false;
                 }
             }
         }
-        Log.e( "triangulateImage2D", "Number of faces: " + triangleFaceArray.size() );
-        Log.e( "triangulateImage2D", "Number of vertices: " + vertexArray.size() );
+        Log.e( "triangulate2DImage", "Number of faces: " + triangleFaceArray.size() );
+        Log.e( "triangulate2DImage", "Number of vertices: " + vertexArray.size() );
     }
 
     /**
@@ -165,23 +229,23 @@ public class Object3DModel
     {
         try
         {
-            File file = new File( filepath );
-
-            FileOutputStream fos = new FileOutputStream( file, false );
+            //BufferedOutputStream is far more efficient than FileOutputStream in this case
+            BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream( new File(
+                    filepath ) ) );
 
             //write vertices
             for( TriangleVertex tv : vertexArray )
             {
-                tv.writeVertexOBJ( fos );
+                tv.writeVertexOBJ( bos );
             }
 
             //write faces
             for( TriangleFace tf : triangleFaceArray )
             {
-                tf.writeTriangleFaceOBJ( fos );
+                tf.writeTriangleFaceOBJ( bos );
             }
 
-            fos.close();
+            bos.close();
         }
         catch( FileNotFoundException e )
         {
@@ -192,9 +256,8 @@ public class Object3DModel
             e1.printStackTrace();
         }
 
-        Log.e( "triangulateImage2D", "obj written" );
+        Log.e( "triangulate2DImage", "obj written" );
     }
-
 
 
     /**

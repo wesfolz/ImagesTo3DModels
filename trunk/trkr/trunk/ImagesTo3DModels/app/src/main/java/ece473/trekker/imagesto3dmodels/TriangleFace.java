@@ -1,6 +1,6 @@
 package ece473.trekker.imagesto3dmodels;
 
-import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 
 /**
@@ -34,15 +34,17 @@ public class TriangleFace
     /**
      * Writes data of face to supplied FileOutputStream (must be obj file)
      *
-     * @param fos - FileOutputStream to obj file
+     * @param bos - BufferedOutputStream to obj file
      */
-    public void writeTriangleFaceOBJ( FileOutputStream fos )
+    public void writeTriangleFaceOBJ( BufferedOutputStream bos )
     {
         try
         {
             String face = "f " + vertices[0].getIndex() + " " + vertices[1].getIndex() + " " +
                     vertices[2].getIndex() + "\n";
-            fos.write( face.getBytes() );
+            // BufferedOutputStream bos = new BufferedOutputStream( fos );
+            bos.write( face.getBytes() );
+            //fos.write( face.getBytes() );
         }
         catch( IOException e )
         {
