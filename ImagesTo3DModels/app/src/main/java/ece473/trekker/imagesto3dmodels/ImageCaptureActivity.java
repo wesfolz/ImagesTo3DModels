@@ -42,9 +42,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
 
         modelName = getIntent().getStringExtra( "modelName" );
+        imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
+        captureNumber = getCaptureNumber();
 
         //create directory to save images in
-        imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
 
         cameraView = (CameraBridgeViewBase) findViewById( R.id.camera_view );
         cameraView.setVisibility( SurfaceView.VISIBLE );
@@ -111,20 +112,14 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             Log.e( "onCameraFrame", "Color " + color[0] + ", " + color[1] + ", " + color[2] );
             //     Log.e("onCameraFrame", "capturing image " + imageArray.size());
             capture = false;
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
-            String fileName = imageDirectory.getAbsolutePath() + "/" + date
-                    .format( cal.getTime() ) + ".jpg";
+            //Calendar cal = Calendar.getInstance();
+            //SimpleDateFormat date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
+            String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(captureNumber) + ".jpg";
             //write mat to jpg file
             Highgui.imwrite( fileName, inputFrame.rgba() );
 
 
-            FileInputStream thumbNailFile = null;
             try {
-                byte[] imageData = null;
-
- //               thumbNailFile = new FileInputStream(MainMenuActivity.thmNailDir.getPath() + "/" + getIntent().getStringExtra( "modelName" ));
- //               Bitmap thumbImage = BitmapFactory.decodeStream(thumbNailFile);
                 String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent().getStringExtra( "modelName" ) + ".png";
                 Bitmap thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fileName), THUMBNAIL_SIZE, THUMBNAIL_SIZE);
                 OutputStream out = null;
@@ -145,7 +140,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
+            captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
 
@@ -230,6 +225,27 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         }
     };
 
+    private int getCaptureNumber(){
+        int numberOfCaptures = 1;
+        if(imageDirectory.exists()) {
+            File[] fileList = imageDirectory.listFiles();
+
+            if(fileList.length == 0){
+                return numberOfCaptures;
+            }
+
+            for (File f : imageDirectory.listFiles()) {
+                if (f.isFile()) {
+                    String fileName = f.getName();
+                    if (fileName.contains("capture")) numberOfCaptures++;
+
+                }
+                // make something with the name
+            }
+        }
+        return numberOfCaptures;
+    }
+
     /**
      * View displaying camera preview
      */
@@ -249,7 +265,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * Directory storing all images for current model
      */
     private File imageDirectory;
-
+    private int captureNumber;
     private int xBackground;
     private int yBackground;
     final int THUMBNAIL_SIZE = 128;

@@ -91,10 +91,6 @@ public class MainMenuActivity extends ActionBarActivity
                 return mThumbIds.size() + 1;
         }
 
-        public ArrayList<Bitmap> getmThumbIds(){
-            return mThumbIds;
-        }
-
         public Object getItem(int position) {
             return null;
         }
@@ -105,17 +101,14 @@ public class MainMenuActivity extends ActionBarActivity
 
         public ArrayList<Bitmap> getThumbNails(){
 
-            ArrayList<Bitmap> thumbnails = new ArrayList<Bitmap>();
+            ArrayList<Bitmap> thumbnails = new ArrayList<>();
 
             if (thmNailDir.exists()) {
                 File[] files = thmNailDir.listFiles();
-                for (int i = 0; i < files.length; ++i) {
-                    File file = files[i];
+                for (File file : files) {
                     if (file.exists()) {
                         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                         thumbnails.add(myBitmap);
-                    } else {
-                        // do something here with the file
                     }
                 }
             }
