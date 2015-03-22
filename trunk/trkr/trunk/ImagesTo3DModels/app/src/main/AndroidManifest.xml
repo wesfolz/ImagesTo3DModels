@@ -3,6 +3,7 @@
     package="ece473.trekker.imagesto3dmodels" >
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-sdk
@@ -14,6 +15,9 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.front"
@@ -41,7 +45,7 @@
         <activity
             android:name=".ImageCaptureActivity"
             android:label="@string/title_activity_image_capture"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ModelPhotoGalleryActivity"
