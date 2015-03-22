@@ -22,13 +22,10 @@ import org.opencv.highgui.Highgui;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 
 public class ImageCaptureActivity extends Activity implements CameraBridgeViewBase
@@ -45,9 +42,11 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
         captureNumber = getCaptureNumber();
 
+        this.getWindow().getDecorView();
+
         //create directory to save images in
 
-        cameraView = (CameraBridgeViewBase) findViewById( R.id.camera_view );
+        cameraView = (TrekkerCameraView) findViewById( R.id.camera_view );
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
 
@@ -71,6 +70,22 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         capture = false;
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged( hasFocus );
+        if(hasFocus)
+        {
+            //make window fullscreen
+            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
     /**
      * This method is invoked when camera preview has started. After this method is invoked
      * the frames will start to be delivered to client via the onCameraFrame() callback.
@@ -81,7 +96,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public void onCameraViewStarted( int width, int height )
     {
-
     }
 
     /**
@@ -91,7 +105,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public void onCameraViewStopped()
     {
-
     }
 
     /**
@@ -114,30 +127,42 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             capture = false;
             //Calendar cal = Calendar.getInstance();
             //SimpleDateFormat date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
-            String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(captureNumber) + ".jpg";
+            String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(
+                    captureNumber ) + ".jpg";
             //write mat to jpg file
             Highgui.imwrite( fileName, inputFrame.rgba() );
 
 
-            try {
-                String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent().getStringExtra( "modelName" ) + ".png";
-                Bitmap thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fileName), THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+            try
+            {
+                String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent()
+                        .getStringExtra( "modelName" ) + ".png";
+                Bitmap thumbImage = ThumbnailUtils.extractThumbnail( BitmapFactory.decodeFile(
+                        fileName ), THUMBNAIL_SIZE, THUMBNAIL_SIZE );
                 OutputStream out = null;
-                try {
-                    out = new BufferedOutputStream(new FileOutputStream(outFile));
-                    thumbImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+                try
+                {
+                    out = new BufferedOutputStream( new FileOutputStream( outFile ) );
+                    thumbImage.compress( Bitmap.CompressFormat.PNG, 100, out );
                 }
-                finally {
-                    if (out != null) {
-                        try {
-                                out.close();
-                        } catch (IOException e) {
-                                e.printStackTrace();
+                finally
+                {
+                    if( out != null )
+                    {
+                        try
+                        {
+                            out.close();
+                        }
+                        catch( IOException e )
+                        {
+                            e.printStackTrace();
                         }
                     }
                 }
 
-            } catch (FileNotFoundException e) {
+            }
+            catch( FileNotFoundException e )
+            {
                 e.printStackTrace();
             }
             captureNumber++;
@@ -184,6 +209,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      */
     public void captureImage( View view )
     {
+        //cameraView.turnOnFlash();
         capture = true;
     }
 
@@ -200,6 +226,43 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         startActivity( galleryIntent );
 
     }
+
+
+    private int getCaptureNumber()
+    {
+        int numberOfCaptures = 1;
+        if( imageDirectory.exists() )
+        {
+            File[] fileList = imageDirectory.listFiles();
+
+            if( fileList.length == 0 )
+            {
+                return numberOfCaptures;
+            }
+
+            for( File f : imageDirectory.listFiles() )
+            {
+                if( f.isFile() )
+                {
+                    String fileName = f.getName();
+                    if( fileName.contains( "capture" ) ) numberOfCaptures++;
+
+                }
+                // make something with the name
+            }
+        }
+        return numberOfCaptures;
+    }
+
+    /**
+     * Called when flash button is clicked
+     * @param view
+     */
+    public void setFlash(View view)
+    {
+        cameraView.setFlashMode();
+    }
+
 
     /**
      * Callback that enables camera view
@@ -225,31 +288,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         }
     };
 
-    private int getCaptureNumber(){
-        int numberOfCaptures = 1;
-        if(imageDirectory.exists()) {
-            File[] fileList = imageDirectory.listFiles();
-
-            if(fileList.length == 0){
-                return numberOfCaptures;
-            }
-
-            for (File f : imageDirectory.listFiles()) {
-                if (f.isFile()) {
-                    String fileName = f.getName();
-                    if (fileName.contains("capture")) numberOfCaptures++;
-
-                }
-                // make something with the name
-            }
-        }
-        return numberOfCaptures;
-    }
-
     /**
      * View displaying camera preview
      */
-    private CameraBridgeViewBase cameraView;
+    private TrekkerCameraView cameraView;
 
     /**
      * Boolean specifying that next camera frame should be saved
