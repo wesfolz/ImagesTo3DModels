@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,7 +37,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
-        objectName = new String( getIntent().getStringExtra("modelName"));
+        objectName = new String( getIntent().getStringExtra( "modelName" ) );
 
         /*
         File[] images = modelImageDirectory.listFiles();
@@ -49,55 +48,68 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             layout.addView( imageView );
         }
         */
-        final GridView gridview = (GridView) findViewById(R.id.buttonGrid);
-        gridview.setAdapter(new ImageAdapter(this));
+        final GridView gridview = (GridView) findViewById( R.id.buttonGrid );
+        gridview.setAdapter( new ImageAdapter( this ) );
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+        gridview.setOnItemClickListener( new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick( AdapterView<?> parent, View v, int position, long id )
+            {
+                Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
 
-                if (position == parent.getAdapter().getCount() - 1){
-                    initiateCapture(v);
+                if( position == parent.getAdapter().getCount() - 1 )
+                {
+                    initiateCapture( v );
                 }
             }
-        });
+        } );
 
     }
 
     /**
      *
      */
-    public class ImageAdapter extends BaseAdapter {
+    public class ImageAdapter extends BaseAdapter
+    {
         private Context mContext;
 
-        public ImageAdapter(Context c) {
+        public ImageAdapter( Context c )
+        {
             mContext = c;
         }
 
-        public int getCount() {
+        public int getCount()
+        {
             return mThumbIds.size() + 1;
         }
 
-        public Object getItem(int position) {
+        public Object getItem( int position )
+        {
             return null;
         }
 
-        public long getItemId(int position) {
+        public long getItemId( int position )
+        {
             return 0;
         }
 
-        public ArrayList<Bitmap> getThumbNails(){
+        public ArrayList<Bitmap> getThumbNails()
+        {
 
             ArrayList<Bitmap> thumbnails = new ArrayList<>();
 
-            if (modelImageDirectory.exists()) {
+            if( modelImageDirectory.exists() )
+            {
                 File[] files = modelImageDirectory.listFiles();
-                for (File file : files) {
-                    if (file.exists()) {
+                for( File file : files )
+                {
+                    if( file.exists() )
+                    {
                         String fileName = file.getName();
-                        if(fileName.contains("capture")) {
-                            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                            thumbnails.add(myBitmap);
+                        if( fileName.contains( "capture" ) )
+                        {
+                            Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
+                            thumbnails.add( myBitmap );
                         }
                     }
                 }
@@ -106,21 +118,28 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
 
         // create a new ImageView for each item referenced by the Adapter
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView( int position, View convertView, ViewGroup parent )
+        {
             ImageView imageView;
-            if (convertView == null) {  // if it's not recycled, initialize some attributes
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(256, 256));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
-            } else {
+            if( convertView == null )
+            {  // if it's not recycled, initialize some attributes
+                imageView = new ImageView( mContext );
+                imageView.setLayoutParams( new GridView.LayoutParams( 256, 256 ) );
+                imageView.setScaleType( ImageView.ScaleType.CENTER_CROP );
+                imageView.setPadding( 8, 8, 8, 8 );
+            }
+            else
+            {
                 imageView = (ImageView) convertView;
             }
 
-            if(position == mThumbIds.size()) {
-                imageView.setImageResource(R.drawable.plus);
-            } else if ( position < mThumbIds.size()){
-                imageView.setImageBitmap(mThumbIds.get(position));
+            if( position == mThumbIds.size() )
+            {
+                imageView.setImageResource( R.drawable.plus );
+            }
+            else if( position < mThumbIds.size() )
+            {
+                imageView.setImageBitmap( mThumbIds.get( position ) );
             }
 
             return imageView;
@@ -130,6 +149,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         private ArrayList<Bitmap> mThumbIds = getThumbNails();
 
     }
+
     @Override
     public boolean onCreateOptionsMenu( Menu menu )
     {
@@ -162,10 +182,14 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public void createModel( View view )
     {
+        Log.e( "createModel", "Model initiated" );
+        Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
+                Toast.LENGTH_SHORT ).show();
         Object3DModel model = new Object3DModel( getIntent().getStringExtra( "modelName" ),
                 getIntent().getStringExtra( "modelImageDirectory" ) );
         //   File cannyEdge = model.detectEdges();
-        File noBackground = model.subtractBackground();
+        //      model.subtractBackground();
+        //model.detectContours();
         //LinearLayout layout = (LinearLayout) findViewById( R.id.photo_gallery_linear_layout );
         //ImageView imageView = new ImageView( ModelPhotoGalleryActivity.this );
         //imageView.setImageURI( Uri.parse( noBackground.getAbsolutePath() ) );
@@ -173,6 +197,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         //  imageView = new ImageView( ModelPhotoGalleryActivity.this );
         //  imageView.setImageURI( Uri.parse( cannyEdge.getAbsolutePath() ) );
         // layout.addView( imageView );
+
+        Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
+                Toast.LENGTH_SHORT ).show();
+        Log.e( "createModel", "Model complete" );
     }
 
     /**

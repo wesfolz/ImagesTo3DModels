@@ -23,6 +23,24 @@ public class TriangleVertex extends Point3
         setExists( false );
     }
 
+    public static TriangleVertex buildTriangleVertex( int face, int row, int column )
+    {
+        switch( face )
+        {
+            case Object3DModel.FACE_FRONT:
+                return new TriangleVertex( column, row, 0 );
+
+            case Object3DModel.FACE_RIGHT:
+                return new TriangleVertex( 0, row, column );
+
+            case Object3DModel.FACE_TOP:
+                return new TriangleVertex( column, 0, row );
+
+            default:
+                return new TriangleVertex( 0, 0, 0 );
+        }
+    }
+
     /**
      * @return - Grayscale color value of vertex
      */
