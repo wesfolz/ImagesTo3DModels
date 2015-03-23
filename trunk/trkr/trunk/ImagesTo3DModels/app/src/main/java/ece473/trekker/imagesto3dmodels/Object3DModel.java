@@ -2,8 +2,15 @@ package ece473.trekker.imagesto3dmodels;
 
 import android.util.Log;
 
+import org.opencv.calib3d.StereoBM;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -13,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wesley on 2/28/2015.
@@ -23,9 +31,74 @@ public class Object3DModel
     {
         initData( name, modelImageDirectory );
         //      detectEdges();
+
+        //  create3DModel();
+
+//        writeXYZ(directoryName + "/" + modelName + ".xyz");
+//        detectCorners();
+        subtractBackground( imageArray.get( 0 ) );
     }
 
-    public File detectEdges()
+    public void create3DModel()
+    {
+        triangulateImage3D();
+        //   writeOBJFile( directoryName + "/" + modelName + ".obj" );
+    }
+
+    public List<MatOfPoint> detectContours()
+    {
+        Mat canny = detectEdges();
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        Mat hierarchy = new Mat();
+
+        Imgproc.findContours( canny, contours, hierarchy, Imgproc.RETR_TREE,
+                Imgproc.CHAIN_APPROX_SIMPLE );
+
+        Mat drawing = Mat.zeros( canny.size(), CvType.CV_8UC3 );
+        Imgproc.drawContours( drawing, contours, - 1, new Scalar( 100, 50, 200 ) );
+
+        Highgui.imwrite( directoryName + "/contours.jpg", drawing );
+
+        return contours;
+    }
+
+    public MatOfPoint detectCorners()
+    {
+        Mat grayImg = new Mat();
+        Mat cornerImage = new Mat();
+        MatOfPoint cornerPoints = new MatOfPoint();
+
+        int blockSize = 2;
+        double k = 0.04;
+        int maxCorners = 100;
+
+        double qualityLevel = 0.01;
+        double minDistance = 10;
+        boolean useHarrisDetector = false;
+
+        Imgproc.cvtColor( imageArray.get( 0 ), cornerImage, Imgproc.COLOR_BGR2RGB );
+
+        //convert image to grayscale
+        Imgproc.cvtColor( imageArray.get( 0 ), grayImg, Imgproc.COLOR_BGR2GRAY );
+
+        Imgproc.goodFeaturesToTrack( grayImg, cornerPoints, maxCorners, qualityLevel,
+                minDistance, new Mat(), blockSize, useHarrisDetector, k );
+
+        Point[] cPoints = cornerPoints.toArray();
+
+        for( Point p : cPoints )
+        {
+            Core.circle( cornerImage, p, 5, new Scalar( 0 ) );
+        }
+
+        Core.circle( cornerImage, cPoints[0], 50, new Scalar( 255, 0, 0 ) );
+
+        Highgui.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
+
+        return cornerPoints;
+    }
+
+    public Mat detectEdges()
     {
         Mat grayImg = new Mat();
         Mat edges = new Mat();
@@ -41,7 +114,108 @@ public class Object3DModel
         imageArray.get( 0 ).copyTo( display, edges );
 
         Highgui.imwrite( directoryName + "/cannyEdge.jpg", display );
-        return new File( directoryName + "/cannyEdge.jpg" );
+
+        return edges;
+    }
+
+    /**
+     * Finds left edge of points in background subtracted image
+     *
+     * @param input - Mat with it's background subtracted by subtractBackground()
+     * @return - ArrayList of TriangleVertex each being a left edge point
+     */
+    private ArrayList<TriangleVertex> findLeftMostPoints( Mat input )
+    {
+        ArrayList<TriangleVertex> leftVerts = new ArrayList<>();
+        int numRows = input.rows();
+        int numCols = input.cols();
+        int colCounter;
+
+        for( int i = 0; i < numRows; i++ )
+        {
+            colCounter = 0;
+            while( colCounter < numCols )
+            {
+                if( input.get( i, colCounter )[0] != 0 )
+                {
+                    leftVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    break;
+                }
+                colCounter++;
+            }
+
+        }
+
+        return leftVerts;
+    }
+
+
+    /**
+     * Finds right edge of points in background subtracted image
+     *
+     * @param input - Mat with it's background subtracted by subtractBackground()
+     * @return - ArrayList of TriangleVertex each being a right edge point
+     */
+    private ArrayList<TriangleVertex> findRightMostPoints( Mat input )
+    {
+        ArrayList<TriangleVertex> rightVerts = new ArrayList<>();
+        int numRows = input.rows();
+        int numCols = input.cols();
+        int colCounter;
+
+        for( int i = 0; i < numRows; i++ )
+        {
+            colCounter = numCols - 1;
+            while( colCounter >= 0 )
+            {
+                if( input.get( i, colCounter )[0] != 0 )
+                {
+                    rightVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    break;
+                }
+                colCounter--;
+            }
+
+        }
+
+        return rightVerts;
+    }
+
+
+    public void findTopLeftCorner( MatOfPoint corners )
+    {
+
+    }
+
+    public void histogramBackProjection( Mat image )
+    {
+        Mat hsv = new Mat();
+        Mat hue = new Mat();
+        Mat hist = new Mat();
+        Mat backProj = new Mat();
+        int[] hSize = {12};
+        MatOfInt histSize = new MatOfInt( hSize );
+        float[] ranges = {0, 180};
+        MatOfFloat hueRanges = new MatOfFloat( ranges );
+
+
+        List<Mat> hsvList = new ArrayList<>();
+        List<Mat> hueList = new ArrayList<>();
+        int[] ch = {0, 0};
+        MatOfInt channels = new MatOfInt( ch );
+        Imgproc.cvtColor( image, hsv, Imgproc.COLOR_BGR2HSV );
+        hue.create( hsv.size(), hsv.depth() );
+
+        hsvList.add( hsv );
+        hueList.add( hue );
+        Core.mixChannels( hsvList, hueList, channels );
+
+
+        Imgproc.calcHist( hueList, channels, new Mat(), hist, histSize, hueRanges );
+        Core.normalize( hist, hist, 0, 255, Core.NORM_MINMAX, - 1, new Mat() );
+        Imgproc.calcBackProject( hueList, channels, hist, backProj, hueRanges, 1 );
+
+        Highgui.imwrite( directoryName + "/backProjection.jpg", backProj );
     }
 
     /**
@@ -71,38 +245,89 @@ public class Object3DModel
 
     }
 
-    public File subtractBackground()
+    public void stereoImage()
+    {
+        Mat imgDisparity16S = new Mat( imageArray.get( 0 ).rows(), imageArray.get( 0 ).cols(),
+                CvType.CV_16S );
+        Mat imgDisparity8U = new Mat( imageArray.get( 0 ).rows(), imageArray.get( 0 ).cols(),
+                CvType.CV_8UC1 );
+
+
+        Mat grayImg0 = new Mat();
+        Mat grayImg1 = new Mat();
+
+        Mat maskedImage = new Mat();
+
+        Imgproc.cvtColor( imageArray.get( 0 ), grayImg0, Imgproc.COLOR_BGR2GRAY );
+
+        Imgproc.cvtColor( imageArray.get( 1 ), grayImg1, Imgproc.COLOR_BGR2GRAY );
+
+
+        int ndisparities = 16 * 5;
+
+        int SADWindowSize = 21;
+
+        StereoBM sbm = new StereoBM( StereoBM.BASIC_PRESET, ndisparities, SADWindowSize );
+        sbm.compute( grayImg0, grayImg1, imgDisparity16S, CvType.CV_16S );
+
+        Core.MinMaxLocResult minMax = Core.minMaxLoc( imgDisparity16S );
+
+        imgDisparity16S.convertTo( imgDisparity8U, CvType.CV_8UC1, 255 / (minMax.maxVal - minMax
+                .maxVal) );
+
+        imageArray.get( 0 ).copyTo( maskedImage, imgDisparity8U );
+
+        Highgui.imwrite( directoryName + "/stereo.jpg", maskedImage );
+    }
+
+    /**
+     * Removes the background of an image by selecting four corners and removing similarly
+     * colored pixels
+     *
+     * @param image - Mat to remove background of
+     * @return - returns Mat without background
+     */
+    public Mat subtractBackground( Mat image )
     {
         Mat noBackground = new Mat();
         Mat binaryMask = new Mat( imageArray.get( 0 ).size(), CvType.CV_8U );
 
         //convert image to grayscale and store result in binaryMask
-        Imgproc.cvtColor( imageArray.get( 0 ), binaryMask, Imgproc.COLOR_BGR2GRAY );
+        Imgproc.cvtColor( image, binaryMask, Imgproc.COLOR_BGR2GRAY );
 
-        //copy input Mat to mask
-        //imageArray.get( 0 ).copyTo( binaryMask );
         //threshold for background color similarities
-        int threshold = 50;
+        int threshold = 70;
+        int numRows = image.rows();
+        int numCols = image.cols();
         //use very first pixel for background color reference
-        double color = imageArray.get( 0 ).get( 0, 0 )[0];
-        // Log.e( "subtractBackground", "Color " + input.type() );
+        double[] colors = new double[4];
+        colors[0] = image.get( 0, 0 )[0];
+        colors[1] = image.get( numRows - 1, 0 )[0];
+        colors[2] = image.get( 0, numCols - 1 )[0];
+        colors[3] = image.get( numRows - 1, numCols - 1 )[0];
+        boolean background;
 
-        //double[] binaryArray = new double[imageArray.get( 0 ).rows()*imageArray.get( 0 ).cols()];
+        Log.e( "subtractBackground", "Colors: " + colors[0] + " " + colors[1] + " " + colors[2] +
+                " " + colors[3] );
 
         //loop through Mat to check for similarly colored pixels
-        for( int i = 0; i < imageArray.get( 0 ).rows(); i++ )
+        for( int i = 0; i < numRows; i++ )
         {
-            for( int j = 0; j < imageArray.get( 0 ).cols(); j++ )
+            for( int j = 0; j < numCols; j++ )
             {
-                //if pixel is within threshold set mask value to 0
-                if( imageArray.get( 0 ).get( i, j )[0] <= color + threshold && imageArray.get( 0
-                ).get( i, j )[0] >= color - threshold )
+                background = false;
+                for( double color : colors )
                 {
-                    binaryMask.put( i, j, 0 );
-                    //binaryArray[j*imageArray.get( 0 ).rows() + i] = 0;
-                    //  Log.e( "SubtractBackground", "0" );
+                    //if pixel is within threshold set mask value to 0
+                    if( image.get( i, j )[0] <= color + threshold && image.get( i,
+                            j )[0] >= color - threshold )
+                    {
+                        binaryMask.put( i, j, 0 );
+                        background = true;
+                        break;
+                    }
                 }
-                else
+                if( ! background )
                 {
                     binaryMask.put( i, j, 1 );
                     //binaryArray[j*imageArray.get( 0 ).rows() + i] = 1;
@@ -112,26 +337,20 @@ public class Object3DModel
         }
         //binaryMask.put( 0, 0, binaryArray );
         //apply mask to imageArray Mat and copy result into noBackground
-        imageArray.get( 0 ).copyTo( noBackground, binaryMask );
-
-        triangulate2DImage( noBackground );
-
-        writeOBJFile( directoryName + "/" + modelName + ".obj" );
+        image.copyTo( noBackground, binaryMask );
 
         //write Mat to jpg file and return it
         Highgui.imwrite( directoryName + "/noBackground.jpg", noBackground );
-        return new File( directoryName + "/noBackground.jpg" );
 
-
-        //     return noBackground;
+        return noBackground;
     }
 
     /**
      * Triangulates face by connecting nearest image pixel points
      *
-     * @param image - grayscale image to triangulate
+     * @param image - background subtracted image to triangulate
      */
-    public void triangulate2DImage( Mat image )
+    public void triangulateImage2D( Mat image, int face, ArrayList<TriangleVertex> edgePoints )
     {
         TriangleVertex[] tv = new TriangleVertex[3];
         tv[0] = new TriangleVertex( 0, 0, 0 );
@@ -161,12 +380,12 @@ public class Object3DModel
                 column = j + clusterSize - (i % (2 * clusterSize));
                 row = row + (i % (2 * clusterSize));
 
-                //Log.e( "triangulate2DImage", "Column " + column + " Row " + row );
+                //Log.e( "triangulateImage2D", "Column " + column + " Row " + row );
 
                 //get grayscale color value of pixel
                 grayScale = image.get( row, column )[0];
                 //update appropriate vertex
-                tv[i % 3] = new TriangleVertex( row, column, 0 );
+                tv[i % 3] = new TriangleVertex( column, row, 0 );
                 tv[i % 3].setGrayScale( grayScale );
                 //only accept non-zero pixels
                 if( grayScale != 0 )
@@ -216,8 +435,19 @@ public class Object3DModel
                 }
             }
         }
-        Log.e( "triangulate2DImage", "Number of faces: " + triangleFaceArray.size() );
-        Log.e( "triangulate2DImage", "Number of vertices: " + vertexArray.size() );
+        Log.e( "triangulateImage2D", "Number of faces: " + triangleFaceArray.size() );
+        Log.e( "triangulateImage2D", "Number of vertices: " + vertexArray.size() );
+    }
+
+    public void triangulateImage3D()
+    {
+        Mat leftImage = imageArray.get( 0 ).clone();
+        Mat rightImage = imageArray.get( 1 ).clone();
+
+        ArrayList<TriangleVertex> rightEdge = findRightMostPoints( leftImage );
+        ArrayList<TriangleVertex> leftEdge = findLeftMostPoints( rightImage );
+
+        triangulateImage2D( subtractBackground( imageArray.get( 0 ) ), FACE_FRONT, null );
     }
 
     /**
@@ -256,7 +486,47 @@ public class Object3DModel
             e1.printStackTrace();
         }
 
-        Log.e( "triangulate2DImage", "obj written" );
+        Log.e( "triangulateImage2D", "obj written" );
+    }
+
+
+    public void writeXYZ( String filepath )
+    {
+        Mat leftImage = subtractBackground( imageArray.get( 0 ) );
+
+
+        ArrayList<TriangleVertex> rightEdge = findRightMostPoints( leftImage );
+        ArrayList<TriangleVertex> leftEdge = findLeftMostPoints( leftImage );
+
+        try
+        {
+            BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream( new File(
+                    filepath ) ) );
+
+            String vertex;
+
+            for( TriangleVertex tv : rightEdge )
+            {
+                vertex = tv.x + " " + tv.y + " " + tv.z + "\n";
+                bos.write( vertex.getBytes() );
+            }
+
+            for( TriangleVertex tv : leftEdge )
+            {
+                vertex = tv.x + " " + tv.y + " " + tv.z + "\n";
+                bos.write( vertex.getBytes() );
+            }
+
+            bos.close();
+        }
+        catch( FileNotFoundException e )
+        {
+            e.printStackTrace();
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -281,5 +551,13 @@ public class Object3DModel
     private String modelName;
 
     private String directoryName;
+
+    public static final int FACE_FRONT = 0;
+    public static final int FACE_RIGHT = 1;
+    public static final int FACE_BACK = 2;
+    public static final int FACE_LEFT = 3;
+    public static final int FACE_TOP = 4;
+    public static final int FACE_BOTTOM = 5;
+
 
 }
