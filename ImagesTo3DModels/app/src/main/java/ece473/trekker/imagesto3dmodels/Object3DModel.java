@@ -30,19 +30,101 @@ public class Object3DModel
     public Object3DModel( String name, String modelImageDirectory )
     {
         initData( name, modelImageDirectory );
-        //      detectEdges();
-
         //  create3DModel();
 
-//        writeXYZ(directoryName + "/" + modelName + ".xyz");
-//        detectCorners();
-        subtractBackground( imageArray.get( 0 ) );
+        writeXYZ( directoryName + "/" + modelName + ".xyz" );
+ /*       Mat doctoredImage = subtractBackground( imageArray.get( 0 ) );
+        triangulateImage2D( doctoredImage, 0, null );
+        writeOBJFile(directoryName +"/" + modelName + ".obj");
+        */
     }
 
     public void create3DModel()
     {
         triangulateImage3D();
         //   writeOBJFile( directoryName + "/" + modelName + ".obj" );
+    }
+
+    /**
+     * find minimum rectangle to crop the image with
+     *
+     * @param image    - input Mat image to crop
+     * @param rowCount - ArrayList of Integers containing the number of non-blank pixels in each row
+     * @param colCount - ArrayList of Integers containing the number of non-blank pixels in each
+     *                 column
+     * @return - int array giving crop rectangle as follows: {minRow, height, minCol, width}
+     */
+    private int[] cropImage( Mat image, ArrayList<Integer> rowCount, ArrayList<Integer> colCount )
+    {
+        Mat croppedImage;
+        int minRow = 0;
+        int minCol = 0;
+        int width = image.width() - 1;
+        int height = image.height() - 1;
+        int minPixels = 1;
+        int counter = 0;
+
+        //determines minimum row value
+        for( Integer count : rowCount )
+        {
+            counter++;
+            if( count <= minPixels )
+            {
+                minRow = counter;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        counter = 0;
+        //determines minimum column value
+        for( Integer count : colCount )
+        {
+            counter++;
+            if( count <= minPixels )
+            {
+                minCol = counter;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        //find height of object
+        for( int i = height; i > 0; -- i )
+        {
+            if( rowCount.get( i ) <= minPixels )
+            {
+                height = i;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        //find width of object
+        for( int i = width; i > 0; -- i )
+        {
+            if( colCount.get( i ) <= minPixels )
+            {
+                width = i;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Log.e( "cropImage", "minCol " + minCol + " minRow " + minRow + " width " + width + " " +
+                "height " + height );
+
+        int[] rectangle = {minRow, height, minCol, width};
+        // Rect r = new Rect( minRow, height, minCol, width );
+        return rectangle;
     }
 
     public List<MatOfPoint> detectContours()
@@ -62,7 +144,7 @@ public class Object3DModel
         return contours;
     }
 
-    public MatOfPoint detectCorners()
+    public MatOfPoint detectCorners(Mat image)
     {
         Mat grayImg = new Mat();
         Mat cornerImage = new Mat();
@@ -76,10 +158,11 @@ public class Object3DModel
         double minDistance = 10;
         boolean useHarrisDetector = false;
 
-        Imgproc.cvtColor( imageArray.get( 0 ), cornerImage, Imgproc.COLOR_BGR2RGB );
+        //get rgb image
+        Imgproc.cvtColor( image, cornerImage, Imgproc.COLOR_BGR2RGB );
 
         //convert image to grayscale
-        Imgproc.cvtColor( imageArray.get( 0 ), grayImg, Imgproc.COLOR_BGR2GRAY );
+        Imgproc.cvtColor( image, grayImg, Imgproc.COLOR_BGR2GRAY );
 
         Imgproc.goodFeaturesToTrack( grayImg, cornerPoints, maxCorners, qualityLevel,
                 minDistance, new Mat(), blockSize, useHarrisDetector, k );
@@ -91,7 +174,7 @@ public class Object3DModel
             Core.circle( cornerImage, p, 5, new Scalar( 0 ) );
         }
 
-        Core.circle( cornerImage, cPoints[0], 50, new Scalar( 255, 0, 0 ) );
+        Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0, 0 ) );
 
         Highgui.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
 
@@ -119,26 +202,66 @@ public class Object3DModel
     }
 
     /**
+     * Finds bottom edge of points in background subtracted image
+     *
+     * @param input - Mat with it's background subtracted by subtractBackground()
+     * @return - ArrayList of TriangleVertex each being a bottom edge point
+     */
+    private ArrayList<TriangleVertex> findBottomEdgePoints( Mat input )
+    {
+        ArrayList<TriangleVertex> bottomVerts = new ArrayList<>();
+        int numRows = input.rows();
+        int numCols = input.cols() - 1;
+        int rowCounter;
+
+        for( int i = 1; i < numCols; i++ )
+        {
+            rowCounter = numRows - 1;
+            while( rowCounter >= 0 )
+            {
+                if( input.get( rowCounter, i )[0] != 0 )
+                {
+                    //ensure it's not the first or last point in it's column
+                    if( input.get( rowCounter, i - 1 )[0] != 0 && input.get( rowCounter,
+                            i + 1 )[0] != 0 )
+                    {
+                        bottomVerts.add( new TriangleVertex( i, rowCounter, 0 ) );
+                    }
+                    break;
+                }
+                rowCounter--;
+            }
+        }
+
+        return bottomVerts;
+    }
+
+    /**
      * Finds left edge of points in background subtracted image
      *
      * @param input - Mat with it's background subtracted by subtractBackground()
      * @return - ArrayList of TriangleVertex each being a left edge point
      */
-    private ArrayList<TriangleVertex> findLeftMostPoints( Mat input )
+    private ArrayList<TriangleVertex> findLeftEdgePoints( Mat input )
     {
         ArrayList<TriangleVertex> leftVerts = new ArrayList<>();
-        int numRows = input.rows();
+        int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
 
-        for( int i = 0; i < numRows; i++ )
+        for( int i = 1; i < numRows; i++ )
         {
             colCounter = 0;
             while( colCounter < numCols )
             {
                 if( input.get( i, colCounter )[0] != 0 )
                 {
-                    leftVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    //ensure it's not the first or last point in it's column
+                    if( input.get( i - 1, colCounter )[0] != 0 && input.get( i + 1,
+                            colCounter )[0] != 0 )
+                    {
+                        leftVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    }
                     break;
                 }
                 colCounter++;
@@ -156,21 +279,25 @@ public class Object3DModel
      * @param input - Mat with it's background subtracted by subtractBackground()
      * @return - ArrayList of TriangleVertex each being a right edge point
      */
-    private ArrayList<TriangleVertex> findRightMostPoints( Mat input )
+    private ArrayList<TriangleVertex> findRightEdgePoints( Mat input )
     {
         ArrayList<TriangleVertex> rightVerts = new ArrayList<>();
-        int numRows = input.rows();
+        int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
 
-        for( int i = 0; i < numRows; i++ )
+        for( int i = 1; i < numRows; i++ )
         {
             colCounter = numCols - 1;
             while( colCounter >= 0 )
             {
                 if( input.get( i, colCounter )[0] != 0 )
                 {
-                    rightVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    //ensure it's not the first or last point in it's column
+                    if( input.get( i - 1, colCounter )[0] != 0 && input.get( i + 1, colCounter )[0] != 0 )
+                    {
+                        rightVerts.add( new TriangleVertex( colCounter, i, 0 ) );
+                    }
                     break;
                 }
                 colCounter--;
@@ -181,10 +308,58 @@ public class Object3DModel
         return rightVerts;
     }
 
-
-    public void findTopLeftCorner( MatOfPoint corners )
+    /**
+     * Finds bottom edge of points in background subtracted image
+     *
+     * @param input - Mat with it's background subtracted by subtractBackground()
+     * @return - ArrayList of TriangleVertex each being a bottom edge point
+     */
+    private ArrayList<TriangleVertex> findTopEdgePoints( Mat input )
     {
+        ArrayList<TriangleVertex> topVerts = new ArrayList<>();
+        int numRows = input.rows();
+        int numCols = input.cols() - 1;
+        int rowCounter;
 
+        for( int i = 1; i < numCols; i++ )
+        {
+            rowCounter = 0;
+            while( rowCounter < numRows )
+            {
+                if( input.get( rowCounter, i )[0] != 0 )
+                {
+                    //ensure it's not the first or last point in it's column
+                    if( input.get( rowCounter, i - 1 )[0] != 0 && input.get( rowCounter,
+                            i + 1 )[0] != 0 )
+                    {
+                        topVerts.add( new TriangleVertex( i, rowCounter, 0 ) );
+                    }
+                    break;
+                }
+                rowCounter++;
+            }
+        }
+
+        return topVerts;
+    }
+
+
+    public Point findTopLeftCorner( MatOfPoint corners )
+    {
+        Point[] cPoints = corners.toArray();
+        double minX = 1500;
+        double minY = 1500;
+
+        for( Point p : cPoints )
+        {
+            if( p.x < minX && p.y < minY )
+            {
+                minX = p.x;
+                minY = p.y;
+            }
+        }
+
+        return new Point( minX, minY);
     }
 
     public void histogramBackProjection( Mat image )
@@ -245,6 +420,18 @@ public class Object3DModel
 
     }
 
+    /**
+     * calls subtract background twice to improve background subtraction
+     *
+     * @param image - Mat image to remove background
+     * @return - Mat image with background removed
+     */
+    public Mat iterativeBackgroundSubtraction( Mat image )
+    {
+        return subtractBackground( subtractBackground( image ) );
+    }
+
+
     public void stereoImage()
     {
         Mat imgDisparity16S = new Mat( imageArray.get( 0 ).rows(), imageArray.get( 0 ).cols(),
@@ -290,7 +477,10 @@ public class Object3DModel
     public Mat subtractBackground( Mat image )
     {
         Mat noBackground = new Mat();
+        Mat croppedImage;
+        Mat croppedMask;
         Mat binaryMask = new Mat( imageArray.get( 0 ).size(), CvType.CV_8U );
+        Mat cutBackground = new Mat();
 
         //convert image to grayscale and store result in binaryMask
         Imgproc.cvtColor( image, binaryMask, Imgproc.COLOR_BGR2GRAY );
@@ -299,12 +489,18 @@ public class Object3DModel
         int threshold = 70;
         int numRows = image.rows();
         int numCols = image.cols();
+
         //use very first pixel for background color reference
         double[] colors = new double[4];
         colors[0] = image.get( 0, 0 )[0];
         colors[1] = image.get( numRows - 1, 0 )[0];
         colors[2] = image.get( 0, numCols - 1 )[0];
         colors[3] = image.get( numRows - 1, numCols - 1 )[0];
+
+
+        ArrayList<Integer> rowCount = new ArrayList<>();
+        ArrayList<Integer> colCount = new ArrayList<>(  );
+
         boolean background;
 
         Log.e( "subtractBackground", "Colors: " + colors[0] + " " + colors[1] + " " + colors[2] +
@@ -313,8 +509,13 @@ public class Object3DModel
         //loop through Mat to check for similarly colored pixels
         for( int i = 0; i < numRows; i++ )
         {
+            rowCount.add( 0 );
             for( int j = 0; j < numCols; j++ )
             {
+                if( i == 0 )
+                {
+                    colCount.add( 0 );
+                }
                 background = false;
                 for( double color : colors )
                 {
@@ -330,14 +531,24 @@ public class Object3DModel
                 if( ! background )
                 {
                     binaryMask.put( i, j, 1 );
-                    //binaryArray[j*imageArray.get( 0 ).rows() + i] = 1;
+                    rowCount.set( i, rowCount.get( i ) + 1 );
+                    colCount.set( j, colCount.get( j ) + 1 );
                     //   Log.e( "SubtractBackground", "1" );
                 }
             }
         }
-        //binaryMask.put( 0, 0, binaryArray );
+
+        Log.e( "subtractBackground", "rowCount " + rowCount.size() + " colCount " + colCount.size
+                () );
+        Log.e( "subtractBackground", "rowCount " + rowCount.get( 0 ) + " colCount " + colCount
+                .get( 0 ) );
         //apply mask to imageArray Mat and copy result into noBackground
-        image.copyTo( noBackground, binaryMask );
+        //       image.copyTo( noBackground, binaryMask );
+
+        int[] cropRect = cropImage( image, rowCount, colCount );
+        croppedImage = image.submat( cropRect[0], cropRect[1], cropRect[2], cropRect[3] );
+        croppedMask = binaryMask.submat( cropRect[0], cropRect[1], cropRect[2], cropRect[3] );
+        croppedImage.copyTo( noBackground, croppedMask );
 
         //write Mat to jpg file and return it
         Highgui.imwrite( directoryName + "/noBackground.jpg", noBackground );
@@ -444,8 +655,8 @@ public class Object3DModel
         Mat leftImage = imageArray.get( 0 ).clone();
         Mat rightImage = imageArray.get( 1 ).clone();
 
-        ArrayList<TriangleVertex> rightEdge = findRightMostPoints( leftImage );
-        ArrayList<TriangleVertex> leftEdge = findLeftMostPoints( rightImage );
+        ArrayList<TriangleVertex> rightEdge = findRightEdgePoints( leftImage );
+        ArrayList<TriangleVertex> leftEdge = findLeftEdgePoints( rightImage );
 
         triangulateImage2D( subtractBackground( imageArray.get( 0 ) ), FACE_FRONT, null );
     }
@@ -494,9 +705,11 @@ public class Object3DModel
     {
         Mat leftImage = subtractBackground( imageArray.get( 0 ) );
 
+        ArrayList<TriangleVertex> topEdge = findTopEdgePoints( leftImage );
+        ArrayList<TriangleVertex> bottomEdge = findBottomEdgePoints( leftImage );
+        ArrayList<TriangleVertex> rightEdge = findRightEdgePoints( leftImage );
+        ArrayList<TriangleVertex> leftEdge = findLeftEdgePoints( leftImage );
 
-        ArrayList<TriangleVertex> rightEdge = findRightMostPoints( leftImage );
-        ArrayList<TriangleVertex> leftEdge = findLeftMostPoints( leftImage );
 
         try
         {
@@ -517,6 +730,19 @@ public class Object3DModel
                 bos.write( vertex.getBytes() );
             }
 
+            for( TriangleVertex tv : topEdge )
+            {
+                vertex = tv.x + " " + tv.y + " " + tv.z + "\n";
+                bos.write( vertex.getBytes() );
+            }
+
+            for( TriangleVertex tv : bottomEdge )
+            {
+                vertex = tv.x + " " + tv.y + " " + tv.z + "\n";
+                bos.write( vertex.getBytes() );
+            }
+
+
             bos.close();
         }
         catch( FileNotFoundException e )
@@ -528,7 +754,6 @@ public class Object3DModel
             e.printStackTrace();
         }
     }
-
 
     /**
      * ArrayList storing Mat representations of images
@@ -552,12 +777,17 @@ public class Object3DModel
 
     private String directoryName;
 
-    public static final int FACE_FRONT = 0;
-    public static final int FACE_RIGHT = 1;
-    public static final int FACE_BACK = 2;
-    public static final int FACE_LEFT = 3;
-    public static final int FACE_TOP = 4;
-    public static final int FACE_BOTTOM = 5;
 
+    public static final int FACE_FRONT = 0;
+
+    public static final int FACE_RIGHT = 1;
+
+    public static final int FACE_BACK = 2;
+
+    public static final int FACE_LEFT = 3;
+
+    public static final int FACE_TOP = 4;
+
+    public static final int FACE_BOTTOM = 5;
 
 }

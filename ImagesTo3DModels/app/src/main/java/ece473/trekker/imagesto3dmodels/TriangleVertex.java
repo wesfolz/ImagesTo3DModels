@@ -20,7 +20,6 @@ public class TriangleVertex extends Point3
         super( x, y, z );
         setGrayScale( 0 );
         setIndex( 0 );
-        setExists( false );
     }
 
     public static TriangleVertex buildTriangleVertex( int face, int row, int column )
@@ -93,21 +92,6 @@ public class TriangleVertex extends Point3
             e.printStackTrace();
         }
     }
-
-    public boolean isExists()
-    {
-        return exists;
-    }
-
-    public void setExists( boolean exists )
-    {
-        this.exists = exists;
-    }
-
-    /**
-     * True if it already exists in the vertex array, false otherwise
-     */
-    private boolean exists;
 
     /**
      * Grayscale color value of vertex
