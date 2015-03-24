@@ -185,22 +185,30 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         Log.e( "createModel", "Model initiated" );
         Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
                 Toast.LENGTH_SHORT ).show();
-        Object3DModel model = new Object3DModel( getIntent().getStringExtra( "modelName" ),
-                getIntent().getStringExtra( "modelImageDirectory" ) );
-        //   File cannyEdge = model.detectEdges();
-        //      model.subtractBackground();
-        //model.detectContours();
-        //LinearLayout layout = (LinearLayout) findViewById( R.id.photo_gallery_linear_layout );
-        //ImageView imageView = new ImageView( ModelPhotoGalleryActivity.this );
-        //imageView.setImageURI( Uri.parse( noBackground.getAbsolutePath() ) );
-        //layout.addView( imageView );
-        //  imageView = new ImageView( ModelPhotoGalleryActivity.this );
-        //  imageView.setImageURI( Uri.parse( cannyEdge.getAbsolutePath() ) );
-        // layout.addView( imageView );
 
-        Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
-                Toast.LENGTH_SHORT ).show();
-        Log.e( "createModel", "Model complete" );
+        //create 3D model on separate thread to keep ui responsive
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Object3DModel model = new Object3DModel( getIntent().getStringExtra( "modelName" ),
+                        getIntent().getStringExtra( "modelImageDirectory" ) );
+
+                //toast has to be run on the ui thread
+                runOnUiThread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
+                                Toast.LENGTH_SHORT ).show();
+                        Log.e( "createModel", "Model complete" );
+                    }
+                } );
+            }
+        } ).start();
+
     }
 
     /**
