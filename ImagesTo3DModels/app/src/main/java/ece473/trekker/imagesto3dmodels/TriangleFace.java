@@ -53,6 +53,27 @@ public class TriangleFace
     }
 
     /**
+     * Writes data of face to supplied FileOutputStream (must be ply file)
+     *
+     * @param bos - BufferedOutputStream to ply file
+     */
+    public void writeTriangleFacePLY( BufferedOutputStream bos )
+    {
+        try
+        {
+            String face = "3 " + (vertices[0].getIndex() - 1) + " " + (vertices[1].getIndex() -
+                    1) + " " +
+                    (vertices[2].getIndex() - 1) + "\n";
+            bos.write( face.getBytes() );
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
      * Array of 3 vertices of the triangle
      */
     private TriangleVertex[] vertices;

@@ -22,21 +22,32 @@ public class TriangleVertex extends Point3
         setIndex( 0 );
     }
 
-    public static TriangleVertex buildTriangleVertex( int face, int row, int column )
+    public static TriangleVertex buildTriangleVertex( int face, int row, int column, int maxRow,
+                                                      int maxColumn )
     {
         switch( face )
         {
             case Object3DModel.FACE_FRONT:
-                return new TriangleVertex( column, row, 0 );
+                return new TriangleVertex( column, row, maxColumn ); //return new TriangleVertex( column, row, 0 );
 
             case Object3DModel.FACE_RIGHT:
-                return new TriangleVertex( 0, row, column );
+                return new TriangleVertex( maxColumn, row, column ); //return new TriangleVertex(
+                // 0, row, column );
+
+            case Object3DModel.FACE_BACK:
+                return new TriangleVertex( maxColumn - column, row, 0 );
+
+            case Object3DModel.FACE_LEFT:
+                return new TriangleVertex( 0, row, maxColumn - column );
 
             case Object3DModel.FACE_TOP:
+                return new TriangleVertex( column, maxColumn, row ); //return new TriangleVertex( column, 0, row );
+
+            case Object3DModel.FACE_BOTTOM:
                 return new TriangleVertex( column, 0, row );
 
             default:
-                return new TriangleVertex( 0, 0, 0 );
+                return new TriangleVertex();
         }
     }
 
@@ -56,6 +67,12 @@ public class TriangleVertex extends Point3
         return index;
     }
 
+
+    public void setColor( double[] c )
+    {
+        this.color = c;
+    }
+
     /**
      * @param grayScale - Grayscale color value of vertex
      */
@@ -63,7 +80,6 @@ public class TriangleVertex extends Point3
     {
         this.grayScale = grayScale;
     }
-
 
     /**
      * @param index - index of vertex in it's arraylist (used for face to reference in obj file)
@@ -92,6 +108,27 @@ public class TriangleVertex extends Point3
             e.printStackTrace();
         }
     }
+
+    /**
+     * Writes data of vertex to supplied FileOutputStream (must be ply file)
+     *
+     * @param bos - BufferedOutputStream to ply file
+     */
+    public void writeVertexPLY( BufferedOutputStream bos )
+    {
+        try
+        {
+            String vertex = x + " " + y + " " + z + " " + (int) color[0] + " " + (int) color[1] +
+                    " " + (int) color[2] + "\n";
+            bos.write( vertex.getBytes() );
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private double[] color;
 
     /**
      * Grayscale color value of vertex
