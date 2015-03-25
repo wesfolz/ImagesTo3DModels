@@ -32,11 +32,25 @@ public class Object3DModel
         initData( name, modelImageDirectory );
         //  create3DModel();
 
-        writeXYZ( directoryName + "/" + modelName + ".xyz" );
- /*       Mat doctoredImage = subtractBackground( imageArray.get( 0 ) );
-        triangulateImage2D( doctoredImage, 0, null );
-        writeOBJFile(directoryName +"/" + modelName + ".obj");
-        */
+//        writeXYZ( directoryName + "/" + modelName + ".xyz" );
+        int imageCounter = 0;
+        for( Mat image : imageArray )
+        {
+            Mat doctoredImage = subtractBackground( image );
+            triangulateImage2D( doctoredImage, imageCounter, null );
+            imageCounter++;
+        }
+
+/*        Mat doctoredImage = subtractBackground( imageArray.get( 0 ) );
+        triangulateImage2D( doctoredImage, FACE_BACK, null );
+        triangulateImage2D( doctoredImage, FACE_RIGHT, null );
+        triangulateImage2D( doctoredImage, FACE_BOTTOM, null );
+        triangulateImage2D( doctoredImage, FACE_FRONT, null );
+        triangulateImage2D( doctoredImage, FACE_LEFT, null );
+        triangulateImage2D( doctoredImage, FACE_TOP, null );
+     */   //writeOBJFile(directoryName +"/" + modelName + ".obj");
+        writePLYFile( directoryName + "/" + modelName + ".ply" );
+
     }
 
     public void create3DModel()
@@ -480,7 +494,6 @@ public class Object3DModel
         Mat croppedImage;
         Mat croppedMask;
         Mat binaryMask = new Mat( imageArray.get( 0 ).size(), CvType.CV_8U );
-        Mat cutBackground = new Mat();
 
         //convert image to grayscale and store result in binaryMask
         Imgproc.cvtColor( image, binaryMask, Imgproc.COLOR_BGR2GRAY );
@@ -497,6 +510,11 @@ public class Object3DModel
         colors[2] = image.get( 0, numCols - 1 )[0];
         colors[3] = image.get( numRows - 1, numCols - 1 )[0];
 
+ /*       colors[0] = image.get( 0, 0 )[0];
+        colors[1] = colors[0];
+        colors[2] = colors[0];
+        colors[3] = colors[0];
+&*/
 
         ArrayList<Integer> rowCount = new ArrayList<>();
         ArrayList<Integer> colCount = new ArrayList<>(  );
@@ -572,9 +590,12 @@ public class Object3DModel
         boolean recentlyAdded = false;
         int column;
         int row;
-        int clusterSize = 2;
+        int clusterSize = 4;
         int numColumns = image.cols() - clusterSize;
         int numRows = image.rows() * 2 - clusterSize * 2;
+        Mat grayImg = new Mat();
+
+        Imgproc.cvtColor( image, grayImg, Imgproc.COLOR_RGB2GRAY );
 
         //loop through grayscale image
         for( int j = 0; j < numColumns; j += clusterSize )
@@ -594,10 +615,12 @@ public class Object3DModel
                 //Log.e( "triangulateImage2D", "Column " + column + " Row " + row );
 
                 //get grayscale color value of pixel
-                grayScale = image.get( row, column )[0];
+                grayScale = grayImg.get( row, column )[0];
                 //update appropriate vertex
-                tv[i % 3] = new TriangleVertex( column, row, 0 );
+                //tv[i % 3] = new TriangleVertex( column, row, 0 );
+                tv[i % 3] = TriangleVertex.buildTriangleVertex( face, row, column, numRows, numColumns );
                 tv[i % 3].setGrayScale( grayScale );
+                tv[i % 3].setColor( image.get( row, column ) );
                 //only accept non-zero pixels
                 if( grayScale != 0 )
                 {
@@ -700,6 +723,52 @@ public class Object3DModel
         Log.e( "triangulateImage2D", "obj written" );
     }
 
+    public void writePLYFile( String filepath )
+    {
+        try
+        {
+            //BufferedOutputStream is far more efficient than FileOutputStream in this case
+            BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream( new File(
+                    filepath ) ) );
+
+            String magicNumber = "ply\nformat ascii 1.0\n";
+            String numberOfVertices = "element vertex " + Integer.toString( vertexArray.size() )
+                    + "\n";
+            String vertexProperties = "property float x\nproperty float y\nproperty float " +
+                    "z\nproperty uchar red\nproperty uchar green\nproperty uchar blue\n";
+            String numberOfFaces = "element face " + triangleFaceArray.size() + "\n";
+            String faceProperties = "property list uchar int vertex_index\n";
+            String endHeader = "end_header\n";
+            String header = magicNumber + numberOfVertices + vertexProperties + numberOfFaces +
+                    faceProperties + endHeader;
+
+            bos.write( header.getBytes() );
+
+            //write vertices
+            for( TriangleVertex tv : vertexArray )
+            {
+                tv.writeVertexPLY( bos );
+            }
+
+            //write faces
+            for( TriangleFace tf : triangleFaceArray )
+            {
+                tf.writeTriangleFacePLY( bos );
+            }
+
+            bos.close();
+        }
+        catch( FileNotFoundException e )
+        {
+            e.printStackTrace();
+        }
+        catch( IOException e1 )
+        {
+            e1.printStackTrace();
+        }
+
+        Log.e( "triangulateImage2D", "obj written" );
+    }
 
     public void writeXYZ( String filepath )
     {
@@ -770,12 +839,13 @@ public class Object3DModel
      */
     private ArrayList<TriangleVertex> vertexArray;
 
+    private String directoryName;
+
     /**
      * Name of this model
      */
     private String modelName;
 
-    private String directoryName;
 
 
     public static final int FACE_FRONT = 0;
