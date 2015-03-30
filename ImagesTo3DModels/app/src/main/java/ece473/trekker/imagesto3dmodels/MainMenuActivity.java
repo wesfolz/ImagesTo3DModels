@@ -48,7 +48,7 @@ public class MainMenuActivity extends ActionBarActivity
                     final View view = v;
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(MainMenuActivity.this);
-                    builder.setTitle("Title");
+                    builder.setTitle("Name Object");
 
                     // Set up the input
                     final EditText input = new EditText(MainMenuActivity.this);
@@ -71,6 +71,10 @@ public class MainMenuActivity extends ActionBarActivity
                         }
                     });
                     builder.show();
+                }
+                else if (delete == true){
+                    //deleteObject();
+                    delete = false;
                 }
             }
         });
@@ -160,9 +164,14 @@ public class MainMenuActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if( id == R.id.action_settings )
         {
+
             return true;
         }
+        else if( id == R.id.action_delete){
 
+            delete = true;
+            return true;
+        }
         return super.onOptionsItemSelected( item );
     }
 
@@ -239,6 +248,10 @@ public class MainMenuActivity extends ActionBarActivity
         startActivity( captureIntent );
     }
 
+    public void deleteObject(){
+
+    }
+
     /**
      * String storing application file name
      */
@@ -247,5 +260,6 @@ public class MainMenuActivity extends ActionBarActivity
     public static final File thmNailDir = createDirectory("thumbNails");
     private String objectName;
 
+    boolean delete = false;
 
 }
