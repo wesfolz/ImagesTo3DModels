@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ModelPhotoGalleryActivity extends ActionBarActivity
@@ -26,6 +29,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
     private File modelImageDirectory;
     private String objectName;
+    boolean delete = false;
+    private ImageAdapter imgAdapter;
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -49,7 +55,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
         */
         final GridView gridview = (GridView) findViewById( R.id.buttonGrid );
-        gridview.setAdapter( new ImageAdapter( this ) );
+        imgAdapter = new ImageAdapter( this );
+        gridview.setAdapter( imgAdapter );
 
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener()
         {
@@ -60,6 +67,11 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 if( position == parent.getAdapter().getCount() - 1 )
                 {
                     initiateCapture( v );
+                }
+                else if(delete){
+                    deleteImage((String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                    delete = false;
+                    imgAdapter.updateAdapter();
                 }
             }
         } );
@@ -83,9 +95,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             return mThumbIds.size() + 1;
         }
 
-        public Object getItem( int position )
-        {
-            return null;
+        @Override
+        public Map<String, Bitmap> getItem(int position) {
+
+            return mThumbIds.get(position);
         }
 
         public long getItemId( int position )
@@ -93,10 +106,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             return 0;
         }
 
-        public ArrayList<Bitmap> getThumbNails()
+        public List<Map<String, Bitmap>> getThumbNails()
         {
 
-            ArrayList<Bitmap> thumbnails = new ArrayList<>();
+            List<Map<String, Bitmap>> thumbnails = new ArrayList<>();
 
             if( modelImageDirectory.exists() )
             {
@@ -109,12 +122,20 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                         if( fileName.contains( "capture" ) )
                         {
                             Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
-                            thumbnails.add( myBitmap );
+                            //thumbnails.add( myBitmap );
+                            String bitmapName = file.getName();
+                            thumbnails.add(createBitmap( bitmapName, myBitmap));
                         }
                     }
                 }
             }
             return thumbnails;
+        }
+
+        public HashMap<String, Bitmap> createBitmap(String name, Bitmap bitmap) {
+            HashMap<String, Bitmap> bitmapHash = new HashMap<String, Bitmap>();
+            bitmapHash.put(name, bitmap);
+            return bitmapHash;
         }
 
         // create a new ImageView for each item referenced by the Adapter
@@ -139,14 +160,37 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             }
             else if( position < mThumbIds.size() )
             {
-                imageView.setImageBitmap( mThumbIds.get( position ) );
+                //imageView.setImageBitmap( mThumbIds.get( position ) );
+                imageView.setImageBitmap(mThumbIds.get(position).get(mThumbIds.get(position).keySet().toArray()[0]));
+
             }
 
             return imageView;
         }
 
+        public void updateAdapter(){
+            mThumbIds = getThumbNails();
+            notifyDataSetChanged();
+        }
+
         // references to our images
-        private ArrayList<Bitmap> mThumbIds = getThumbNails();
+       // private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
+
+
+    }
+
+    public void deleteImage(String filename){
+
+        File imageFile = new File(modelImageDirectory, filename);
+
+        if(imageFile.exists()){
+
+            imageFile.delete();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -171,7 +215,11 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             return true;
         }
+        else if( id == R.id.action_delete){
 
+            delete = true;
+            return true;
+        }
         return super.onOptionsItemSelected( item );
     }
 

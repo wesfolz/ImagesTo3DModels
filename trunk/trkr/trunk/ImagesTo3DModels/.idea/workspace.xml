@@ -30,18 +30,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="91b41ade-8e8c-49b8-8664-60adb9031fee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/exploded-aar/ImagesTo3DModels/openCVLibrary2410/unspecified/classes.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/exploded-aar/ImagesTo3DModels/openCVLibrary2410/unspecified/classes.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/ece473/trekker/imagesto3dmodels/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/ece473/trekker/imagesto3dmodels/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/opencv/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/opencv/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Images To 3D Models.iws" />
@@ -65,56 +58,56 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainMenuActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainMenuActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61559886" vertical-offset="1292" max-vertical-offset="3995">
-              <caret line="125" column="52" selection-start-line="125" selection-start-column="52" selection-end-line="125" selection-end-column="52" />
+            <state vertical-scroll-proportion="-13.392858" vertical-offset="3977" max-vertical-offset="4862">
+              <caret line="289" column="9" selection-start-line="289" selection-start-column="9" selection-end-line="289" selection-end-column="9" />
               <folding>
-                <element signature="e#1204#3026#0" expanded="true" />
-                <element signature="e#3015#3016#0" expanded="true" />
+                <element signature="e#1339#3258#0" expanded="true" />
+                <element signature="e#2700#2947#0" expanded="true" />
+                <element signature="e#2924#2925#0" expanded="true" />
+                <element signature="e#3247#3248#0" expanded="true" />
+                <element signature="e#3418#3419#0" expanded="true" />
+                <element signature="e#3454#3455#0" expanded="true" />
+                <element signature="e#3944#3965#0" expanded="true" />
+                <element signature="e#4686#4702#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageCaptureActivityTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModelPhotoGalleryActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ModelPhotoGalleryActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="3230">
-              <caret line="39" column="23" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+            <state vertical-scroll-proportion="1.7836065" vertical-offset="0" max-vertical-offset="4199">
+              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+              <folding>
+                <element signature="e#1877#2532#0" expanded="true" />
+                <element signature="e#2521#2522#0" expanded="true" />
+                <element signature="e#4155#4171#0" expanded="true" />
+                <element signature="e#7706#8088#0" expanded="true" />
+                <element signature="e#8069#8070#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="menu_image_capture.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_image_capture.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModelPhotoGalleryActivityTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java">
+      <file leaf-file-name="ImageCaptureActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainMenuActivityTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-              <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+            <state vertical-scroll-proportion="-10.928572" vertical-offset="0" max-vertical-offset="4896">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1772,11 +1765,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
       </list>
     </option>
   </component>
@@ -1937,6 +1931,10 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -2021,38 +2019,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="RESTORED" />
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\outputs\aar\openCVLibrary2410-debug.aar</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug\AndroidManifest.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest\debug\AndroidManifest.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger2921213438827158203.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger137230881919799981.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger175999083684668540.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values\values.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug\values</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug\values\values.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\resources-debug-test.ap_</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\resources</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\resources\resources-debug-androidTest.ap_</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\bundles\debug\classes.jar</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\lib</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\obj</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\obj</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\lib</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test\debug\merger.xml</PATH>
@@ -2066,12 +2032,12 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\aidl\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\aidl\androidTest\debug\dependency.store</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test\debug\merger.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\androidTest\debug\merger.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeResources\test\debug\merger.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\assets</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\assets\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\assets\test\debug</PATH>
@@ -2092,13 +2058,51 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\symbols\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\symbols\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\symbols\androidTest\debug\R.txt</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug\AndroidManifest.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\androidTest\debug\AndroidManifest.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger2921213438827158203.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger137230881919799981.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger175999083684668540.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\resources-debug-test.ap_</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values\values.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug\values</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\androidTest\debug\values\values.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\resources</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\resources\resources-debug-androidTest.ap_</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\bundles\debug\classes.jar</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\lib</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\obj</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\lib</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\obj</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\androidTest\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org\opencv</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org\opencv\R.java</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org\opencv\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org\opencv\test\R.java</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org\opencv\R.java</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest\debug\org</PATH>
@@ -2106,10 +2110,10 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest\debug\org\opencv\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest\debug\org\opencv\test\R.java</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\androidTest\debug\org\opencv\R.java</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\test\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\rs\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test\debug\org</PATH>
@@ -2126,24 +2130,18 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\androidTest\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\androidTest\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\tmp\packageDebugJar</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\tmp\packageDebugJar\MANIFEST.MF</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\outputs\aar\openCVLibrary2410-debug.aar</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest\debug\merger.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\aidl\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\aidl\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\aidl\androidTest\debug\dependency.store</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeResources\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeResources\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeResources\androidTest\debug\merger.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\incremental\mergeAssets\androidTest\debug\merger.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\assets\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\assets\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\rs\androidTest</PATH>
@@ -2160,17 +2158,19 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4\ic_launcher.png</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4\ic_launcher.png</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4\ic_launcher.png</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4\ic_launcher.png</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4\ic_launcher.png</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\resources\resources-debug-androidTest.ap_</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\rs\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\rs\androidTest\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\aidl\androidTest</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\aidl\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\r\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\r\androidTest\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\rs\androidTest</PATH>
@@ -2182,8 +2182,6 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\buildConfig\androidTest\debug\ece473\trekker\imagesto3dmodels</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\buildConfig\androidTest\debug\ece473\trekker\imagesto3dmodels\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\buildConfig\androidTest\debug\ece473\trekker\imagesto3dmodels\test\BuildConfig.java</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\aidl\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\aidl\androidTest\debug</PATH>
           </FILE-GROUP>
         </FILE-GROUP>
         <FILE-GROUP>
@@ -2490,7 +2488,11 @@
       <created>1427175332965</created>
       <updated>1427175332965</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added Test Classess">
+      <created>1427695613432</created>
+      <updated>1427695613432</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2518,66 +2520,35 @@
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.033444814" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10869565" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3528428" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.031772576" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29264215" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3361204" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39632106" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39632106" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3528428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7441472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.61538464" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0033444816" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15719064" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27978724" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19397993" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39632106" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.055183947" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7441472" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21906355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.61538464" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39130434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3896321" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5200669" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0033444816" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
+    </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -2612,22 +2583,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1173">
-          <caret line="27" column="82" selection-start-line="27" selection-start-column="82" selection-end-line="27" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="799">
-          <caret line="35" column="7" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="714">
@@ -2654,10 +2609,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="884">
           <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-          <folding>
-            <element signature="e#1194#1212#0" expanded="false" />
-            <element signature="e#1345#1363#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2677,8 +2629,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="901">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <element signature="e#1204#3026#0" expanded="true" />
-            <element signature="e#3015#3016#0" expanded="true" />
+            <element signature="e#1339#3258#0" expanded="true" />
+            <element signature="e#2700#2947#0" expanded="true" />
+            <element signature="e#2924#2925#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+            <element signature="e#3418#3419#0" expanded="true" />
+            <element signature="e#3454#3455#0" expanded="true" />
+            <element signature="e#3944#3965#0" expanded="true" />
+            <element signature="e#4686#4702#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2706,10 +2664,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="663">
           <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
-          <folding>
-            <element signature="e#1194#1212#0" expanded="false" />
-            <element signature="e#1345#1363#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2729,8 +2684,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <element signature="e#1204#3026#0" expanded="true" />
-            <element signature="e#3015#3016#0" expanded="true" />
+            <element signature="e#1339#3258#0" expanded="true" />
+            <element signature="e#2700#2947#0" expanded="true" />
+            <element signature="e#2924#2925#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+            <element signature="e#3418#3419#0" expanded="true" />
+            <element signature="e#3454#3455#0" expanded="true" />
+            <element signature="e#3944#3965#0" expanded="true" />
+            <element signature="e#4686#4702#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2758,10 +2719,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="663">
           <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
-          <folding>
-            <element signature="e#1194#1212#0" expanded="false" />
-            <element signature="e#1345#1363#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2781,8 +2739,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="799">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding>
-            <element signature="e#1204#3026#0" expanded="true" />
-            <element signature="e#3015#3016#0" expanded="true" />
+            <element signature="e#1339#3258#0" expanded="true" />
+            <element signature="e#2700#2947#0" expanded="true" />
+            <element signature="e#2924#2925#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+            <element signature="e#3418#3419#0" expanded="true" />
+            <element signature="e#3454#3455#0" expanded="true" />
+            <element signature="e#3944#3965#0" expanded="true" />
+            <element signature="e#4686#4702#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2802,17 +2766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="33082" max-vertical-offset="48620">
           <caret line="2225" column="22" selection-start-line="2225" selection-start-column="22" selection-end-line="2225" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="282" max-vertical-offset="986">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#1194#1212#0" expanded="false" />
-            <element signature="e#1345#1363#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2971,30 +2924,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.380198" vertical-offset="1292" max-vertical-offset="4896">
-          <caret line="64" column="28" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.4" vertical-offset="0" max-vertical-offset="255">
           <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43762377" vertical-offset="0" max-vertical-offset="505">
-          <caret line="13" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#285#310#0" expanded="false" />
-            <element signature="e#452#475#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3051,21 +2985,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="3230">
-          <caret line="39" column="23" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.35639414" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="e#325#350#0" expanded="true" />
+            <element signature="e#492#515#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="e#285#310#0" expanded="false" />
+            <element signature="e#452#475#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61559886" vertical-offset="1292" max-vertical-offset="3995">
-          <caret line="125" column="52" selection-start-line="125" selection-start-column="52" selection-end-line="125" selection-end-column="52" />
+        <state vertical-scroll-proportion="-13.392858" vertical-offset="3977" max-vertical-offset="4862">
+          <caret line="289" column="9" selection-start-line="289" selection-start-column="9" selection-end-line="289" selection-end-column="9" />
           <folding>
-            <element signature="e#1204#3026#0" expanded="true" />
-            <element signature="e#3015#3016#0" expanded="true" />
+            <element signature="e#1339#3258#0" expanded="true" />
+            <element signature="e#2700#2947#0" expanded="true" />
+            <element signature="e#2924#2925#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+            <element signature="e#3418#3419#0" expanded="true" />
+            <element signature="e#3454#3455#0" expanded="true" />
+            <element signature="e#3944#3965#0" expanded="true" />
+            <element signature="e#4686#4702#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_image_capture.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="505">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.928572" vertical-offset="0" max-vertical-offset="4896">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.7836065" vertical-offset="0" max-vertical-offset="4199">
+          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+          <folding>
+            <element signature="e#1877#2532#0" expanded="true" />
+            <element signature="e#2521#2522#0" expanded="true" />
+            <element signature="e#4155#4171#0" expanded="true" />
+            <element signature="e#7706#8088#0" expanded="true" />
+            <element signature="e#8069#8070#0" expanded="true" />
           </folding>
         </state>
       </provider>
