@@ -22,7 +22,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MainMenuActivity extends ActionBarActivity
@@ -38,7 +42,8 @@ public class MainMenuActivity extends ActionBarActivity
         setContentView(R.layout.activity_main_menu);
 
         final GridView gridview = (GridView) findViewById(R.id.buttonGrid);
-        gridview.setAdapter(new ImageAdapter(this));
+        imgAdapter = new ImageAdapter(this);
+        gridview.setAdapter(imgAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -72,9 +77,10 @@ public class MainMenuActivity extends ActionBarActivity
                     });
                     builder.show();
                 }
-                else if (delete == true){
-                    //deleteObject();
+                else if (delete){
+                    deleteObject((String) imgAdapter.getItem(position).keySet().toArray()[0]);
                     delete = false;
+                    imgAdapter.updateAdapter();
                 }
             }
         });
@@ -95,28 +101,40 @@ public class MainMenuActivity extends ActionBarActivity
                 return mThumbIds.size() + 1;
         }
 
-        public Object getItem(int position) {
-            return null;
+        @Override
+        public Map<String, Bitmap> getItem(int position) {
+
+            return mThumbIds.get(position);
         }
 
         public long getItemId(int position) {
             return 0;
         }
 
-        public ArrayList<Bitmap> getThumbNails(){
+        public List<Map<String, Bitmap>> getThumbNails(){
 
-            ArrayList<Bitmap> thumbnails = new ArrayList<>();
+//            ArrayList<Bitmap> thumbnails = new ArrayList<>();
+            List<Map<String, Bitmap>> thumbnails = new ArrayList<Map<String, Bitmap>>();
 
             if (thmNailDir.exists()) {
                 File[] files = thmNailDir.listFiles();
                 for (File file : files) {
                     if (file.exists()) {
                         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                        thumbnails.add(myBitmap);
+                        String bitmapName = file.getName().replace(".png","");
+                        //thumbnails.add(myBitmap);
+                        thumbnails.add(createBitmap( bitmapName, myBitmap));
+
                     }
                 }
             }
             return thumbnails;
+        }
+
+        public HashMap<String, Bitmap> createBitmap(String name, Bitmap bitmap) {
+            HashMap<String, Bitmap> bitmapHash = new HashMap<String, Bitmap>();
+            bitmapHash.put(name, bitmap);
+            return bitmapHash;
         }
 
         // create a new ImageView for each item referenced by the Adapter
@@ -134,14 +152,22 @@ public class MainMenuActivity extends ActionBarActivity
             if(position == mThumbIds.size()) {
                 imageView.setImageResource(R.drawable.plus);
             } else if ( position < mThumbIds.size()){
-                imageView.setImageBitmap(mThumbIds.get(position));
+                //imageView.setImageBitmap(mThumbIds.get(position));
+                imageView.setImageBitmap(mThumbIds.get(position).get(mThumbIds.get(position).keySet().toArray()[0]));
             }
 
             return imageView;
         }
 
+        public void updateAdapter(){
+            mThumbIds = getThumbNails();
+            notifyDataSetChanged();
+        }
+
         // references to our images
-        private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        //private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
+
 
     }
 
@@ -248,8 +274,29 @@ public class MainMenuActivity extends ActionBarActivity
         startActivity( captureIntent );
     }
 
-    public void deleteObject(){
 
+    public void deleteObject(String filename){
+
+        File dir = new File(appDir,filename);
+        File thmFile = new File(thmNailDir, filename+".png");
+
+        if(dir.exists()){
+
+            DeleteRecursive(dir);
+            thmFile.delete();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    void DeleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                DeleteRecursive(child);
+
+        fileOrDirectory.delete();
     }
 
     /**
@@ -259,6 +306,7 @@ public class MainMenuActivity extends ActionBarActivity
     public static final File appDir = createApplicationDirectory();
     public static final File thmNailDir = createDirectory("thumbNails");
     private String objectName;
+    private ImageAdapter imgAdapter;
 
     boolean delete = false;
 
