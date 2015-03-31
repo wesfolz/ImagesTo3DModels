@@ -32,4 +32,14 @@
         android:layout_alignBottom="@+id/create_model_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Model"
+        android:id="@+id/open_3D_model"
+        android:onClick="open3DModel"
+        android:layout_alignTop="@+id/create_model_button"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
 </RelativeLayout>

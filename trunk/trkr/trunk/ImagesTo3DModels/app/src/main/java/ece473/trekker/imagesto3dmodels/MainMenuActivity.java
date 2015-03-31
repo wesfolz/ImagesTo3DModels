@@ -82,6 +82,9 @@ public class MainMenuActivity extends ActionBarActivity
                     delete = false;
                     imgAdapter.updateAdapter();
                 }
+                else {
+                    openPhotoGallery(v,(String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                }
             }
         });
 
@@ -272,6 +275,24 @@ public class MainMenuActivity extends ActionBarActivity
         //sends name of model to image capture activity
         captureIntent.putExtra( "modelName", objectName );
         startActivity( captureIntent );
+    }
+
+    public void openPhotoGallery( View view, String modelName ){
+        Intent galleryIntent = new Intent( this, ModelPhotoGalleryActivity.class );
+        galleryIntent.putExtra( "modelName", modelName );
+        galleryIntent.putExtra( "modelImageDirectory", getImageDirectory(modelName) );
+        startActivity( galleryIntent );
+    }
+
+    public String getImageDirectory(String modelName){
+
+        File dir = new File(appDir, modelName);
+        try{
+            return dir.getAbsolutePath() + "/images";
+        }
+        catch (Exception ex) {
+            throw ex;
+        }
     }
 
 
