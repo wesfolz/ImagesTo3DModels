@@ -259,6 +259,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
     }
 
+    public void open3DModel( View view ){
+        Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
+                Toast.LENGTH_SHORT ).show();
+     //   Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.package.address");
+     //   startActivity(launchIntent);
+
+    }
     /**
      * Creates separate directory for model, then starts image capture activity
      *
