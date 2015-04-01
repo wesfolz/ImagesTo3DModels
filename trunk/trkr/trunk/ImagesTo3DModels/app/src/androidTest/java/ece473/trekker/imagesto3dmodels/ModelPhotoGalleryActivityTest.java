@@ -20,6 +20,12 @@ public class ModelPhotoGalleryActivityTest extends ActivityInstrumentationTestCa
         activity = getActivity();
     }
 
+    public void testVertexCollection() throws Exception
+    {
+
+
+    }
+
     @Override
     public void tearDown() throws Exception {
         super.tearDown();

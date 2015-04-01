@@ -168,6 +168,16 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
+/*
+        Mat grayImg = new Mat(  );
+        Mat binaryMask = new Mat(  );
+        Imgproc.cvtColor( inputFrame.rgba(), grayImg, Imgproc.COLOR_RGB2GRAY );
+        double thresh = grayImg.get( 0,0 )[0] + 50.0;
+
+        Imgproc.threshold( grayImg, binaryMask, thresh, 255, Imgproc.THRESH_TOZERO_INV );
+
+        return binaryMask;
+*/
 
         return inputFrame.rgba();
     }

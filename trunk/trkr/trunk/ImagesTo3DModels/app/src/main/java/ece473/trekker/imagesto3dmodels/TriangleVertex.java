@@ -23,28 +23,30 @@ public class TriangleVertex extends Point3
     }
 
     public static TriangleVertex buildTriangleVertex( int face, int row, int column, int maxRow,
-                                                      int maxColumn )
+                                                      int maxColumn, int depth )
     {
         switch( face )
         {
             case Object3DModel.FACE_FRONT:
-                return new TriangleVertex( column, row, maxColumn ); //return new TriangleVertex( column, row, 0 );
+                return new TriangleVertex( column, row, depth ); //return new TriangleVertex(
+                // column, row, 0 );
 
             case Object3DModel.FACE_RIGHT:
-                return new TriangleVertex( maxColumn, row, column ); //return new TriangleVertex(
-                // 0, row, column );
+                return new TriangleVertex( depth, row, column ); //return new TriangleVertex(
+            // 0, row, column );
 
             case Object3DModel.FACE_BACK:
-                return new TriangleVertex( maxColumn - column, row, 0 );
+                return new TriangleVertex( maxColumn - column, row,
+                        depth ); //return new TriangleVertex( maxColumn - column, row, 0 );
 
             case Object3DModel.FACE_LEFT:
-                return new TriangleVertex( 0, row, maxColumn - column );
+                return new TriangleVertex( depth, row, maxColumn - column ); //return new TriangleVertex( 0, row, maxColumn - column );
 
             case Object3DModel.FACE_TOP:
-                return new TriangleVertex( column, maxColumn, row ); //return new TriangleVertex( column, 0, row );
+                return new TriangleVertex( column, depth, maxRow - row ); //return new TriangleVertex( column, 0, row );
 
             case Object3DModel.FACE_BOTTOM:
-                return new TriangleVertex( column, 0, row );
+                return new TriangleVertex( column, depth, row ); //return new TriangleVertex( column, 0, row );
 
             default:
                 return new TriangleVertex();
