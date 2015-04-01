@@ -30,8 +30,8 @@ public class Object3DModel
 {
     public Object3DModel( String name, String modelImageDirectory )
     {
-        ArrayList<Mat> imageArray = initData( name, modelImageDirectory );
-        create3DModel( imageArray );
+        initData( name, modelImageDirectory );
+        //create3DModel( imageArray );
         //  subtractBackground( imageArray.get( 0 ) );
     }
 
@@ -42,31 +42,173 @@ public class Object3DModel
      * 3. Triangulate each image to generate list of vertices and faces.
      * 4. Write vertices and faces to graphics file.
      */
-    public void create3DModel( ArrayList<Mat> imageArray )
+    public void create3DModel()
     {
-        triangulateImage3D( imageArray );
-//        writeOBJFile(directoryName +"/" + modelName + ".obj");
-//        writePLYFile( directoryName + "/" + modelName + ".ply" );
+  /*
+        HashMap<Integer, Integer> rightEdge = findRightEdgePoints( frontImage, FACE_FRONT );
+        HashMap<Integer, Integer> leftEdge = findLeftEdgePoints( frontImage );
+        HashMap<Integer, Integer> topEdge = findTopEdgePoints( frontImage, FACE_TOP );
+        HashMap<Integer, Integer> bottomEdge = findBottomEdgePoints( frontImage );
+        planes[1] = planes[0];
+        planes[4] = planes[0];
+        Log.e("createModel", "front plane " + planes[0]+ " right plane " + planes[1]
+                + " back plane " + planes[2]+ " left plane " + planes[3] + " top plane " +
+                planes[4] + " bottom plane " + planes[5]);
+  */
+        int face = 0;
+        int rightEdgePlane;
+        int topEdgePlane;
+        ArrayList<Mat> noBackgroundImages = new ArrayList<>();
+        Vector<ImagePlane> imagePlanes = new Vector<>();
+        Mat nbi;
 
-//        writeXYZ( directoryName + "/" + modelName + ".xyz" );
-/*        int imageCounter = 0;
-        for( Mat image : imageArray )
+        //create array of images without backgrounds
+        for( Mat m : imageArray )
         {
-            Mat doctoredImage = subtractBackground( image );
-            triangulateImage2D( doctoredImage, imageCounter, null );
-            imageCounter++;
+            //      nbi = subtractBackground( m );
+            //nbi = thresholdBackground( m );
+            //write Mat to jpg file and return it
+            //    Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
+            //      noBackgroundImages.add( nbi );
+            noBackgroundImages.add( m );
+            //      imagePlanes.add( new ImagePlane( nbi, face ) );
+            imagePlanes.add( new ImagePlane( m, face ) );
+            face++;
+        }
+        imageArray = null;
+        //set right plane value
+        imagePlanes.get( FACE_RIGHT ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanRight(),
+                imagePlanes.get( FACE_TOP ).getMeanRight() );
+        //set back plane value
+        imagePlanes.get( FACE_BACK ).setPlane( imagePlanes.get( FACE_RIGHT ).getMeanRight(),
+                imagePlanes.get( FACE_BOTTOM ).getMeanBottom() );
+        //set bottom plane value
+        imagePlanes.get( FACE_BOTTOM ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanBottom(),
+                imagePlanes.get( FACE_RIGHT ).getMeanBottom() );
+
+        for( ImagePlane im : imagePlanes )
+        {
+            im.findMinEdges();
         }
 
-        Mat doctoredImage = subtractBackground( imageArray.get( 0 ) );
-        triangulateImage2D( doctoredImage, FACE_BACK, null );
-        triangulateImage2D( doctoredImage, FACE_RIGHT, null );
-        triangulateImage2D( doctoredImage, FACE_BOTTOM, null );
-        triangulateImage2D( doctoredImage, FACE_FRONT, null );
-        triangulateImage2D( doctoredImage, FACE_LEFT, null );
-        triangulateImage2D( doctoredImage, FACE_TOP, null );
-        //writeOBJFile(directoryName +"/" + modelName + ".obj");
+        Log.e( "createModel", "Right plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " Back " +
+                "plane " + imagePlanes.get( FACE_BACK ).getPlane() + " Bottom Plane " +
+                imagePlanes.get( FACE_BOTTOM ).getPlane() );
+        Log.e( "createModel", "Left plane " + imagePlanes.get( FACE_LEFT ).getPlane() + " Front " +
+                "plane " + imagePlanes.get( FACE_FRONT ).getPlane() + " Top Plane " + imagePlanes
+                .get( FACE_TOP ).getPlane() );
+
+
+/*
+        for (ImagePlane im: imagePlanes)
+        {
+            im.rightCorrelationEdge = imagePlanes.get( im.getPlaneFace()+1 ).leftEdge;
+            im.topCorrelationEdge = null;
+            im.leftCorrelationEdge = null;
+            im.bottomCorrelationEdge = null;
+        }
+
+        //assuming order or front, right, back, left, top, bottom
+        Vector<HashMap<Integer, Integer>> rightEdges = new Vector<>();
+        Vector<HashMap<Integer, Integer>> leftEdges = new Vector<>();
+        Vector<HashMap<Integer, Integer>> topEdges = new Vector<>();
+        Vector<HashMap<Integer, Integer>> bottomEdges = new Vector<>();
+
+        face=0;
+        for(Mat m: noBackgroundImages)
+        {
+            if(face == FACE_LEFT)
+            {
+                rightEdgePlane = FACE_FRONT;
+                topEdgePlane = FACE_TOP;
+            }
+            else if( face == FACE_FRONT)
+            {
+                rightEdgePlane = FACE_RIGHT;
+                topEdgePlane = FACE_TOP;
+            }
+            else
+            {
+                rightEdgePlane = -1;
+                topEdgePlane = -1;
+            }
+
+            rightEdges.add( findRightEdgePoints( m, rightEdgePlane ) );
+            topEdges.add( findTopEdgePoints( m, topEdgePlane ) );
+            leftEdges.add( findLeftEdgePoints( m ) );
+            bottomEdges.add( findBottomEdgePoints( m ) );
+            face++;
+        }*/
+
+        //front plane = min of Right edge of Left face
+        //right plane = min of Right edge of Front face
+        //back plane = min of Right edge of Right Face (0)
+        //left plane = min of Right edge of Back Face (0)
+        //top plane = min of top edge of Front Face
+        //bottom plane = (0)
+
+        Log.e( "createModel", "plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " top right "
+                + imagePlanes.get( FACE_TOP ).getMeanRight() + " bottom right " +
+                imagePlanes.get( FACE_BOTTOM ).getMeanRight() + " back left " + /*imagePlanes.get
+                ( FACE_BACK ) +*/ " front right " +
+                imagePlanes.get( FACE_FRONT ).getMeanRight() );
+
+        //Front Face:
+        //Bottom edge of Top, Top edge of Bottom, Left Edge of Right, Right edge of Left
+        //       triangulateImage2D( frontImage, FACE_FRONT, topEdge, bottomEdge, rightEdge,
+        // leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_FRONT ), FACE_FRONT,
+                imagePlanes.get( FACE_FRONT ).getPlane(), imagePlanes.get( FACE_TOP ).bottomEdge,
+                imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_RIGHT ).leftEdge,
+                imagePlanes.get( FACE_LEFT ).rightEdge );
+
+        //Right Face:
+        //Right edge of Top, Right edge of Bottom, Left Edge of Back (right),
+        // Right edge of Front (left)
+//        triangulateImage2D( frontImage, FACE_RIGHT, topEdge, bottomEdge, rightEdge, leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_RIGHT ), FACE_RIGHT,
+                imagePlanes.get( FACE_RIGHT ).getPlane(), imagePlanes.get( FACE_TOP ).rightEdge,
+                imagePlanes.get( FACE_BOTTOM ).rightEdge, imagePlanes.get( FACE_BACK ).leftEdge,
+                imagePlanes.get( FACE_FRONT ).rightEdge );
+
+        //Back Face:
+        //Top edge of Top, Bottom edge of Bottom, Left edge of Left, Right Edge of Right
+//        triangulateImage2D( frontImage, FACE_BACK, topEdge, bottomEdge, rightEdge, leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_BACK ), FACE_BACK,
+                imagePlanes.get( FACE_BACK ).getPlane(), imagePlanes.get( FACE_TOP ).topEdge,
+                imagePlanes.get( FACE_BOTTOM ).bottomEdge, imagePlanes.get( FACE_LEFT ).leftEdge,
+                imagePlanes.get( FACE_RIGHT ).rightEdge );
+
+
+        //Left Face:
+        //Left edge of Top, Left edge of Bottom, Left edge of Front, Right Edge of Back
+//        triangulateImage2D( frontImage, FACE_LEFT, topEdge, bottomEdge, rightEdge, leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
+                imagePlanes.get( FACE_LEFT ).getPlane(), imagePlanes.get( FACE_TOP ).leftEdge,
+                imagePlanes.get( FACE_BOTTOM ).leftEdge, imagePlanes.get( FACE_FRONT ).leftEdge,
+                imagePlanes.get( FACE_BACK ).rightEdge );
+
+        //Top Face:
+        //Top edge of Back, Top edge of Front, Top edge of Right, Top Edge of Left
+//        triangulateImage2D( frontImage, FACE_TOP, topEdge, bottomEdge, rightEdge, leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_TOP ), FACE_TOP,
+                imagePlanes.get( FACE_TOP ).getPlane(), imagePlanes.get( FACE_BACK ).topEdge,
+                imagePlanes.get( FACE_FRONT ).topEdge, imagePlanes.get( FACE_RIGHT ).topEdge,
+                imagePlanes.get( FACE_LEFT ).topEdge );
+
+        //Bottom Face:
+        //Bottom edge of Front, Bottom edge of Back, Bottom Edge of Right, Bottom edge of Left
+//        triangulateImage2D( frontImage, FACE_BOTTOM, topEdge, bottomEdge, rightEdge, leftEdge );
+        triangulateImage2D( noBackgroundImages.get( FACE_BOTTOM ), FACE_BOTTOM,
+                imagePlanes.get( FACE_BOTTOM ).getPlane(), imagePlanes.get( FACE_FRONT ).bottomEdge,
+                imagePlanes.get( FACE_BACK ).bottomEdge, imagePlanes.get( FACE_RIGHT )
+                        .bottomEdge, imagePlanes.get( FACE_LEFT ).bottomEdge );
+
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-        */
+
+        //      Log.e( "triangulateImage3D", "Right: " + rightEdge.size() + "Left: " + leftEdge
+        // .size() +
+        //             "Top: " + topEdge.size() + "Bottom: " + bottomEdge.size() );
     }
 
 
@@ -345,6 +487,17 @@ public class Object3DModel
         return min;
     }
 
+    public ArrayList<TriangleVertex> getVertexArray()
+    {
+        return vertexArray;
+    }
+
+    public ArrayList<TriangleFace> getTriangleFaceArray()
+    {
+        return triangleFaceArray;
+    }
+
+
     public void histogramBackProjection( Mat image )
     {
         Mat hsv = new Mat();
@@ -382,14 +535,14 @@ public class Object3DModel
      * @param name                - name of model
      * @param modelImageDirectory - directory where images are stored
      */
-    private ArrayList<Mat> initData( String name, String modelImageDirectory )
+    public void initData( String name, String modelImageDirectory )
     {
         modelName = name;
 
         directoryName = modelImageDirectory.replace( "images", "" );
 
         File[] images = new File( modelImageDirectory ).listFiles();
-        ArrayList<Mat> imageArray = new ArrayList<>( images.length );
+        imageArray = new ArrayList<>( images.length );
         //create array list of Mat objects for processing
         for( File f : images )
         {
@@ -400,7 +553,6 @@ public class Object3DModel
         vertexArray = new ArrayList<>();
 
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );
-        return imageArray;
 
     }
 
@@ -648,174 +800,6 @@ public class Object3DModel
         Log.e( "triangulateImage2D", "Number of vertices: " + vertexArray.size() );
     }
 
-    public void triangulateImage3D( ArrayList<Mat> imageArray )
-    {
-        /*
-        HashMap<Integer, Integer> rightEdge = findRightEdgePoints( frontImage, FACE_FRONT );
-        HashMap<Integer, Integer> leftEdge = findLeftEdgePoints( frontImage );
-        HashMap<Integer, Integer> topEdge = findTopEdgePoints( frontImage, FACE_TOP );
-        HashMap<Integer, Integer> bottomEdge = findBottomEdgePoints( frontImage );
-        planes[1] = planes[0];
-        planes[4] = planes[0];
-        Log.e("createModel", "front plane " + planes[0]+ " right plane " + planes[1]
-                + " back plane " + planes[2]+ " left plane " + planes[3] + " top plane " +
-                planes[4] + " bottom plane " + planes[5]);
-  */
-        int face = 0;
-        int rightEdgePlane;
-        int topEdgePlane;
-        ArrayList<Mat> noBackgroundImages = new ArrayList<>();
-        Vector<ImagePlane> imagePlanes = new Vector<>();
-        Mat nbi;
-
-        //create array of images without backgrounds
-        for( Mat m : imageArray )
-        {
-            //      nbi = subtractBackground( m );
-            //nbi = thresholdBackground( m );
-            //write Mat to jpg file and return it
-            //    Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
-            //      noBackgroundImages.add( nbi );
-            noBackgroundImages.add( m );
-            //      imagePlanes.add( new ImagePlane( nbi, face ) );
-            imagePlanes.add( new ImagePlane( m, face ) );
-            face++;
-        }
-        imageArray = null;
-        //set right plane value
-        imagePlanes.get( FACE_RIGHT ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanRight(),
-                imagePlanes.get( FACE_TOP ).getMeanRight() );
-        //set back plane value
-        imagePlanes.get( FACE_BACK ).setPlane( imagePlanes.get( FACE_RIGHT ).getMeanRight(),
-                imagePlanes.get( FACE_BOTTOM ).getMeanBottom() );
-        //set bottom plane value
-        imagePlanes.get( FACE_BOTTOM ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanBottom(),
-                imagePlanes.get( FACE_RIGHT ).getMeanBottom() );
-
-        for( ImagePlane im : imagePlanes )
-        {
-            im.findMinEdges();
-        }
-
-        Log.e( "createModel", "Right plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " Back " +
-                "plane " + imagePlanes.get( FACE_BACK ).getPlane() + " Bottom Plane " +
-                imagePlanes.get( FACE_BOTTOM ).getPlane() );
-        Log.e( "createModel", "Left plane " + imagePlanes.get( FACE_LEFT ).getPlane() + " Front " +
-                "plane " + imagePlanes.get( FACE_FRONT ).getPlane() + " Top Plane " + imagePlanes
-                .get( FACE_TOP ).getPlane() );
-
-
-/*
-        for (ImagePlane im: imagePlanes)
-        {
-            im.rightCorrelationEdge = imagePlanes.get( im.getPlaneFace()+1 ).leftEdge;
-            im.topCorrelationEdge = null;
-            im.leftCorrelationEdge = null;
-            im.bottomCorrelationEdge = null;
-        }
-
-        //assuming order or front, right, back, left, top, bottom
-        Vector<HashMap<Integer, Integer>> rightEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> leftEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> topEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> bottomEdges = new Vector<>();
-
-        face=0;
-        for(Mat m: noBackgroundImages)
-        {
-            if(face == FACE_LEFT)
-            {
-                rightEdgePlane = FACE_FRONT;
-                topEdgePlane = FACE_TOP;
-            }
-            else if( face == FACE_FRONT)
-            {
-                rightEdgePlane = FACE_RIGHT;
-                topEdgePlane = FACE_TOP;
-            }
-            else
-            {
-                rightEdgePlane = -1;
-                topEdgePlane = -1;
-            }
-
-            rightEdges.add( findRightEdgePoints( m, rightEdgePlane ) );
-            topEdges.add( findTopEdgePoints( m, topEdgePlane ) );
-            leftEdges.add( findLeftEdgePoints( m ) );
-            bottomEdges.add( findBottomEdgePoints( m ) );
-            face++;
-        }*/
-
-        //front plane = min of Right edge of Left face
-        //right plane = min of Right edge of Front face
-        //back plane = min of Right edge of Right Face (0)
-        //left plane = min of Right edge of Back Face (0)
-        //top plane = min of top edge of Front Face
-        //bottom plane = (0)
-
-        Log.e( "createModel", "plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " top right "
-                + imagePlanes.get( FACE_TOP ).getMeanRight() + " bottom right " +
-                imagePlanes.get( FACE_BOTTOM ).getMeanRight() + " back left " + /*imagePlanes.get
-                ( FACE_BACK ) +*/ " front right " +
-                imagePlanes.get( FACE_FRONT ).getMeanRight() );
-
-        //Front Face:
-        //Bottom edge of Top, Top edge of Bottom, Left Edge of Right, Right edge of Left
-        //       triangulateImage2D( frontImage, FACE_FRONT, topEdge, bottomEdge, rightEdge,
-        // leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_FRONT ), FACE_FRONT,
-                imagePlanes.get( FACE_FRONT ).getPlane(), imagePlanes.get( FACE_TOP ).bottomEdge,
-                imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_RIGHT ).leftEdge,
-                imagePlanes.get( FACE_LEFT ).rightEdge );
-
-        //Right Face:
-        //Right edge of Top, Right edge of Bottom, Left Edge of Back (right),
-        // Right edge of Front (left)
-//        triangulateImage2D( frontImage, FACE_RIGHT, topEdge, bottomEdge, rightEdge, leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_RIGHT ), FACE_RIGHT,
-                imagePlanes.get( FACE_RIGHT ).getPlane(), imagePlanes.get( FACE_TOP ).rightEdge,
-                imagePlanes.get( FACE_BOTTOM ).rightEdge, imagePlanes.get( FACE_BACK ).leftEdge,
-                imagePlanes.get( FACE_FRONT ).rightEdge );
-
-        //Back Face:
-        //Top edge of Top, Bottom edge of Bottom, Left edge of Left, Right Edge of Right
-//        triangulateImage2D( frontImage, FACE_BACK, topEdge, bottomEdge, rightEdge, leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_BACK ), FACE_BACK,
-                imagePlanes.get( FACE_BACK ).getPlane(), imagePlanes.get( FACE_TOP ).topEdge,
-                imagePlanes.get( FACE_BOTTOM ).bottomEdge, imagePlanes.get( FACE_LEFT ).leftEdge,
-                imagePlanes.get( FACE_RIGHT ).rightEdge );
-
-
-        //Left Face:
-        //Left edge of Top, Left edge of Bottom, Left edge of Front, Right Edge of Back
-//        triangulateImage2D( frontImage, FACE_LEFT, topEdge, bottomEdge, rightEdge, leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
-                imagePlanes.get( FACE_LEFT ).getPlane(), imagePlanes.get( FACE_TOP ).leftEdge,
-                imagePlanes.get( FACE_BOTTOM ).leftEdge, imagePlanes.get( FACE_FRONT ).leftEdge,
-                imagePlanes.get( FACE_BACK ).rightEdge );
-
-        //Top Face:
-        //Top edge of Back, Top edge of Front, Top edge of Right, Top Edge of Left
-//        triangulateImage2D( frontImage, FACE_TOP, topEdge, bottomEdge, rightEdge, leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_TOP ), FACE_TOP,
-                imagePlanes.get( FACE_TOP ).getPlane(), imagePlanes.get( FACE_BACK ).topEdge,
-                imagePlanes.get( FACE_FRONT ).topEdge, imagePlanes.get( FACE_RIGHT ).topEdge,
-                imagePlanes.get( FACE_LEFT ).topEdge );
-
-        //Bottom Face:
-        //Bottom edge of Front, Bottom edge of Back, Bottom Edge of Right, Bottom edge of Left
-//        triangulateImage2D( frontImage, FACE_BOTTOM, topEdge, bottomEdge, rightEdge, leftEdge );
-        triangulateImage2D( noBackgroundImages.get( FACE_BOTTOM ), FACE_BOTTOM,
-                imagePlanes.get( FACE_BOTTOM ).getPlane(), imagePlanes.get( FACE_FRONT ).bottomEdge,
-                imagePlanes.get( FACE_BACK ).bottomEdge, imagePlanes.get( FACE_RIGHT )
-                        .bottomEdge, imagePlanes.get( FACE_LEFT ).bottomEdge );
-
-        writePLYFile( directoryName + "/" + modelName + ".ply" );
-
-        //      Log.e( "triangulateImage3D", "Right: " + rightEdge.size() + "Left: " + leftEdge.size() +
-        //             "Top: " + topEdge.size() + "Bottom: " + bottomEdge.size() );
-    }
-
     /**
      * Writes vertices and triangle faces to an obj file
      *
@@ -916,6 +900,8 @@ public class Object3DModel
      * Name of this model
      */
     private String modelName;
+
+    private ArrayList<Mat> imageArray;
 
 
 

@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,97 +35,117 @@ public class MainMenuActivity extends ActionBarActivity
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         //creates folder to store application files
 
-        setContentView(R.layout.activity_main_menu);
+        setContentView( R.layout.activity_main_menu );
 
-        final GridView gridview = (GridView) findViewById(R.id.buttonGrid);
-        imgAdapter = new ImageAdapter(this);
-        gridview.setAdapter(imgAdapter);
+        final GridView gridview = (GridView) findViewById( R.id.buttonGrid );
+        imgAdapter = new ImageAdapter( this );
+        gridview.setAdapter( imgAdapter );
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+        gridview.setOnItemClickListener( new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick( AdapterView<?> parent, View v, int position, long id )
+            {
+                Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
 
-                if (position == parent.getAdapter().getCount() - 1){
+                if( position == parent.getAdapter().getCount() - 1 )
+                {
                     final View view = v;
                     AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(MainMenuActivity.this);
-                    builder.setTitle("Name Object");
+                    builder = new AlertDialog.Builder( MainMenuActivity.this );
+                    builder.setTitle( "Name Object" );
 
                     // Set up the input
-                    final EditText input = new EditText(MainMenuActivity.this);
-                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(input);
+                    final EditText input = new EditText( MainMenuActivity.this );
+                    // Specify the type of input expected; this, for example,
+                    // sets the input as a password, and will mask the text
+                    input.setInputType( InputType.TYPE_CLASS_TEXT );
+                    builder.setView( input );
 
                     // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton( "OK", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick( DialogInterface dialog, int which )
+                        {
                             objectName = input.getText().toString();
-                            initiateCapture(view);
+                            initiateCapture( view );
                         }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    } );
+                    builder.setNegativeButton( "Cancel", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick( DialogInterface dialog, int which )
+                        {
                             dialog.cancel();
                         }
-                    });
+                    } );
                     builder.show();
                 }
-                else if (delete){
-                    deleteObject((String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                else if( delete )
+                {
+                    deleteObject( (String) imgAdapter.getItem( position ).keySet().toArray()[0] );
                     delete = false;
                     imgAdapter.updateAdapter();
                 }
-                else {
-                    openPhotoGallery(v,(String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                else
+                {
+                    openPhotoGallery( v, (String) imgAdapter.getItem( position ).keySet().toArray
+                            ()[0] );
                 }
             }
-        });
+        } );
 
     }
 
     /**
      *
      */
-    public class ImageAdapter extends BaseAdapter {
+    public class ImageAdapter extends BaseAdapter
+    {
         private Context mContext;
 
-        public ImageAdapter(Context c) {
+        public ImageAdapter( Context c )
+        {
             mContext = c;
         }
 
-        public int getCount() {
-                return mThumbIds.size() + 1;
+        public int getCount()
+        {
+            return mThumbIds.size() + 1;
         }
 
         @Override
-        public Map<String, Bitmap> getItem(int position) {
+        public Map<String, Bitmap> getItem( int position )
+        {
 
-            return mThumbIds.get(position);
+            return mThumbIds.get( position );
         }
 
-        public long getItemId(int position) {
+        public long getItemId( int position )
+        {
             return 0;
         }
 
-        public List<Map<String, Bitmap>> getThumbNails(){
+        public List<Map<String, Bitmap>> getThumbNails()
+        {
 
 //            ArrayList<Bitmap> thumbnails = new ArrayList<>();
             List<Map<String, Bitmap>> thumbnails = new ArrayList<Map<String, Bitmap>>();
 
-            if (thmNailDir.exists()) {
+            if( thmNailDir.exists() )
+            {
                 File[] files = thmNailDir.listFiles();
-                for (File file : files) {
-                    if (file.exists()) {
-                        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                        String bitmapName = file.getName().replace(".png","");
+                for( File file : files )
+                {
+                    if( file.exists() )
+                    {
+                        Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
+                        String bitmapName = file.getName().replace( ".png", "" );
                         //thumbnails.add(myBitmap);
-                        thumbnails.add(createBitmap( bitmapName, myBitmap));
+                        thumbnails.add( createBitmap( bitmapName, myBitmap ) );
 
                     }
                 }
@@ -134,35 +153,45 @@ public class MainMenuActivity extends ActionBarActivity
             return thumbnails;
         }
 
-        public HashMap<String, Bitmap> createBitmap(String name, Bitmap bitmap) {
+        public HashMap<String, Bitmap> createBitmap( String name, Bitmap bitmap )
+        {
             HashMap<String, Bitmap> bitmapHash = new HashMap<String, Bitmap>();
-            bitmapHash.put(name, bitmap);
+            bitmapHash.put( name, bitmap );
             return bitmapHash;
         }
 
         // create a new ImageView for each item referenced by the Adapter
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView( int position, View convertView, ViewGroup parent )
+        {
             ImageView imageView;
-            if (convertView == null) {  // if it's not recycled, initialize some attributes
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(256, 256));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
-            } else {
+            if( convertView == null )
+            {  // if it's not recycled, initialize some attributes
+                imageView = new ImageView( mContext );
+                imageView.setLayoutParams( new GridView.LayoutParams( 256, 256 ) );
+                imageView.setScaleType( ImageView.ScaleType.CENTER_CROP );
+                imageView.setPadding( 8, 8, 8, 8 );
+            }
+            else
+            {
                 imageView = (ImageView) convertView;
             }
 
-            if(position == mThumbIds.size()) {
-                imageView.setImageResource(R.drawable.plus);
-            } else if ( position < mThumbIds.size()){
+            if( position == mThumbIds.size() )
+            {
+                imageView.setImageResource( R.drawable.plus );
+            }
+            else if( position < mThumbIds.size() )
+            {
                 //imageView.setImageBitmap(mThumbIds.get(position));
-                imageView.setImageBitmap(mThumbIds.get(position).get(mThumbIds.get(position).keySet().toArray()[0]));
+                imageView.setImageBitmap( mThumbIds.get( position ).get( mThumbIds.get( position
+                ).keySet().toArray()[0] ) );
             }
 
             return imageView;
         }
 
-        public void updateAdapter(){
+        public void updateAdapter()
+        {
             mThumbIds = getThumbNails();
             notifyDataSetChanged();
         }
@@ -196,14 +225,14 @@ public class MainMenuActivity extends ActionBarActivity
 
             return true;
         }
-        else if( id == R.id.action_delete){
+        else if( id == R.id.action_delete )
+        {
 
             delete = true;
             return true;
         }
         return super.onOptionsItemSelected( item );
     }
-
 
 
     /**
@@ -238,7 +267,7 @@ public class MainMenuActivity extends ActionBarActivity
      *
      * @param directoryName name of the directory
      */
-    public static File createDirectory(String directoryName)
+    public static File createDirectory( String directoryName )
     {
         //ensure external storage is mounted
         if( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) )
@@ -256,7 +285,7 @@ public class MainMenuActivity extends ActionBarActivity
         else
         {
             Toast.makeText( MyApplication.getAppContext(), "Error! External Storage Not Mounted.",
-                       Toast.LENGTH_LONG ).show();
+                    Toast.LENGTH_LONG ).show();
             return null;
         }
 
@@ -277,45 +306,53 @@ public class MainMenuActivity extends ActionBarActivity
         startActivity( captureIntent );
     }
 
-    public void openPhotoGallery( View view, String modelName ){
+    public void openPhotoGallery( View view, String modelName )
+    {
         Intent galleryIntent = new Intent( this, ModelPhotoGalleryActivity.class );
         galleryIntent.putExtra( "modelName", modelName );
-        galleryIntent.putExtra( "modelImageDirectory", getImageDirectory(modelName) );
+        galleryIntent.putExtra( "modelImageDirectory", getImageDirectory( modelName ) );
         startActivity( galleryIntent );
     }
 
-    public String getImageDirectory(String modelName){
+    public String getImageDirectory( String modelName )
+    {
 
-        File dir = new File(appDir, modelName);
-        try{
+        File dir = new File( appDir, modelName );
+        try
+        {
             return dir.getAbsolutePath() + "/images";
         }
-        catch (Exception ex) {
+        catch( Exception ex )
+        {
             throw ex;
         }
     }
 
 
-    public void deleteObject(String filename){
+    public void deleteObject( String filename )
+    {
 
-        File dir = new File(appDir,filename);
-        File thmFile = new File(thmNailDir, filename+".png");
+        File dir = new File( appDir, filename );
+        File thmFile = new File( thmNailDir, filename + ".png" );
 
-        if(dir.exists()){
+        if( dir.exists() )
+        {
 
-            DeleteRecursive(dir);
+            DeleteRecursive( dir );
             thmFile.delete();
         }
-        else{
-            Toast.makeText(getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText( getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT ).show();
         }
 
     }
 
-    void DeleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
-                DeleteRecursive(child);
+    void DeleteRecursive( File fileOrDirectory )
+    {
+        if( fileOrDirectory.isDirectory() )
+            for( File child : fileOrDirectory.listFiles() )
+                DeleteRecursive( child );
 
         fileOrDirectory.delete();
     }
@@ -325,7 +362,7 @@ public class MainMenuActivity extends ActionBarActivity
      */
     public static final String APPLICATION_DIRECTORY_NAME = "Images_To_3D_Models";
     public static final File appDir = createApplicationDirectory();
-    public static final File thmNailDir = createDirectory("thumbNails");
+    public static final File thmNailDir = createDirectory( "thumbNails" );
     private String objectName;
     private ImageAdapter imgAdapter;
 

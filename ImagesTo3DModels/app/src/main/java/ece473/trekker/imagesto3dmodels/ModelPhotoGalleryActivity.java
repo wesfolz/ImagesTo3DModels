@@ -240,8 +240,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             @Override
             public void run()
             {
-                Object3DModel model = new Object3DModel( getIntent().getStringExtra( "modelName" ),
-                        getIntent().getStringExtra( "modelImageDirectory" ) );
+                String name = getIntent().getStringExtra( "modelName" );
+                String directory = getIntent().getStringExtra( "modelImageDirectory" );
+                Object3DModel model = new Object3DModel( name, directory );
+                model.create3DModel();
 
                 //toast has to be run on the ui thread
                 runOnUiThread( new Runnable()
