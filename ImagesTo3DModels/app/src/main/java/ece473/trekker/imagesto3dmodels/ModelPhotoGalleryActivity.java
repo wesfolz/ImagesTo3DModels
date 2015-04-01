@@ -250,7 +250,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     public void run()
                     {
                         Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
-                                Toast.LENGTH_SHORT ).show();
+                                Toast.LENGTH_LONG ).show();
                         Log.e( "createModel", "Model complete" );
                     }
                 } );
