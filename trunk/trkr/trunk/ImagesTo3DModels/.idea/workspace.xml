@@ -34,9 +34,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/openCVLibrary2410/build/intermediates/resources/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/openCVLibrary2410/build/intermediates/resources/resources-debug-androidTest.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" afterPath="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Images To 3D Models.iws" />
@@ -60,65 +59,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainMenuActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.611236" vertical-offset="0" max-vertical-offset="5678">
-              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ModelPhotoGalleryActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.321429" vertical-offset="973" max-vertical-offset="5219">
-              <caret line="66" column="39" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="39" />
+            <state vertical-scroll-proportion="-2.4285715" vertical-offset="3808" max-vertical-offset="5270">
+              <caret line="234" column="26" selection-start-line="234" selection-start-column="26" selection-end-line="234" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1876#2600#0" expanded="true" />
-                <element signature="e#2589#2590#0" expanded="true" />
-                <element signature="e#2775#2776#0" expanded="true" />
-                <element signature="e#2811#2812#0" expanded="true" />
-                <element signature="e#3199#3200#0" expanded="true" />
-                <element signature="e#3231#3232#0" expanded="true" />
-                <element signature="e#4316#4332#0" expanded="true" />
-                <element signature="e#7689#8551#0" expanded="true" />
-                <element signature="e#8148#8517#0" expanded="true" />
-                <element signature="e#8494#8495#0" expanded="true" />
-                <element signature="e#8536#8537#0" expanded="true" />
+                <element signature="e#1876#2598#0" expanded="true" />
+                <element signature="e#2587#2588#0" expanded="true" />
+                <element signature="e#4314#4330#0" expanded="true" />
+                <element signature="e#7699#8561#0" expanded="true" />
+                <element signature="e#8158#8527#0" expanded="true" />
+                <element signature="e#8504#8505#0" expanded="true" />
+                <element signature="e#8546#8547#0" expanded="true" />
+                <element signature="e#9853#9854#0" expanded="true" />
+                <element signature="e#9895#9896#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImagePlane.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImagePlane.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="5321">
-              <caret line="76" column="12" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageCaptureActivityTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="833">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainMenuActivityTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-              <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -126,8 +83,66 @@
       <file leaf-file-name="ImageCaptureActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-121.42857" vertical-offset="0" max-vertical-offset="5151">
-              <caret line="231" column="7" selection-start-line="231" selection-start-column="7" selection-end-line="231" selection-end-column="7" />
+            <state vertical-scroll-proportion="27.321428" vertical-offset="1020" max-vertical-offset="5151">
+              <caret line="41" column="62" selection-start-line="41" selection-start-column="62" selection-end-line="41" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModelPhotoGalleryActivityTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.7142856" vertical-offset="3704" max-vertical-offset="4046">
+              <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1004#1005#0" expanded="true" />
+                <element signature="e#1058#1059#0" expanded="true" />
+                <element signature="e#5548#5689#0" expanded="true" />
+                <element signature="e#5678#5679#0" expanded="true" />
+                <element signature="e#5940#6081#0" expanded="true" />
+                <element signature="e#6070#6071#0" expanded="true" />
+                <element signature="e#6332#6473#0" expanded="true" />
+                <element signature="e#6462#6463#0" expanded="true" />
+                <element signature="e#6724#6865#0" expanded="true" />
+                <element signature="e#6854#6855#0" expanded="true" />
+                <element signature="e#7116#7257#0" expanded="true" />
+                <element signature="e#7246#7247#0" expanded="true" />
+                <element signature="e#7508#7649#0" expanded="true" />
+                <element signature="e#7638#7639#0" expanded="true" />
+                <element signature="e#7772#7773#0" expanded="true" />
+                <element signature="e#7804#7805#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ImageCaptureActivityTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2693032" vertical-offset="27" max-vertical-offset="663">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InstrumentationTestCase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/test/InstrumentationTestCase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5440" max-vertical-offset="5780">
+              <caret line="361" column="5" selection-start-line="361" selection-start-column="5" selection-end-line="361" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainMenuActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-30.035715" vertical-offset="4701" max-vertical-offset="5678">
+              <caret line="374" column="0" selection-start-line="374" selection-start-column="0" selection-end-line="374" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1982,10 +1997,10 @@
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml" />
-        <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
       </list>
     </option>
   </component>
@@ -2042,6 +2057,46 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Images To 3D Models" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Images To 3D Models" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2155,8 +2210,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\src\androidTest\java\ece473\trekker\imagesto3dmodels\ModelPhotoGalleryActivityTest.java</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\src\main\java\ece473\trekker\imagesto3dmodels\Object3DModel.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -2178,23 +2231,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="RESTORED" />
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4\ic_launcher.png</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4\ic_launcher.png</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4\ic_launcher.png</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4\ic_launcher.png</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated\androidTest</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\lib</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\obj</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\lib</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\obj</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\incremental\mergeAssets\test\debug\merger.xml</PATH>
@@ -2216,14 +2252,23 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\test\debug\AndroidManifest.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger2921213438827158203.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger137230881919799981.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger175999083684668540.xml</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\manifests\tmp\manifestMerger2921213438827158203.xml</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\resources-debug-test.ap_</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\res\test\debug\values\values.xml</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\lib</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\debug\obj</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\lib</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\intermediates\ndk\release\obj</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\test</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\r\test\debug\org</PATH>
@@ -2239,13 +2284,21 @@
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test\debug\org\opencv</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test\debug\org\opencv\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\buildConfig\test\debug\org\opencv\test\BuildConfig.java</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\test</PATH>
-            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\source\aidl\test\debug</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\generated\androidTest</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test</PATH>
             <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\openCVLibrary2410\build\generated\res\rs\test\debug</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xhdpi-v4\ic_launcher.png</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-mdpi-v4\ic_launcher.png</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-xxhdpi-v4\ic_launcher.png</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\intermediates\res\debug\mipmap-hdpi-v4\ic_launcher.png</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated</PATH>
+            <PATH vcs="svn" revision="0">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\res\generated\androidTest</PATH>
           </FILE-GROUP>
         </FILE-GROUP>
         <FILE-GROUP>
@@ -2321,7 +2374,99 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Android Application.app">
+  <component name="RunManager" selected="Android Tests.testNumberOfImages...()">
+    <configuration default="false" name="testNumberOfImages...()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TESTING_TYPE" value="3" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="testNumberOfImages" />
+      <option name="CLASS_NAME" value="ece473.trekker.imagesto3dmodels.ModelPhotoGalleryActivityTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="testFileOutput_OBJ...()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TESTING_TYPE" value="3" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="testFileOutput_OBJ" />
+      <option name="CLASS_NAME" value="ece473.trekker.imagesto3dmodels.ModelPhotoGalleryActivityTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ImageCaptureActivity..." type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TESTING_TYPE" value="2" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="ece473.trekker.imagesto3dmodels.ImageCaptureActivityTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ModelPhotoGalleryAct..." type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TESTING_TYPE" value="2" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="ece473.trekker.imagesto3dmodels.ModelPhotoGalleryActivityTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -2454,9 +2599,21 @@
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Android Application.app" />
+      <item index="1" class="java.lang.String" itemvalue="Android Tests.testNumberOfImages...()" />
+      <item index="2" class="java.lang.String" itemvalue="Android Tests.testFileOutput_OBJ...()" />
+      <item index="3" class="java.lang.String" itemvalue="Android Tests.ImageCaptureActivity..." />
+      <item index="4" class="java.lang.String" itemvalue="Android Tests.ModelPhotoGalleryAct..." />
     </list>
+    <recent_temporary>
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Android Tests.testNumberOfImages...()" />
+        <item index="1" class="java.lang.String" itemvalue="Android Tests.ModelPhotoGalleryAct..." />
+        <item index="2" class="java.lang.String" itemvalue="Android Tests.ImageCaptureActivity..." />
+        <item index="3" class="java.lang.String" itemvalue="Android Tests.testFileOutput_OBJ...()" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="HTML_FILE_NAME" />
@@ -2572,7 +2729,11 @@
       <created>1427943742145</created>
       <updated>1427943742145</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fixed bitmap memory issues.">
+      <created>1427950063673</created>
+      <updated>1427950063673</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2597,20 +2758,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1382" height="754" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.031772576" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6354515" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2090301" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3846154" sideWeight="0.62329805" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06521739" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2090301" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06521739" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18227425" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2742475" sideWeight="0.6565809" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24916388" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50668895" sideWeight="0.6565809" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2618,7 +2779,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.61538464" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46153846" sideWeight="0.8895613" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -2664,29 +2825,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="20" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java</url>
+          <line>148</line>
+          <properties />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="35" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="765">
-          <caret line="33" column="8" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="884">
-          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_menu.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="782">
@@ -2816,13 +2966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/BaseAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="67" max-vertical-offset="986">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/view/ViewGroup.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="70894" max-vertical-offset="121618">
@@ -2844,13 +2987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/AbsListView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="121618">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/content/ComponentName.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3277" max-vertical-offset="5202">
@@ -2869,20 +3005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2090" max-vertical-offset="4675">
           <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/GridView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2260" max-vertical-offset="39627">
-          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/AdapterView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4385" max-vertical-offset="20043">
-          <caret line="283" column="0" selection-start-line="283" selection-start-column="0" selection-end-line="283" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3006,6 +3128,22 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31875" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImagePlane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19101124" vertical-offset="986" max-vertical-offset="5321">
+          <caret line="81" column="35" selection-start-line="81" selection-start-column="35" selection-end-line="81" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="355" max-vertical-offset="697">
@@ -3017,79 +3155,131 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31875" vertical-offset="0" max-vertical-offset="1054">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImagePlane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="5321">
-          <caret line="76" column="12" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40215054" vertical-offset="0" max-vertical-offset="2244">
-          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
+        <state vertical-scroll-proportion="0.5442561" vertical-offset="0" max-vertical-offset="531">
           <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/GridView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-121.42857" vertical-offset="0" max-vertical-offset="5151">
-          <caret line="231" column="7" selection-start-line="231" selection-start-column="7" selection-end-line="231" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.5964912" vertical-offset="1581" max-vertical-offset="39593">
+          <caret line="149" column="9" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/AdapterView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="48" max-vertical-offset="493">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.33552632" vertical-offset="15555" max-vertical-offset="19771">
+          <caret line="974" column="0" selection-start-line="974" selection-start-column="0" selection-end-line="974" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/AbsListView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.321429" vertical-offset="973" max-vertical-offset="5219">
-          <caret line="66" column="39" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="121618">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1876#2600#0" expanded="true" />
-            <element signature="e#2589#2590#0" expanded="true" />
-            <element signature="e#2775#2776#0" expanded="true" />
-            <element signature="e#2811#2812#0" expanded="true" />
-            <element signature="e#3199#3200#0" expanded="true" />
-            <element signature="e#3231#3232#0" expanded="true" />
-            <element signature="e#4316#4332#0" expanded="true" />
-            <element signature="e#7689#8551#0" expanded="true" />
-            <element signature="e#8148#8517#0" expanded="true" />
-            <element signature="e#8494#8495#0" expanded="true" />
-            <element signature="e#8536#8537#0" expanded="true" />
+            <element signature="e#0#267163#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/database/DataSetObservable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33552632" vertical-offset="221" max-vertical-offset="782">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/widget/BaseAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33552632" vertical-offset="357" max-vertical-offset="1020">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="e#1816#1817#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.611236" vertical-offset="0" max-vertical-offset="5678">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state vertical-scroll-proportion="-30.035715" vertical-offset="4701" max-vertical-offset="5678">
+          <caret line="374" column="0" selection-start-line="374" selection-start-column="0" selection-end-line="374" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4285715" vertical-offset="3808" max-vertical-offset="5270">
+          <caret line="234" column="26" selection-start-line="234" selection-start-column="26" selection-end-line="234" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1876#2598#0" expanded="true" />
+            <element signature="e#2587#2588#0" expanded="true" />
+            <element signature="e#4314#4330#0" expanded="true" />
+            <element signature="e#7699#8561#0" expanded="true" />
+            <element signature="e#8158#8527#0" expanded="true" />
+            <element signature="e#8504#8505#0" expanded="true" />
+            <element signature="e#8546#8547#0" expanded="true" />
+            <element signature="e#9853#9854#0" expanded="true" />
+            <element signature="e#9895#9896#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7142856" vertical-offset="3704" max-vertical-offset="4046">
+          <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1004#1005#0" expanded="true" />
+            <element signature="e#1058#1059#0" expanded="true" />
+            <element signature="e#5548#5689#0" expanded="true" />
+            <element signature="e#5678#5679#0" expanded="true" />
+            <element signature="e#5940#6081#0" expanded="true" />
+            <element signature="e#6070#6071#0" expanded="true" />
+            <element signature="e#6332#6473#0" expanded="true" />
+            <element signature="e#6462#6463#0" expanded="true" />
+            <element signature="e#6724#6865#0" expanded="true" />
+            <element signature="e#6854#6855#0" expanded="true" />
+            <element signature="e#7116#7257#0" expanded="true" />
+            <element signature="e#7246#7247#0" expanded="true" />
+            <element signature="e#7508#7649#0" expanded="true" />
+            <element signature="e#7638#7639#0" expanded="true" />
+            <element signature="e#7772#7773#0" expanded="true" />
+            <element signature="e#7804#7805#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/test/InstrumentationTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5440" max-vertical-offset="5780">
+          <caret line="361" column="5" selection-start-line="361" selection-start-column="5" selection-end-line="361" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="27.321428" vertical-offset="1020" max-vertical-offset="5151">
+          <caret line="41" column="62" selection-start-line="41" selection-start-column="62" selection-end-line="41" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2693032" vertical-offset="27" max-vertical-offset="663">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>
