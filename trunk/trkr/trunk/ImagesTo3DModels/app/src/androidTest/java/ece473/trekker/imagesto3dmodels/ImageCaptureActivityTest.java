@@ -1,6 +1,11 @@
 package ece473.trekker.imagesto3dmodels;
 
+import android.hardware.Camera;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
+import android.test.ViewAsserts;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
@@ -26,16 +31,25 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         final ImageButton captureButton = (ImageButton) activity.findViewById( R.id
                 .capture_button );
 
-        activity.runOnUiThread( new Runnable()
-        {
+        activity.runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 captureButton.performClick();
             }
-        } );
+        });
 
         assertTrue( true );
+    }
+
+    public void testCalibrationButton() throws Exception{
+        final View decorView = activity.getWindow().getDecorView();
+
+        ImageButton flashButton = (ImageButton) activity.findViewById(R.id.flash_button);
+        ViewAsserts.assertOnScreen(decorView, flashButton);
+        TouchUtils.clickView(this, flashButton);
+
+        assertTrue( true );
+
     }
 
     @Override
