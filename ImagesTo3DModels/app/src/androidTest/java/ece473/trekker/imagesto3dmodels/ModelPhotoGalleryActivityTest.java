@@ -14,18 +14,22 @@ import java.io.File;
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
  */
-public class ModelPhotoGalleryActivityTest extends ActivityInstrumentationTestCase2<ModelPhotoGalleryActivity> {
+public class ModelPhotoGalleryActivityTest extends
+        ActivityInstrumentationTestCase2<ModelPhotoGalleryActivity>
+{
 
     private ModelPhotoGalleryActivity activity;
 
     private BaseLoaderCallback mLoaderCallback;
 
-    public ModelPhotoGalleryActivityTest(){
-        super(ModelPhotoGalleryActivity.class);
+    public ModelPhotoGalleryActivityTest()
+    {
+        super( ModelPhotoGalleryActivity.class );
     }
 
     @Override
-    public void setUp() throws Exception{
+    public void setUp() throws Exception
+    {
         super.setUp();
         setActivityInitialTouchMode( false );
         Intent galleryIntent = new Intent();
@@ -133,7 +137,8 @@ public class ModelPhotoGalleryActivityTest extends ActivityInstrumentationTestCa
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         super.tearDown();
     }
 }

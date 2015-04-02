@@ -30,9 +30,10 @@ public class Object3DModel
 {
     public Object3DModel( String name, String modelImageDirectory )
     {
-        initData( name, modelImageDirectory );
+        modelName = name;
+
+        directoryName = modelImageDirectory.replace( "images", "" );
         //create3DModel( imageArray );
-        //  subtractBackground( imageArray.get( 0 ) );
     }
 
     /**
@@ -44,17 +45,8 @@ public class Object3DModel
      */
     public void create3DModel()
     {
-  /*
-        HashMap<Integer, Integer> rightEdge = findRightEdgePoints( frontImage, FACE_FRONT );
-        HashMap<Integer, Integer> leftEdge = findLeftEdgePoints( frontImage );
-        HashMap<Integer, Integer> topEdge = findTopEdgePoints( frontImage, FACE_TOP );
-        HashMap<Integer, Integer> bottomEdge = findBottomEdgePoints( frontImage );
-        planes[1] = planes[0];
-        planes[4] = planes[0];
-        Log.e("createModel", "front plane " + planes[0]+ " right plane " + planes[1]
-                + " back plane " + planes[2]+ " left plane " + planes[3] + " top plane " +
-                planes[4] + " bottom plane " + planes[5]);
-  */
+        ArrayList<Mat> imageArray = initData();
+
         int face = 0;
         int rightEdgePlane;
         int topEdgePlane;
@@ -97,48 +89,6 @@ public class Object3DModel
         Log.e( "createModel", "Left plane " + imagePlanes.get( FACE_LEFT ).getPlane() + " Front " +
                 "plane " + imagePlanes.get( FACE_FRONT ).getPlane() + " Top Plane " + imagePlanes
                 .get( FACE_TOP ).getPlane() );
-
-
-/*
-        for (ImagePlane im: imagePlanes)
-        {
-            im.rightCorrelationEdge = imagePlanes.get( im.getPlaneFace()+1 ).leftEdge;
-            im.topCorrelationEdge = null;
-            im.leftCorrelationEdge = null;
-            im.bottomCorrelationEdge = null;
-        }
-
-        //assuming order or front, right, back, left, top, bottom
-        Vector<HashMap<Integer, Integer>> rightEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> leftEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> topEdges = new Vector<>();
-        Vector<HashMap<Integer, Integer>> bottomEdges = new Vector<>();
-
-        face=0;
-        for(Mat m: noBackgroundImages)
-        {
-            if(face == FACE_LEFT)
-            {
-                rightEdgePlane = FACE_FRONT;
-                topEdgePlane = FACE_TOP;
-            }
-            else if( face == FACE_FRONT)
-            {
-                rightEdgePlane = FACE_RIGHT;
-                topEdgePlane = FACE_TOP;
-            }
-            else
-            {
-                rightEdgePlane = -1;
-                topEdgePlane = -1;
-            }
-
-            rightEdges.add( findRightEdgePoints( m, rightEdgePlane ) );
-            topEdges.add( findTopEdgePoints( m, topEdgePlane ) );
-            leftEdges.add( findLeftEdgePoints( m ) );
-            bottomEdges.add( findBottomEdgePoints( m ) );
-            face++;
-        }*/
 
         //front plane = min of Right edge of Left face
         //right plane = min of Right edge of Front face
@@ -531,18 +481,12 @@ public class Object3DModel
 
     /**
      * Initialize model name and array of Mat objects
-     *
-     * @param name                - name of model
-     * @param modelImageDirectory - directory where images are stored
+     * @return - arraylist of all images in images folder
      */
-    public void initData( String name, String modelImageDirectory )
+    public ArrayList<Mat> initData()
     {
-        modelName = name;
-
-        directoryName = modelImageDirectory.replace( "images", "" );
-
-        File[] images = new File( modelImageDirectory ).listFiles();
-        imageArray = new ArrayList<>( images.length );
+        File[] images = new File( directoryName + "/images" ).listFiles();
+        ArrayList<Mat> imageArray = new ArrayList<>( images.length );
         //create array list of Mat objects for processing
         for( File f : images )
         {
@@ -554,6 +498,7 @@ public class Object3DModel
 
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );
 
+        return imageArray;
     }
 
     /**
@@ -900,9 +845,6 @@ public class Object3DModel
      * Name of this model
      */
     private String modelName;
-
-    private ArrayList<Mat> imageArray;
-
 
 
     public static final int FACE_FRONT = 0;

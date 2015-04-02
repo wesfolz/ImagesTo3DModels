@@ -1,7 +1,7 @@
 package ece473.trekker.imagesto3dmodels;
 
-import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ImageButton;
 
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
@@ -19,6 +19,23 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         super.setUp();
         setActivityInitialTouchMode(false);
         activity = getActivity();
+    }
+
+    public void testImageCaptureButton() throws Exception
+    {
+        final ImageButton captureButton = (ImageButton) activity.findViewById( R.id
+                .capture_button );
+
+        activity.runOnUiThread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                captureButton.performClick();
+            }
+        } );
+
+        assertTrue( true );
     }
 
     @Override
