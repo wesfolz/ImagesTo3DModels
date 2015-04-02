@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -219,8 +220,13 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      */
     public void captureImage( View view )
     {
-        //cameraView.turnOnFlash();
-        capture = true;
+        if (getCaptureNumber() < 7 ){
+            //cameraView.turnOnFlash();
+            capture = true;
+        }else{
+            Toast.makeText(getApplicationContext(), "Maximum Number of Captures Reached.", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     /**

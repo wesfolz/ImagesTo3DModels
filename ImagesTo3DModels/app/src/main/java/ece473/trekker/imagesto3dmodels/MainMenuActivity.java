@@ -50,7 +50,7 @@ public class MainMenuActivity extends ActionBarActivity
             {
                 Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
 
-                if( position == parent.getAdapter().getCount() - 1 )
+                if( v.getTag() == "plus" )
                 {
                     final View view = v;
                     AlertDialog.Builder builder;
@@ -137,12 +137,13 @@ public class MainMenuActivity extends ActionBarActivity
 
             if( thmNailDir.exists() )
             {
+                options.inSampleSize = 2;
                 File[] files = thmNailDir.listFiles();
                 for( File file : files )
                 {
                     if( file.exists() )
                     {
-                        Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
+                        Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(), options );
                         String bitmapName = file.getName().replace( ".png", "" );
                         //thumbnails.add(myBitmap);
                         thumbnails.add( createBitmap( bitmapName, myBitmap ) );
@@ -179,12 +180,13 @@ public class MainMenuActivity extends ActionBarActivity
             if( position == mThumbIds.size() )
             {
                 imageView.setImageResource( R.drawable.plus );
+                imageView.setTag("plus");
+
             }
             else if( position < mThumbIds.size() )
             {
-                //imageView.setImageBitmap(mThumbIds.get(position));
-                imageView.setImageBitmap( mThumbIds.get( position ).get( mThumbIds.get( position
-                ).keySet().toArray()[0] ) );
+                imageView.setImageBitmap( mThumbIds.get( position ).get(mThumbIds.get( position ).keySet().toArray()[0]));
+                imageView.setTag("image");
             }
 
             return imageView;
@@ -196,8 +198,11 @@ public class MainMenuActivity extends ActionBarActivity
             notifyDataSetChanged();
         }
 
+
+
         // references to our images
         //private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
 
 

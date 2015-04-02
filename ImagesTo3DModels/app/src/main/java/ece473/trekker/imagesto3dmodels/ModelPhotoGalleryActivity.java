@@ -63,7 +63,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             {
                 Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
 
-                if( position == parent.getAdapter().getCount() - 1 )
+                //if( (position == imgAdapter.getCount() - 1) && (imgAdapter.getCount() != 6)  )
+                if(v.getTag() == "plus")
                 {
                     initiateCapture( v );
                 }
@@ -91,7 +92,11 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         public int getCount()
         {
-            return mThumbIds.size() + 1;
+            if ( mThumbIds.size() < 6 ) {
+                return mThumbIds.size() + 1;
+            }else {
+                return 6;
+            }
         }
 
         @Override
@@ -107,7 +112,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         public List<Map<String, Bitmap>> getThumbNails()
         {
-
+            options.inSampleSize = 2;
             List<Map<String, Bitmap>> thumbnails = new ArrayList<>();
 
             if( modelImageDirectory.exists() )
@@ -120,8 +125,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                         String fileName = file.getName();
                         if( fileName.contains( "capture" ) )
                         {
-                            Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
-                            //thumbnails.add( myBitmap );
+                            Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(),options );
                             String bitmapName = file.getName();
                             thumbnails.add(createBitmap( bitmapName, myBitmap));
                         }
@@ -153,14 +157,15 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 imageView = (ImageView) convertView;
             }
 
-            if( position == mThumbIds.size() )
+            if( position == mThumbIds.size() && position < 6)
             {
                 imageView.setImageResource( R.drawable.plus );
+                imageView.setTag("plus");
             }
-            else if( position < mThumbIds.size() )
+            else if( position < mThumbIds.size() && position < 6 )
             {
-                //imageView.setImageBitmap( mThumbIds.get( position ) );
                 imageView.setImageBitmap(mThumbIds.get(position).get(mThumbIds.get(position).keySet().toArray()[0]));
+                imageView.setTag("image");
 
             }
 
@@ -174,6 +179,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         // references to our images
        // private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
 
 
