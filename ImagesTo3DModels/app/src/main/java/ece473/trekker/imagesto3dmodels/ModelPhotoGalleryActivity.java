@@ -32,7 +32,6 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
     boolean delete = false;
     private ImageAdapter imgAdapter;
 
-
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
@@ -230,35 +229,45 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public void createModel( View view )
     {
-        Log.e( "createModel", "Model initiated" );
-        Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
-                Toast.LENGTH_SHORT ).show();
+        if ((imgAdapter.getCount()-1) == 6) {
+            Log.e("createModel", "Model initiated");
+            Toast.makeText(MyApplication.getAppContext(), "Creating 3D Model...",
+                    Toast.LENGTH_SHORT).show();
 
-        //create 3D model on separate thread to keep ui responsive
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                String name = getIntent().getStringExtra( "modelName" );
-                String directory = getIntent().getStringExtra( "modelImageDirectory" );
-                Object3DModel model = new Object3DModel( name, directory );
-                model.create3DModel();
+            //create 3D model on separate thread to keep ui responsive
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String name = getIntent().getStringExtra("modelName");
+                    String directory = getIntent().getStringExtra("modelImageDirectory");
+                    Object3DModel model = new Object3DModel(name, directory);
+                    model.create3DModel();
 
-                //toast has to be run on the ui thread
-                runOnUiThread( new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
-                                Toast.LENGTH_LONG ).show();
-                        Log.e( "createModel", "Model complete" );
-                    }
-                } );
+                    //toast has to be run on the ui thread
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MyApplication.getAppContext(), "3D Model Complete!",
+                                    Toast.LENGTH_LONG).show();
+                            Log.e("createModel", "Model complete");
+                        }
+                    });
+                }
+            }).start();
+        }else{
+            int numImagesNeeded=6-imgAdapter.getCount()+1;
+
+            String imgString;
+            if (numImagesNeeded > 1){
+                imgString = " more Images.";
+            }else{
+                imgString = " more Image.";
             }
-        } ).start();
 
+            Toast.makeText(MyApplication.getAppContext(), "Need "+ Integer.toString(numImagesNeeded)+ imgString,
+                Toast.LENGTH_LONG).show();
+
+        }
     }
 
     public void open3DModel( View view ){
@@ -275,6 +284,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public void initiateCapture( View view )
     {
+
         Intent captureIntent = new Intent( this, ImageCaptureActivity.class );
         //sends name of model to image capture activity
         captureIntent.putExtra( "modelName", objectName );
