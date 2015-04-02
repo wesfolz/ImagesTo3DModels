@@ -66,7 +66,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 //if( (position == imgAdapter.getCount() - 1) && (imgAdapter.getCount() != 6)  )
                 if(v.getTag() == "plus")
                 {
-                    initiateCapture( v );
+                    initiateCapture(v);
                 }
                 else if(delete){
                     deleteImage((String) imgAdapter.getItem(position).keySet().toArray()[0]);
@@ -194,6 +194,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             imageFile.delete();
         }
         else{
+
             Toast.makeText(getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT).show();
         }
 
@@ -233,9 +234,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      *
      * @param view - create_model_button
      */
-    public void createModel( View view )
+    public boolean createModel( View view )
     {
-        if ((imgAdapter.getCount()-1) == 6) {
+        if (imgAdapter.getThumbNails().size() == 6) {
             Log.e("createModel", "Model initiated");
             Toast.makeText(MyApplication.getAppContext(), "Creating 3D Model...",
                     Toast.LENGTH_SHORT).show();
@@ -260,6 +261,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     });
                 }
             }).start();
+
+            return true;
+
         }else{
             int numImagesNeeded=6-imgAdapter.getCount()+1;
 
@@ -273,6 +277,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             Toast.makeText(MyApplication.getAppContext(), "Need "+ Integer.toString(numImagesNeeded)+ imgString,
                 Toast.LENGTH_LONG).show();
 
+            return false;
         }
     }
 
@@ -295,6 +300,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         //sends name of model to image capture activity
         captureIntent.putExtra( "modelName", objectName );
         startActivity( captureIntent );
+    }
+
+    public void updateImgAdapter(){
+        imgAdapter.updateAdapter();
     }
 
 
