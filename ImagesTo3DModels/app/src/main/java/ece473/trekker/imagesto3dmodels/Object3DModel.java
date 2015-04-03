@@ -30,9 +30,12 @@ public class Object3DModel
 {
     public Object3DModel( String name, String modelImageDirectory )
     {
-        modelName = name;
 
+        triangleFaceArray = new ArrayList<>();
+        vertexArray = new ArrayList<>();
+        modelName = name;
         directoryName = modelImageDirectory.replace( "images", "" );
+
         //create3DModel( imageArray );
     }
 
@@ -493,9 +496,6 @@ public class Object3DModel
             imageArray.add( Highgui.imread( f.getAbsolutePath() ) );
         }
 
-        triangleFaceArray = new ArrayList<>();
-        vertexArray = new ArrayList<>();
-
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );
 
         return imageArray;
@@ -644,6 +644,8 @@ public class Object3DModel
                                     HashMap<Integer, Integer> bottomEdge, HashMap<Integer,
             Integer> rightEdge, HashMap<Integer, Integer> leftEdge )
     {
+        // triangleFaceArray = new ArrayList<>();
+        // vertexArray = new ArrayList<>();
         TriangleVertex[] tv = new TriangleVertex[3];
         tv[0] = new TriangleVertex( 0, 0, 0 );
         tv[1] = new TriangleVertex( 0, 1, 0 );
