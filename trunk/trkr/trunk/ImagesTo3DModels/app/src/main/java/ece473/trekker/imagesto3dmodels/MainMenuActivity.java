@@ -353,7 +353,7 @@ public class MainMenuActivity extends ActionBarActivity
 
     }
 
-    void DeleteRecursive( File fileOrDirectory )
+    public static void DeleteRecursive(File fileOrDirectory)
     {
         if( fileOrDirectory.isDirectory() )
             for( File child : fileOrDirectory.listFiles() )
