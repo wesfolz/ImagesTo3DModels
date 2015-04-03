@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.test.ViewAsserts;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
@@ -20,6 +17,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
@@ -142,10 +140,19 @@ public class ModelPhotoGalleryActivityTest extends
     public void testNumberOfImages() throws Exception {
 
         OutputStream out = null;
+
+        String testImagePath = MainMenuActivity.appDir + "/test/images";
+
+        File testDir = new File(testImagePath);
+        if(testDir.exists()) {
+            MainMenuActivity.DeleteRecursive(testDir);
+        }
+
         MainMenuActivity.createDirectory("test");
         MainMenuActivity.createDirectory("test/images");
 
-        String testImagePath = MainMenuActivity.appDir + "/test/images";
+
+
         View dummyView = activity.findViewById(R.id.create_model_button);
         Bitmap bitmap = BitmapFactory.decodeResource(MyApplication.getAppContext().getResources(), R.drawable.plus);
 
@@ -224,6 +231,51 @@ public class ModelPhotoGalleryActivityTest extends
 
     }
 
+    /**
+     * Tests requirement 1.2 to test if multiple images are saved as internal data structures
+     *
+     * @throws Exception
+     */
+    public void testForMultipleImages() throws Exception {
+
+        OutputStream out = null;
+        String testImagePath = MainMenuActivity.appDir + "/test/images";
+
+        File testDir = new File(testImagePath);
+        if(testDir.exists()) {
+            MainMenuActivity.DeleteRecursive(testDir);
+        }
+
+        MainMenuActivity.createDirectory("test");
+        MainMenuActivity.createDirectory("test/images");
+
+        View dummyView = activity.findViewById(R.id.create_model_button);
+        Bitmap bitmap = BitmapFactory.decodeResource(MyApplication.getAppContext().getResources(), R.drawable.plus);
+
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest1.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest2.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest3.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest4.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest5.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out = new BufferedOutputStream(new FileOutputStream(testImagePath + "/capturetest6.jpg"));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
+        File[] images = new File( testImagePath ).listFiles();
+        ArrayList<Mat> imageArray = new ArrayList<>( images.length );
+        //create array list of Mat objects for processing
+        for( File f : images )
+        {
+            imageArray.add( Highgui.imread( f.getAbsolutePath() ) );
+        }
+
+        assertNotNull(imageArray);
+
+    }
 
     @Override
     public void tearDown() throws Exception {
