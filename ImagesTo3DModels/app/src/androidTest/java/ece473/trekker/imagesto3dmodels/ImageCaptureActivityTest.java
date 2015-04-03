@@ -210,10 +210,6 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
 
     }
 
-    public void testImageDataStructure() throws Exception{
-
-
-    }
 
     @Override
     public void tearDown() throws Exception {
