@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -56,20 +57,26 @@ public class Object3DModel
         ArrayList<Mat> noBackgroundImages = new ArrayList<>();
         Vector<ImagePlane> imagePlanes = new Vector<>();
         Mat nbi;
-
+/*
+        Mat test = subtractBackgroundHistogram( imageArray.get( 0 ) );
+        Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", test );
+        ImagePlane testPlane = new ImagePlane( test, 0 );
+        testPlane.findMinEdges();
+        testPlane.writeXYZ( directoryName + "/edges.xyz" );
+*/
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
-            //      nbi = subtractBackground( m );
-            //nbi = thresholdBackground( m );
-            //write Mat to jpg file and return it
-            //    Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
-            //      noBackgroundImages.add( nbi );
-            noBackgroundImages.add( m );
-            //      imagePlanes.add( new ImagePlane( nbi, face ) );
-            imagePlanes.add( new ImagePlane( m, face ) );
+            //subtract background
+            nbi = subtractBackgroundHistogram( m );
+            //write Mat to jpg file
+            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
+            noBackgroundImages.add( nbi );
+            //create image plane
+            imagePlanes.add( new ImagePlane( nbi, face ) );
             face++;
         }
+/*
         imageArray = null;
         //set right plane value
         imagePlanes.get( FACE_RIGHT ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanRight(),
@@ -80,12 +87,15 @@ public class Object3DModel
         //set bottom plane value
         imagePlanes.get( FACE_BOTTOM ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanBottom(),
                 imagePlanes.get( FACE_RIGHT ).getMeanBottom() );
-
+*/
+        face = 0;
         for( ImagePlane im : imagePlanes )
         {
             im.findMinEdges();
+            im.writeXYZ( directoryName + "/edges" + face + ".xyz" );
+            face++;
         }
-
+/*
         Log.e( "createModel", "Right plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " Back " +
                 "plane " + imagePlanes.get( FACE_BACK ).getPlane() + " Bottom Plane " +
                 imagePlanes.get( FACE_BOTTOM ).getPlane() );
@@ -102,8 +112,8 @@ public class Object3DModel
 
         Log.e( "createModel", "plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " top right "
                 + imagePlanes.get( FACE_TOP ).getMeanRight() + " bottom right " +
-                imagePlanes.get( FACE_BOTTOM ).getMeanRight() + " back left " + /*imagePlanes.get
-                ( FACE_BACK ) +*/ " front right " +
+                imagePlanes.get( FACE_BOTTOM ).getMeanRight() + " back left " + imagePlanes.get
+                ( FACE_BACK ) + " front right " +
                 imagePlanes.get( FACE_FRONT ).getMeanRight() );
 
         //Front Face:
@@ -162,6 +172,7 @@ public class Object3DModel
         //      Log.e( "triangulateImage3D", "Right: " + rightEdge.size() + "Left: " + leftEdge
         // .size() +
         //             "Top: " + topEdge.size() + "Bottom: " + bottomEdge.size() );
+        */
     }
 
 
@@ -177,30 +188,28 @@ public class Object3DModel
 
 
     /**
-     * find minimum rectangle to crop the image with
-     *
-     * @param image    - input Mat image to crop
-     * @param rowCount - ArrayList of Integers containing the number of non-blank pixels in each row
-     * @param colCount - ArrayList of Integers containing the number of non-blank pixels in each
-     *                 column
+     * Finds minimum rectangle to crop the image with
+     * @param image - input Mat image to crop
      * @return - int array giving crop rectangle as follows: {minRow, height, minCol, width}
      */
-    private int[] cropImage( Mat image, ArrayList<Integer> rowCount, ArrayList<Integer> colCount )
+    private int[] cropImage( Mat image )
     {
-        Mat croppedImage;
         int minRow = 0;
         int minCol = 0;
         int width = image.width() - 1;
         int height = image.height() - 1;
-        int minPixels = 1;
-        int counter = 0;
-/*
-        for(int i=0; i<height; i++)
+        int numRows = image.rows();
+        int numCols = image.cols();
+        double minPixels = 20.0;
+        Scalar sum;
+
+        //remove top rows
+        for( int i = 0; i < numRows; i++ )
         {
-            croppedImage = image.submat( i, i+1, 0, width );
-            if( Core.countNonZero( croppedImage ) <= minPixels)
+            sum = Core.sumElems( image.submat( i, i + 1, 0, width ) );
+            if( sum.val[0] <= minPixels * 255 )
             {
-                minRow = i;
+                minRow++;
             }
             else
             {
@@ -208,12 +217,39 @@ public class Object3DModel
             }
         }
 
-        for(int i=0; i<width; i++)
+        //Remove bottom rows
+        for( int i = height; i >= 0; i-- )
         {
-            croppedImage = image.submat( 0, height, i, i+1 );
-            if( Core.countNonZero( croppedImage ) <= minPixels)
+            sum = Core.sumElems( image.submat( i - 1, i, 0, width ) );
+            if( sum.val[0] <= minPixels * 255 )
             {
-                minCol = i;
+                height--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        //remove left columns
+        for( int i = 0; i < numCols; i++ )
+        {
+            sum = Core.sumElems( image.submat( 0, height, i, i + 1 ) );
+            if( sum.val[0] <= minPixels * 255 )
+            {
+                minCol++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        //remove right columns
+        for( int i = width; i >= 0; i-- )
+        {
+            sum = Core.sumElems( image.submat( 0, height, i - 1, i ) );
+            if( sum.val[0] <= minPixels * 255 )
+            {
+                width--;
             }
             else
             {
@@ -221,90 +257,7 @@ public class Object3DModel
             }
         }
 
-        for(int i=height; i>0; --i)
-        {
-            croppedImage = image.submat( i-1, i, 0, width );
-            if( Core.countNonZero( croppedImage ) <= minPixels)
-            {
-                height = i;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        for(int i=width; i>0; --i)
-        {
-            croppedImage = image.submat( 0, height, i-1, i );
-            if( Core.countNonZero( croppedImage ) <= minPixels)
-            {
-                width = i;
-            }
-            else
-            {
-                break;
-            }
-        }
-*/
-
-        //determines minimum row value
-        for( Integer count : rowCount )
-        {
-            counter++;
-            if( count <= minPixels )
-            {
-                minRow = counter;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        counter = 0;
-        //determines minimum column value
-        for( Integer count : colCount )
-        {
-            counter++;
-            if( count <= minPixels )
-            {
-                minCol = counter;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        //find height of object
-        for( int i = height; i > 0; -- i )
-        {
-            if( rowCount.get( i ) <= minPixels )
-            {
-                height = i;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        //find width of object
-        for( int i = width; i > 0; -- i )
-        {
-            if( colCount.get( i ) <= minPixels )
-            {
-                width = i;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        Log.e( "cropImage", "minCol " + minCol + " minRow " + minRow + " width " + width + " " +
-                "height " + height );
+        Log.e( "cropImage", "minRow " + minRow + " height " + height + " minCol " + minCol + " width " + width );
 
         int[] rectangle = {minRow, height, minCol, width};
         // Rect r = new Rect( minRow, height, minCol, width );
@@ -450,36 +403,57 @@ public class Object3DModel
         return triangleFaceArray;
     }
 
-
-    public void histogramBackProjection( Mat image )
+    /**
+     * Calculates histogram and back projection
+     *
+     * @param image - input Mat image
+     * @return - back projection
+     */
+    public Mat histogramBackProjection( Mat image )
     {
-        Mat hsv = new Mat();
-        Mat hue = new Mat();
         Mat hist = new Mat();
-        Mat backProj = new Mat();
-        int[] hSize = {12};
-        MatOfInt histSize = new MatOfInt( hSize );
-        float[] ranges = {0, 180};
-        MatOfFloat hueRanges = new MatOfFloat( ranges );
+        Mat noBackground = new Mat();
+        int h_bins = 2;
+        int s_bins = 2;
 
+        Mat mHSV = new Mat();
 
-        List<Mat> hsvList = new ArrayList<>();
-        List<Mat> hueList = new ArrayList<>();
-        int[] ch = {0, 0};
-        MatOfInt channels = new MatOfInt( ch );
-        Imgproc.cvtColor( image, hsv, Imgproc.COLOR_BGR2HSV );
-        hue.create( hsv.size(), hsv.depth() );
+        Imgproc.cvtColor( image, mHSV, Imgproc.COLOR_BGR2HSV );
 
-        hsvList.add( hsv );
-        hueList.add( hue );
-        Core.mixChannels( hsvList, hueList, channels );
+        // C++:
+        //int histSize[] = { h_bins, s_bins };
+        MatOfInt mHistSize = new MatOfInt( h_bins, s_bins );
 
+        // C++:
+        //float h_range[] = { 0, 179 };
+        //float s_range[] = { 0, 255 };
+        //const float* ranges[] = { h_range, s_range };
+        //int channels[] = { 0, 1 };
 
-        Imgproc.calcHist( hueList, channels, new Mat(), hist, histSize, hueRanges );
+        MatOfFloat mRanges = new MatOfFloat( 0, 179, 0, 255 );
+        MatOfInt mChannels = new MatOfInt( 0, 1 );
+
+        // C++:
+        // calcHist( &hsv, 1, channels, mask, hist, 2, histSize, ranges, true, false );
+
+        boolean accumulate = false;
+        Imgproc.calcHist( Arrays.asList( mHSV ), mChannels, new Mat(), hist, mHistSize, mRanges,
+                accumulate );
+
+        // C++:
+        // normalize( hist, hist, 0, 255, NORM_MINMAX, -1, Mat() );
         Core.normalize( hist, hist, 0, 255, Core.NORM_MINMAX, - 1, new Mat() );
-        Imgproc.calcBackProject( hueList, channels, hist, backProj, hueRanges, 1 );
 
-        Highgui.imwrite( directoryName + "/backProjection.jpg", backProj );
+        // C++:
+        // calcBackProject( &hsv, 1, channels, hist, backProjection, ranges, 1, true );
+        Mat backProjection = new Mat();
+        Imgproc.calcBackProject( Arrays.asList( mHSV ), mChannels, hist, backProjection, mRanges,
+                1 );
+
+        Core.inRange( backProjection, new Scalar( 255 ), new Scalar( 255 ), backProjection );
+        Core.inRange( backProjection, new Scalar( 0 ), new Scalar( 0 ), backProjection );
+
+        return backProjection;
     }
 
     /**
@@ -502,137 +476,26 @@ public class Object3DModel
     }
 
     /**
-     * calls subtract background twice to improve background subtraction
-     *
-     * @param image - Mat image to remove background
-     * @return - Mat image with background removed
+     * Removes and crops image based on histogram
+     * @param image - Mat image to remove background from
+     * @return - Mat image with background removed and cropped
      */
-    public Mat iterativeBackgroundSubtraction( Mat image )
-    {
-        return subtractBackground( subtractBackground( image ) );
-    }
-
-    /**
-     * Removes the background of an image by selecting four corners and removing similarly
-     * colored pixels
-     *
-     * @param image - Mat to remove background of
-     * @return - returns Mat without background
-     */
-    public Mat subtractBackground( Mat image )
+    public Mat subtractBackgroundHistogram( Mat image)
     {
         Mat noBackground = new Mat();
-        Mat croppedImage;
-        Mat croppedMask;
-        Mat binaryMask = new Mat( image.size(), CvType.CV_8U );
+        Mat backProjection = histogramBackProjection( image );
 
-        //threshold for background color similarities
-        int threshold = 70;
+        int[] rect = cropImage( backProjection );
 
-        double[] cornerColor = image.get( 0, 0 );
-        double[] lowerBound = new double[3];
-        double[] upperBound = new double[3];
+        image = image.submat( rect[0], rect[1], rect[2], rect[3] );
 
-        for( int i = 0; i < cornerColor.length; i++ )
-        {
-            lowerBound[i] = cornerColor[i] - threshold;
-            upperBound[i] = cornerColor[i] - threshold;
-        }
-        Scalar rangeLow = new Scalar( lowerBound );
-        Scalar rangeHigh = new Scalar( upperBound );
+        backProjection = backProjection.submat( rect[0], rect[1], rect[2], rect[3] );
 
-        //convert image to grayscale and store result in binaryMask
-        Imgproc.cvtColor( image, binaryMask, Imgproc.COLOR_BGR2GRAY );
-
-
-        int numRows = image.rows();
-        int numCols = image.cols();
-
-        //use very first pixel for background color reference
-        double[] colors = new double[4];
-        colors[0] = image.get( 0, 0 )[0];
-        colors[1] = image.get( numRows - 1, 0 )[0];
-        colors[2] = image.get( 0, numCols - 1 )[0];
-        colors[3] = image.get( numRows - 1, numCols - 1 )[0];
-
- /*       colors[0] = image.get( 0, 0 )[0];
-        colors[1] = colors[0];
-        colors[2] = colors[0];
-        colors[3] = colors[0];
-&*/
-
-        ArrayList<Integer> rowCount = new ArrayList<>();
-        ArrayList<Integer> colCount = new ArrayList<>();
-
-        boolean background;
-
-        Log.e( "subtractBackground", "Colors: " + colors[0] + " " + colors[1] + " " + colors[2] +
-                " " + colors[3] );
-
-        //     Core.inRange( image, rangeLow, rangeHigh, binaryMask );
-
-
-        //loop through Mat to check for similarly colored pixels
-        for( int i = 0; i < numRows; i++ )
-        {
-            rowCount.add( 0 );
-            for( int j = 0; j < numCols; j++ )
-            {
-                if( i == 0 )
-                {
-                    colCount.add( 0 );
-                }
-                background = false;
-                for( double color : colors )
-                {
-                    //if pixel is within threshold set mask value to 0
-                    if( image.get( i, j )[0] <= color + threshold && image.get( i,
-                            j )[0] >= color - threshold )
-                    {
-                        binaryMask.put( i, j, 0 );
-                        background = true;
-                        break;
-                    }
-                }
-                if( ! background )
-                {
-                    binaryMask.put( i, j, 1 );
-                    rowCount.set( i, rowCount.get( i ) + 1 );
-                    colCount.set( j, colCount.get( j ) + 1 );
-                    //   Log.e( "SubtractBackground", "1" );
-                }
-            }
-        }
-
-//        Log.e( "subtractBackground", "rowCount " + rowCount.size() + " colCount " + colCount.size
-        //               () );
-        //       Log.e( "subtractBackground", "rowCount " + rowCount.get( 0 ) + " colCount " + colCount
-        //              .get( 0 ) );
-        //apply mask to imageArray Mat and copy result into noBackground
-        //       image.copyTo( noBackground, binaryMask );
-
-        int[] cropRect = cropImage( image, rowCount, colCount );
-        croppedImage = image.submat( cropRect[0], cropRect[1], cropRect[2], cropRect[3] );
-        croppedMask = binaryMask.submat( cropRect[0], cropRect[1], cropRect[2], cropRect[3] );
-        croppedImage.copyTo( noBackground, croppedMask );
-
-        //     image.copyTo( noBackground, binaryMask );
+        image.copyTo( noBackground, backProjection );
 
         return noBackground;
     }
 
-    public Mat thresholdBackground( Mat image )
-    {
-        Mat grayImg = new Mat();
-        Mat binaryMask = new Mat();
-        Imgproc.cvtColor( image, grayImg, Imgproc.COLOR_BGR2GRAY );
-        double thresh = grayImg.get( 0, 0 )[0] + 50.0;
-
-        Imgproc.threshold( grayImg, binaryMask, thresh, 255, Imgproc.THRESH_TOZERO );
-
-        return binaryMask;
-
-    }
 
     /**
      * Triangulates face by connecting nearest image pixel points

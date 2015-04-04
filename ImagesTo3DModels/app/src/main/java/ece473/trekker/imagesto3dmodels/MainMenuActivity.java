@@ -55,7 +55,7 @@ public class MainMenuActivity extends ActionBarActivity
                     final View view = v;
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder( MainMenuActivity.this );
-                    builder.setTitle( "Name Object" );
+                    builder.setTitle( "Model Name" );
 
                     // Set up the input
                     final EditText input = new EditText( MainMenuActivity.this );
