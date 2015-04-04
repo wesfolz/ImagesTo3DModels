@@ -122,18 +122,12 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         //if the capture button was clicked save the frame to the Mat array
         if( capture )
         {
-            double[] color = inputFrame.rgba().get( xBackground, yBackground );
-            Log.e( "onCameraFrame", "Color " + color[0] + ", " + color[1] + ", " + color[2] );
-            //     Log.e("onCameraFrame", "capturing image " + imageArray.size());
             capture = false;
-            //Calendar cal = Calendar.getInstance();
-            //SimpleDateFormat date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
+
             String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(
                     captureNumber ) + ".jpg";
             //write mat to jpg file
             Highgui.imwrite( fileName, inputFrame.rgba() );
-
-
             try
             {
                 String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent()

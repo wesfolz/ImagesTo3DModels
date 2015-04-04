@@ -262,7 +262,7 @@ public class ImagePlane
         try
         {
             BufferedOutputStream bos = new BufferedOutputStream( new FileOutputStream( new File(
-                    filepath ), true ) );
+                    filepath ) ) );
 
             String vertex;
 
