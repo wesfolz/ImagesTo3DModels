@@ -50,16 +50,13 @@ public class Object3DModel
     public void create3DModel()
     {
         ArrayList<Mat> imageArray = initData();
-
-        int face = 0;
-        int rightEdgePlane;
-        int topEdgePlane;
         ArrayList<Mat> noBackgroundImages = new ArrayList<>();
         Vector<ImagePlane> imagePlanes = new Vector<>();
         Mat nbi;
+        int face = 0;
 /*
-        Mat test = subtractBackgroundHistogram( imageArray.get( 0 ) );
-        Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", test );
+        Mat test = subtractBackgroundHistogram( imageArray.get( 1 ) );
+       // Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", test );
         ImagePlane testPlane = new ImagePlane( test, 0 );
         testPlane.findMinEdges();
         testPlane.writeXYZ( directoryName + "/edges.xyz" );
@@ -72,123 +69,84 @@ public class Object3DModel
             //write Mat to jpg file
             Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
             noBackgroundImages.add( nbi );
+            //       noBackgroundImages.add( m );
             //create image plane
-            imagePlanes.add( new ImagePlane( nbi, face ) );
+            imagePlanes.add( new ImagePlane( nbi ) );
             face++;
         }
-/*
+
         imageArray = null;
-        //set right plane value
-        imagePlanes.get( FACE_RIGHT ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanRight(),
-                imagePlanes.get( FACE_TOP ).getMeanRight() );
-        //set back plane value
-        imagePlanes.get( FACE_BACK ).setPlane( imagePlanes.get( FACE_RIGHT ).getMeanRight(),
-                imagePlanes.get( FACE_BOTTOM ).getMeanBottom() );
-        //set bottom plane value
-        imagePlanes.get( FACE_BOTTOM ).setPlane( imagePlanes.get( FACE_FRONT ).getMeanBottom(),
-                imagePlanes.get( FACE_RIGHT ).getMeanBottom() );
-*/
-        face = 0;
-        for( ImagePlane im : imagePlanes )
-        {
-            im.findMinEdges();
-            im.writeXYZ( directoryName + "/edges" + face + ".xyz" );
-            face++;
-        }
-/*
-        Log.e( "createModel", "Right plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " Back " +
-                "plane " + imagePlanes.get( FACE_BACK ).getPlane() + " Bottom Plane " +
-                imagePlanes.get( FACE_BOTTOM ).getPlane() );
-        Log.e( "createModel", "Left plane " + imagePlanes.get( FACE_LEFT ).getPlane() + " Front " +
-                "plane " + imagePlanes.get( FACE_FRONT ).getPlane() + " Top Plane " + imagePlanes
-                .get( FACE_TOP ).getPlane() );
-
-        //front plane = min of Right edge of Left face
-        //right plane = min of Right edge of Front face
-        //back plane = min of Right edge of Right Face (0)
-        //left plane = min of Right edge of Back Face (0)
-        //top plane = min of top edge of Front Face
-        //bottom plane = (0)
-
-        Log.e( "createModel", "plane " + imagePlanes.get( FACE_RIGHT ).getPlane() + " top right "
-                + imagePlanes.get( FACE_TOP ).getMeanRight() + " bottom right " +
-                imagePlanes.get( FACE_BOTTOM ).getMeanRight() + " back left " + imagePlanes.get
-                ( FACE_BACK ) + " front right " +
-                imagePlanes.get( FACE_FRONT ).getMeanRight() );
 
         //Front Face:
         //Bottom edge of Top, Top edge of Bottom, Left Edge of Right, Right edge of Left
         //       triangulateImage2D( frontImage, FACE_FRONT, topEdge, bottomEdge, rightEdge,
         // leftEdge );
         triangulateImage2D( noBackgroundImages.get( FACE_FRONT ), FACE_FRONT,
-                imagePlanes.get( FACE_FRONT ).getPlane(), imagePlanes.get( FACE_TOP ).bottomEdge,
-                imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_RIGHT ).leftEdge,
-                imagePlanes.get( FACE_LEFT ).rightEdge );
+                false,
+                imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_RIGHT ).leftEdge );
 
         //Right Face:
         //Right edge of Top, Right edge of Bottom, Left Edge of Back (right),
         // Right edge of Front (left)
-//        triangulateImage2D( frontImage, FACE_RIGHT, topEdge, bottomEdge, rightEdge, leftEdge );
         triangulateImage2D( noBackgroundImages.get( FACE_RIGHT ), FACE_RIGHT,
-                imagePlanes.get( FACE_RIGHT ).getPlane(), imagePlanes.get( FACE_TOP ).rightEdge,
-                imagePlanes.get( FACE_BOTTOM ).rightEdge, imagePlanes.get( FACE_BACK ).leftEdge,
+                true, imagePlanes.get( FACE_TOP ).rightEdge,
                 imagePlanes.get( FACE_FRONT ).rightEdge );
 
         //Back Face:
         //Top edge of Top, Bottom edge of Bottom, Left edge of Left, Right Edge of Right
-//        triangulateImage2D( frontImage, FACE_BACK, topEdge, bottomEdge, rightEdge, leftEdge );
         triangulateImage2D( noBackgroundImages.get( FACE_BACK ), FACE_BACK,
-                imagePlanes.get( FACE_BACK ).getPlane(), imagePlanes.get( FACE_TOP ).topEdge,
-                imagePlanes.get( FACE_BOTTOM ).bottomEdge, imagePlanes.get( FACE_LEFT ).leftEdge,
+                true, imagePlanes.get( FACE_BOTTOM ).bottomEdge,
                 imagePlanes.get( FACE_RIGHT ).rightEdge );
 
 
         //Left Face:
         //Left edge of Top, Left edge of Bottom, Left edge of Front, Right Edge of Back
-//        triangulateImage2D( frontImage, FACE_LEFT, topEdge, bottomEdge, rightEdge, leftEdge );
+//        triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
+//                imagePlanes.get( FACE_LEFT ).getPlane(), imagePlanes.get( FACE_TOP ).leftEdge,
+//                imagePlanes.get( FACE_BOTTOM ).leftEdge, imagePlanes.get( FACE_FRONT ).leftEdge,
+//                imagePlanes.get( FACE_BACK ).rightEdge );
+
         triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
-                imagePlanes.get( FACE_LEFT ).getPlane(), imagePlanes.get( FACE_TOP ).leftEdge,
-                imagePlanes.get( FACE_BOTTOM ).leftEdge, imagePlanes.get( FACE_FRONT ).leftEdge,
-                imagePlanes.get( FACE_BACK ).rightEdge );
+                false, imagePlanes.get( FACE_TOP ).leftEdge,
+                imagePlanes.get( FACE_FRONT ).leftEdge );
 
         //Top Face:
         //Top edge of Back, Top edge of Front, Top edge of Right, Top Edge of Left
-//        triangulateImage2D( frontImage, FACE_TOP, topEdge, bottomEdge, rightEdge, leftEdge );
         triangulateImage2D( noBackgroundImages.get( FACE_TOP ), FACE_TOP,
-                imagePlanes.get( FACE_TOP ).getPlane(), imagePlanes.get( FACE_BACK ).topEdge,
-                imagePlanes.get( FACE_FRONT ).topEdge, imagePlanes.get( FACE_RIGHT ).topEdge,
-                imagePlanes.get( FACE_LEFT ).topEdge );
+                false, imagePlanes.get( FACE_FRONT ).topEdge,
+                imagePlanes.get( FACE_RIGHT ).topEdge );
 
         //Bottom Face:
         //Bottom edge of Front, Bottom edge of Back, Bottom Edge of Right, Bottom edge of Left
-//        triangulateImage2D( frontImage, FACE_BOTTOM, topEdge, bottomEdge, rightEdge, leftEdge );
         triangulateImage2D( noBackgroundImages.get( FACE_BOTTOM ), FACE_BOTTOM,
-                imagePlanes.get( FACE_BOTTOM ).getPlane(), imagePlanes.get( FACE_FRONT ).bottomEdge,
-                imagePlanes.get( FACE_BACK ).bottomEdge, imagePlanes.get( FACE_RIGHT )
-                        .bottomEdge, imagePlanes.get( FACE_LEFT ).bottomEdge );
+                true, imagePlanes.get( FACE_FRONT ).bottomEdge, imagePlanes.get( FACE_LEFT )
+                        .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-
-        //      Log.e( "triangulateImage3D", "Right: " + rightEdge.size() + "Left: " + leftEdge
-        // .size() +
-        //             "Top: " + topEdge.size() + "Bottom: " + bottomEdge.size() );
-        */
     }
 
 
     private boolean checkTriangleSize( TriangleVertex[] tv, int clusterSize )
     {
-        return ((Math.abs( tv[0].x - tv[1].x ) <= clusterSize) && (Math.abs( tv[0].x - tv[2].x )
-                <= clusterSize) && (Math.abs( tv[1].x - tv[2].x ) <= clusterSize)
-                && (Math.abs( tv[0].y - tv[1].y ) <= clusterSize) && (Math.abs( tv[0].y - tv[2].y
-        ) <= clusterSize) && (Math.abs( tv[1].y - tv[2].y ) <= clusterSize)
-                && (Math.abs( tv[0].z - tv[1].z ) <= clusterSize) && (Math.abs( tv[0].z - tv[2].z
-        ) <= clusterSize) && (Math.abs( tv[1].z - tv[2].z ) <= clusterSize));
+        int multiplier = 16;
+        return ((Math.abs( tv[0].x - tv[1].x ) <= clusterSize * multiplier) && (Math.abs( tv[0].x
+                - tv[2].x )
+                <= clusterSize * multiplier) && (Math.abs( tv[1].x - tv[2].x ) <= clusterSize *
+                multiplier)
+                && (Math.abs( tv[0].y - tv[1].y ) <= clusterSize * multiplier) && (Math.abs(
+                tv[0].y - tv[2].y
+        ) <= clusterSize * multiplier) && (Math.abs( tv[1].y - tv[2].y ) <= clusterSize *
+                multiplier)
+                && (Math.abs( tv[0].z - tv[1].z ) <= clusterSize * multiplier) && (Math.abs(
+                tv[0].z - tv[2].z
+        ) <= clusterSize * multiplier) && (Math.abs( tv[1].z - tv[2].z ) <= clusterSize *
+                multiplier));
     }
 
 
     /**
      * Finds minimum rectangle to crop the image with
+     *
      * @param image - input Mat image to crop
      * @return - int array giving crop rectangle as follows: {minRow, height, minCol, width}
      */
@@ -257,7 +215,8 @@ public class Object3DModel
             }
         }
 
-        Log.e( "cropImage", "minRow " + minRow + " height " + height + " minCol " + minCol + " width " + width );
+        Log.e( "cropImage", "minRow " + minRow + " height " + height + " minCol " + minCol + " " +
+                "width " + width );
 
         int[] rectangle = {minRow, height, minCol, width};
         // Rect r = new Rect( minRow, height, minCol, width );
@@ -356,12 +315,16 @@ public class Object3DModel
         return new Point( minX, minY );
     }
 
-    private int findDepthPoint( HashMap<Integer, Integer> topEdge,
-                                HashMap<Integer, Integer> bottomEdge, HashMap<Integer,
-            Integer> rightEdge, HashMap<Integer, Integer> leftEdge, int row, int column, int plane )
+    /*   private int findDepthPoint( HashMap<Integer, Integer> topEdge,
+                                   HashMap<Integer, Integer> bottomEdge, HashMap<Integer,
+               Integer> rightEdge, HashMap<Integer, Integer> leftEdge, int row, int column,
+               int plane, int lastDepth )
+    */
+    private int findDepthPoint( HashMap<Integer, Integer> horizontalEdge, HashMap<Integer,
+            Integer> verticalEdge, int row, int column, boolean minOrMax, int lastDepth )
     {
-        int min = - 1;
-
+        int depth = - 1;
+/*
         if( topEdge.containsKey( column ) )
         {
             min = topEdge.get( column );
@@ -384,13 +347,31 @@ public class Object3DModel
             if( leftEdge.get( row ) < min || min < 0 )
                 min = leftEdge.get( row );
         }
-
-        if( min < 0 )
+*/
+        if( horizontalEdge.containsKey( column ) )
         {
-            min = plane;
+            depth = horizontalEdge.get( column );
         }
-//        Log.e( "createModel", "Min: " + min );
-        return min;
+
+        if( verticalEdge.containsKey( row ) )
+        {
+            if( minOrMax )
+            {
+                if( verticalEdge.get( row ) < depth || depth < 0 )
+                    depth = verticalEdge.get( row );
+            }
+            else
+            {
+                if( verticalEdge.get( row ) > depth || depth < 0 )
+                    depth = verticalEdge.get( row );
+            }
+        }
+        if( depth < 0 )
+        {
+            depth = lastDepth;
+        }
+
+        return depth;
     }
 
     public ArrayList<TriangleVertex> getVertexArray()
@@ -458,6 +439,7 @@ public class Object3DModel
 
     /**
      * Initialize model name and array of Mat objects
+     *
      * @return - arraylist of all images in images folder
      */
     public ArrayList<Mat> initData()
@@ -477,10 +459,11 @@ public class Object3DModel
 
     /**
      * Removes and crops image based on histogram
+     *
      * @param image - Mat image to remove background from
      * @return - Mat image with background removed and cropped
      */
-    public Mat subtractBackgroundHistogram( Mat image)
+    public Mat subtractBackgroundHistogram( Mat image )
     {
         Mat noBackground = new Mat();
         Mat backProjection = histogramBackProjection( image );
@@ -502,10 +485,8 @@ public class Object3DModel
      *
      * @param image - background subtracted image to triangulate
      */
-    public void triangulateImage2D( Mat image, int face, int plane, HashMap<Integer,
-            Integer> topEdge,
-                                    HashMap<Integer, Integer> bottomEdge, HashMap<Integer,
-            Integer> rightEdge, HashMap<Integer, Integer> leftEdge )
+    public void triangulateImage2D( Mat image, int face, boolean minOrMax, HashMap<Integer,
+            Integer> horizontalEdge, HashMap<Integer, Integer> verticalEdge )
     {
         // triangleFaceArray = new ArrayList<>();
         // vertexArray = new ArrayList<>();
@@ -518,7 +499,7 @@ public class Object3DModel
         boolean recentlyAdded = false;
         int column;
         int row;
-        int clusterSize = 16;
+        int clusterSize = 4;
         int numCols = image.cols();
         int numRows = image.rows();
         int colIter = numCols - clusterSize;
@@ -550,8 +531,11 @@ public class Object3DModel
                 //update appropriate vertex
                 //tv[i % 3] = new TriangleVertex( column, row, 0 );
                 //topEdge(column), bottomEdge(column), rightEdge(row), leftEdge(row)
-                depth = findDepthPoint( topEdge, bottomEdge, rightEdge, leftEdge, row, column,
-                        plane );
+//                depth = findDepthPoint( topEdge, bottomEdge, rightEdge, leftEdge, row, column,
+//                        plane, depth );
+
+                depth = findDepthPoint( horizontalEdge, verticalEdge, row, column,
+                        minOrMax, depth );
 
                 tv[i % 3] = TriangleVertex.buildTriangleVertex( face, row, column, numRows,
                         numCols, depth );

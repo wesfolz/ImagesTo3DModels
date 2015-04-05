@@ -14,60 +14,14 @@ import java.util.HashMap;
 public class ImagePlane
 {
 
-    public ImagePlane( Mat m, int face )
+    public ImagePlane( Mat m )
     {
         noBackgroundImage = m;
-        planeFace = face;
-        plane = 0;
-        findMaxEdges();
-    }
-
-
-    public void findMaxEdges()
-    {
         rightEdge = findRightEdgePoints( noBackgroundImage );
         bottomEdge = findBottomEdgePoints( noBackgroundImage );
-    }
-
-    public void findMinEdges()
-    {
         leftEdge = findLeftEdgePoints( noBackgroundImage );
         topEdge = findTopEdgePoints( noBackgroundImage );
-        //   writeXYZ( MainMenuActivity.appDir +"/cube/cube.xyz");
     }
-
-    public int getPlane()
-    {
-        return plane;
-    }
-
-    public int getPlaneFace()
-    {
-        return planeFace;
-    }
-
-    public int getMeanBottom()
-    {
-        return meanBottom;
-    }
-
-    public int getMeanRight()
-    {
-        return meanRight;
-    }
-
-    public void setPlane( int p1, int p2 )
-    {
-        if( p1 > p2 )
-        {
-            plane = p1;
-        }
-        else
-        {
-            plane = p2;
-        }
-    }
-
 
     /**
      * Finds bottom edge of points in background subtracted image
@@ -82,7 +36,6 @@ public class ImagePlane
         int numRows = input.rows();
         int numCols = input.cols() - 1;
         int rowCounter;
-        int total = 0;
 
         for( int i = 1; i < numCols; i++ )
         {
@@ -96,7 +49,6 @@ public class ImagePlane
                             i + 1 )[0] != 0 )
                     {
                         bottomVertices.put( i, rowCounter );
-                        total += rowCounter;
                     }
                     break;
                 }
@@ -106,10 +58,8 @@ public class ImagePlane
             if( ! bottomVertices.containsKey( i ) && bottomVertices.containsKey( i - 1 ) )
             {
                 bottomVertices.put( i, bottomVertices.get( i - 1 ) );
-                total += bottomVertices.get( i - 1 );
             }
         }
-        meanBottom = total / bottomVertices.size();
 
         return bottomVertices;
     }
@@ -127,7 +77,6 @@ public class ImagePlane
         int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
-        int total = 0;
 
         for( int i = 1; i < numRows; i++ )
         {
@@ -140,8 +89,7 @@ public class ImagePlane
                     if( input.get( i - 1, colCounter )[0] != 0 && input.get( i + 1,
                             colCounter )[0] != 0 )
                     {
-                        leftVertices.put( i, colCounter + plane );
-                        total += colCounter;
+                        leftVertices.put( i, colCounter );
                     }
                     break;
                 }
@@ -151,10 +99,8 @@ public class ImagePlane
             if( ! leftVertices.containsKey( i ) && leftVertices.containsKey( i - 1 ) )
             {
                 leftVertices.put( i, leftVertices.get( i - 1 ) );
-                total += leftVertices.get( i - 1 );
             }
         }
-        meanLeft = total / leftVertices.size();
 
         return leftVertices;
     }
@@ -173,7 +119,6 @@ public class ImagePlane
         int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
-        int total = 0;
 
         for( int i = 1; i < numRows; i++ )
         {
@@ -187,7 +132,6 @@ public class ImagePlane
                             colCounter )[0] != 0 )
                     {
                         rightVertices.put( i, colCounter );
-                        total += colCounter;
                     }
                     break;
                 }
@@ -201,8 +145,6 @@ public class ImagePlane
             }
 
         }
-
-        meanRight = total / rightVertices.size();
 
         return rightVertices;
     }
@@ -232,7 +174,7 @@ public class ImagePlane
                     if( input.get( rowCounter, i - 1 )[0] != 0 && input.get( rowCounter,
                             i + 1 )[0] != 0 )
                     {
-                        topVertices.put( i, rowCounter + plane );
+                        topVertices.put( i, rowCounter );
                     }
                     break;
                 }
@@ -271,13 +213,13 @@ public class ImagePlane
                 vertex = rightEdge.get( tv ) + " " + tv + " " + 0 + "\n";
                 bos.write( vertex.getBytes() );
             }
-
+/*
             for( Integer tv : leftEdge.keySet() )
             {
                 vertex = leftEdge.get( tv ) + " " + tv + " " + 0 + "\n";
                 bos.write( vertex.getBytes() );
             }
-
+/*
             for( Integer tv : topEdge.keySet() )
             {
                 vertex = tv + " " + topEdge.get( tv ) + " " + 0 + "\n";
@@ -289,7 +231,7 @@ public class ImagePlane
                 vertex = tv + " " + bottomEdge.get( tv ) + " " + 0 + "\n";
                 bos.write( vertex.getBytes() );
             }
-
+*/
 
             bos.close();
         }
@@ -299,27 +241,10 @@ public class ImagePlane
         }
     }
 
-
     protected HashMap<Integer, Integer> rightEdge;
     protected HashMap<Integer, Integer> leftEdge;
     protected HashMap<Integer, Integer> topEdge;
     protected HashMap<Integer, Integer> bottomEdge;
 
-    protected HashMap<Integer, Integer> rightCorrelationEdge;
-    protected HashMap<Integer, Integer> leftCorrelationEdge;
-    protected HashMap<Integer, Integer> topCorrelationEdge;
-    protected HashMap<Integer, Integer> bottomCorrelationEdge;
-
     private Mat noBackgroundImage;
-
-    private int plane;
-
-    private int planeFace;
-
-    private int meanBottom;
-
-    private int meanRight;
-
-    public int meanLeft;
-
 }

@@ -18,7 +18,9 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 
 import java.io.BufferedOutputStream;
@@ -72,10 +74,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus)
+    public void onWindowFocusChanged( boolean hasFocus )
     {
         super.onWindowFocusChanged( hasFocus );
-        if(hasFocus)
+        if( hasFocus )
         {
             //make window fullscreen
             this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -83,7 +85,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
         }
     }
 
@@ -163,6 +165,26 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
+
+        Mat rectMat = inputFrame.rgba();
+        int rows = rectMat.rows() - 1;
+        int cols = rectMat.cols() - 1;
+        Scalar blue = new Scalar( 0, 0, 255 );
+        Scalar red = new Scalar( 255, 0, 0 );
+        //background rectangles
+        Core.rectangle( rectMat, new org.opencv.core.Point( 0, 0 ), new org.opencv
+                .core.Point( 100, 50 ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( cols - 100, rows - 50 ), new org.opencv
+                .core.Point( cols, rows ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( 0, rows - 50 ), new org.opencv
+                .core.Point( 100, rows ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( cols - 100, 0 ), new org.opencv
+                .core.Point( cols, 50 ), blue );
+        //object rectangles
+        Core.rectangle( rectMat, new org.opencv.core.Point( cols / 2 - 200, rows / 2 - 100 ),
+                new org.opencv
+                        .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
+
 /*
         Mat grayImg = new Mat(  );
         Mat binaryMask = new Mat(  );
@@ -174,7 +196,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         return binaryMask;
 */
 
-        return inputFrame.rgba();
+        return rectMat;
     }
 
 
@@ -214,11 +236,15 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      */
     public void captureImage( View view )
     {
-        if (getCaptureNumber() < 7 ){
+        if( getCaptureNumber() < 7 )
+        {
             //cameraView.turnOnFlash();
             capture = true;
-        }else{
-            Toast.makeText(getApplicationContext(), "Maximum Number of Captures Reached.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText( getApplicationContext(), "Maximum Number of Captures Reached.",
+                    Toast.LENGTH_SHORT ).show();
 
         }
     }
@@ -266,9 +292,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
     /**
      * Called when flash button is clicked
+     *
      * @param view
      */
-    public void setFlash(View view)
+    public void setFlash( View view )
     {
         cameraView.setFlashMode();
     }
