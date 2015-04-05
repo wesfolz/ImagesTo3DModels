@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -64,12 +65,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
 
                 //if( (position == imgAdapter.getCount() - 1) && (imgAdapter.getCount() != 6)  )
-                if(v.getTag() == "plus")
+                if( v.getTag() == "plus" )
                 {
-                    initiateCapture(v);
+                    initiateCapture( v );
                 }
-                else if(delete){
-                    deleteImage((String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                else if( delete )
+                {
+                    deleteImage( (String) imgAdapter.getItem( position ).keySet().toArray()[0] );
                     delete = false;
                     imgAdapter.updateAdapter();
                 }
@@ -92,17 +94,21 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         public int getCount()
         {
-            if ( mThumbIds.size() < 6 ) {
+            if( mThumbIds.size() < 6 )
+            {
                 return mThumbIds.size() + 1;
-            }else {
+            }
+            else
+            {
                 return 6;
             }
         }
 
         @Override
-        public Map<String, Bitmap> getItem(int position) {
+        public Map<String, Bitmap> getItem( int position )
+        {
 
-            return mThumbIds.get(position);
+            return mThumbIds.get( position );
         }
 
         public long getItemId( int position )
@@ -125,9 +131,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                         String fileName = file.getName();
                         if( fileName.contains( "capture" ) )
                         {
-                            Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(),options );
+                            Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(),
+                                    options );
                             String bitmapName = file.getName();
-                            thumbnails.add(createBitmap( bitmapName, myBitmap));
+                            thumbnails.add( createBitmap( bitmapName, myBitmap ) );
                         }
                     }
                 }
@@ -135,9 +142,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             return thumbnails;
         }
 
-        public HashMap<String, Bitmap> createBitmap(String name, Bitmap bitmap) {
+        public HashMap<String, Bitmap> createBitmap( String name, Bitmap bitmap )
+        {
             HashMap<String, Bitmap> bitmapHash = new HashMap<String, Bitmap>();
-            bitmapHash.put(name, bitmap);
+            bitmapHash.put( name, bitmap );
             return bitmapHash;
         }
 
@@ -157,45 +165,50 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 imageView = (ImageView) convertView;
             }
 
-            if( position == mThumbIds.size() && position < 6)
+            if( position == mThumbIds.size() && position < 6 )
             {
                 imageView.setImageResource( R.drawable.plus );
-                imageView.setTag("plus");
+                imageView.setTag( "plus" );
             }
             else if( position < mThumbIds.size() && position < 6 )
             {
-                imageView.setImageBitmap(mThumbIds.get(position).get(mThumbIds.get(position).keySet().toArray()[0]));
-                imageView.setTag("image");
+                imageView.setImageBitmap( mThumbIds.get( position ).get( mThumbIds.get( position
+                ).keySet().toArray()[0] ) );
+                imageView.setTag( "image" );
 
             }
 
             return imageView;
         }
 
-        public void updateAdapter(){
+        public void updateAdapter()
+        {
             mThumbIds = getThumbNails();
             notifyDataSetChanged();
         }
 
         // references to our images
-       // private ArrayList<Bitmap> mThumbIds = getThumbNails();
+        // private ArrayList<Bitmap> mThumbIds = getThumbNails();
         final BitmapFactory.Options options = new BitmapFactory.Options();
         private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
 
 
     }
 
-    public void deleteImage(String filename){
+    public void deleteImage( String filename )
+    {
 
-        File imageFile = new File(modelImageDirectory, filename);
+        File imageFile = new File( modelImageDirectory, filename );
 
-        if(imageFile.exists()){
+        if( imageFile.exists() )
+        {
 
             imageFile.delete();
         }
-        else{
+        else
+        {
 
-            Toast.makeText(getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT).show();
+            Toast.makeText( getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT ).show();
         }
 
     }
@@ -221,7 +234,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             return true;
         }
-        else if( id == R.id.action_delete){
+        else if( id == R.id.action_delete )
+        {
 
             delete = true;
             return true;
@@ -236,58 +250,75 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public boolean createModel( View view )
     {
-        if (imgAdapter.getThumbNails().size() == 6) {
-            Log.e("createModel", "Model initiated");
-            Toast.makeText(MyApplication.getAppContext(), "Creating 3D Model...",
-                    Toast.LENGTH_SHORT).show();
+        if( imgAdapter.getThumbNails().size() == 6 )
+        {
+            final Button createButton = (Button) findViewById( R.id.create_model_button );
+            createButton.setEnabled( false );
+            Log.e( "createModel", "Model initiated" );
+            Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
+                    Toast.LENGTH_SHORT ).show();
 
             //create 3D model on separate thread to keep ui responsive
-            new Thread(new Runnable() {
+            new Thread( new Runnable()
+            {
                 @Override
-                public void run() {
-                    String name = getIntent().getStringExtra("modelName");
-                    String directory = getIntent().getStringExtra("modelImageDirectory");
-                    Object3DModel model = new Object3DModel(name, directory);
+                public void run()
+                {
+                    String name = getIntent().getStringExtra( "modelName" );
+                    String directory = getIntent().getStringExtra( "modelImageDirectory" );
+                    Object3DModel model = new Object3DModel( name, directory );
                     model.create3DModel();
 
                     //toast has to be run on the ui thread
-                    runOnUiThread(new Runnable() {
+                    runOnUiThread( new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            Toast.makeText(MyApplication.getAppContext(), "3D Model Complete!",
-                                    Toast.LENGTH_LONG).show();
-                            Log.e("createModel", "Model complete");
+                        public void run()
+                        {
+                            Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
+                                    Toast.LENGTH_LONG ).show();
+                            Log.e( "createModel", "Model complete" );
+                            createButton.setEnabled( true );
                         }
-                    });
+                    } );
                 }
-            }).start();
+            } ).start();
 
             return true;
 
-        }else{
-            int numImagesNeeded=6-imgAdapter.getCount()+1;
+        }
+        else
+        {
+            int numImagesNeeded = 6 - imgAdapter.getCount() + 1;
 
             String imgString;
-            if (numImagesNeeded > 1){
+            if( numImagesNeeded > 1 )
+            {
                 imgString = " more Images.";
-            }else{
+            }
+            else
+            {
                 imgString = " more Image.";
             }
 
-            Toast.makeText(MyApplication.getAppContext(), "Need "+ Integer.toString(numImagesNeeded)+ imgString,
-                Toast.LENGTH_LONG).show();
+            Toast.makeText( MyApplication.getAppContext(), "Need " + Integer.toString(
+                            numImagesNeeded ) + imgString,
+                    Toast.LENGTH_LONG ).show();
 
             return false;
         }
     }
 
-    public void open3DModel( View view ){
+    public void open3DModel( View view )
+    {
         Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
                 Toast.LENGTH_SHORT ).show();
-     //   Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.package.address");
-     //   startActivity(launchIntent);
+        //   Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.package
+        // .address");
+        //   startActivity(launchIntent);
 
     }
+
     /**
      * Creates separate directory for model, then starts image capture activity
      *
@@ -302,7 +333,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         startActivity( captureIntent );
     }
 
-    public void updateImgAdapter(){
+    public void updateImgAdapter()
+    {
         imgAdapter.updateAdapter();
     }
 

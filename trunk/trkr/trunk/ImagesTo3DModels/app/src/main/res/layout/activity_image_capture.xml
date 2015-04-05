@@ -21,6 +21,17 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_accept"
+            android:id="@+id/complete_button"
+            android:onClick="captureComplete"
+            android:layout_below="@+id/camera_view"
+            android:layout_toLeftOf="@+id/capture_button"
+            android:layout_toStartOf="@+id/capture_button"
+            android:layout_gravity="center_horizontal|top"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/flash_button"
             android:src="@drawable/ic_action_flash_on"
             android:clickable="true"
@@ -28,7 +39,8 @@
             android:layout_toRightOf="@+id/camera_view"
             android:layout_toEndOf="@+id/camera_view"
             android:layout_gravity="left|top"
-            android:onClick="setFlash"/>
+            android:onClick="setFlash"
+            android:layout_marginLeft="200px"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -36,18 +48,8 @@
             android:src="@drawable/ic_action_camera"
             android:onClick="captureImage"
             android:id="@+id/capture_button"
-            android:layout_gravity="center_horizontal|bottom"/>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_accept"
-            android:id="@+id/complete_button"
-            android:onClick="captureComplete"
-            android:layout_below="@+id/camera_view"
-            android:layout_toLeftOf="@+id/capture_button"
-            android:layout_toStartOf="@+id/capture_button"
-            android:layout_gravity="right|top"/>
+            android:layout_gravity="right|top"
+            android:layout_marginRight="200px"/>
 
     </FrameLayout>
 
