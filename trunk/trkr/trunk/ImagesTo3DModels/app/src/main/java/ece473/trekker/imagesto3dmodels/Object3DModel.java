@@ -3,12 +3,9 @@ package ece473.trekker.imagesto3dmodels;
 import android.util.Log;
 
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
@@ -21,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -31,7 +27,6 @@ public class Object3DModel
 {
     public Object3DModel( String name, String modelImageDirectory )
     {
-
         triangleFaceArray = new ArrayList<>();
         vertexArray = new ArrayList<>();
         modelName = name;
@@ -54,13 +49,12 @@ public class Object3DModel
         Vector<ImagePlane> imagePlanes = new Vector<>();
         Mat nbi;
         int face = 0;
-/*
-        Mat test = subtractBackgroundHistogram( imageArray.get( 1 ) );
-       // Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", test );
-        ImagePlane testPlane = new ImagePlane( test, 0 );
-        testPlane.findMinEdges();
-        testPlane.writeXYZ( directoryName + "/edges.xyz" );
-*/
+
+        //Mat test = subtractBackgroundHistogram( imageArray.get( 0 ) );
+        //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
+        //ImagePlane testPlane = new ImagePlane( test );
+        //testPlane.writeXYZ( directoryName + "/edges.xyz" );
+
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
@@ -123,6 +117,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
+
     }
 
 
@@ -223,6 +218,7 @@ public class Object3DModel
         return rectangle;
     }
 
+    /*
     public List<MatOfPoint> detectContours( Mat image )
     {
         Mat canny = detectEdges( image );
@@ -314,40 +310,26 @@ public class Object3DModel
 
         return new Point( minX, minY );
     }
-
-    /*   private int findDepthPoint( HashMap<Integer, Integer> topEdge,
-                                   HashMap<Integer, Integer> bottomEdge, HashMap<Integer,
-               Integer> rightEdge, HashMap<Integer, Integer> leftEdge, int row, int column,
-               int plane, int lastDepth )
     */
+
+    /**
+     * Finds coordinate of point in 3rd dimension
+     * The point comes from the minimum or maximum edge point depending on the face
+     *
+     * @param horizontalEdge - HashMap of edge points in the horizontal direction
+     * @param verticalEdge   - HashMap of edge points in the vertical direction
+     * @param row            - current row of face
+     * @param column         - current column of face
+     * @param minOrMax       - true for min (back, right, and bottom faces) false for max (front,
+     *                       left and top faces)
+     * @param lastDepth      - the value of the previous depth point found
+     * @return - integer value of depth of this point
+     */
     private int findDepthPoint( HashMap<Integer, Integer> horizontalEdge, HashMap<Integer,
             Integer> verticalEdge, int row, int column, boolean minOrMax, int lastDepth )
     {
         int depth = - 1;
-/*
-        if( topEdge.containsKey( column ) )
-        {
-            min = topEdge.get( column );
-        }
 
-        if( bottomEdge.containsKey( column ) )
-        {
-            if( bottomEdge.get( column ) < min || min < 0 )
-                min = bottomEdge.get( column );
-        }
-
-        if( rightEdge.containsKey( row ) )
-        {
-            if( rightEdge.get( row ) < min || min < 0 )
-                min = rightEdge.get( row );
-        }
-
-        if( leftEdge.containsKey( row ) )
-        {
-            if( leftEdge.get( row ) < min || min < 0 )
-                min = leftEdge.get( row );
-        }
-*/
         if( horizontalEdge.containsKey( column ) )
         {
             depth = horizontalEdge.get( column );
@@ -393,13 +375,31 @@ public class Object3DModel
     public Mat histogramBackProjection( Mat image )
     {
         Mat hist = new Mat();
-        Mat noBackground = new Mat();
         int h_bins = 2;
         int s_bins = 2;
+        int rows = image.rows() - 1;
+        int cols = image.cols() - 1;
 
-        Mat mHSV = new Mat();
+        //      Mat tlHSV = new Mat();
+        Mat brHSV = new Mat();
+        Mat iHSV = new Mat();
+        //     Mat topLeft = image.submat( 0, 50, 0, 100 );
+        //    Mat bottomRight = image.submat( rows-50, rows, cols-100, cols );
 
-        Imgproc.cvtColor( image, mHSV, Imgproc.COLOR_BGR2HSV );
+        Mat top = image.submat( 0, 100, 0, cols );
+        Mat bottom = image.submat( rows - 100, rows, 0, cols );
+        Mat right = image.submat( 0, rows, cols - 200, cols );
+        Mat left = image.submat( 0, rows, 0, 200 );
+        image = image.submat( 100, rows - 100, 200, cols - 200 );
+
+//        Imgproc.cvtColor( topLeft, tlHSV, Imgproc.COLOR_BGR2HSV );
+//        Imgproc.cvtColor( bottomRight, brHSV, Imgproc.COLOR_BGR2HSV );
+
+        Imgproc.cvtColor( top, top, Imgproc.COLOR_BGR2HSV );
+        Imgproc.cvtColor( bottom, bottom, Imgproc.COLOR_BGR2HSV );
+        Imgproc.cvtColor( right, right, Imgproc.COLOR_BGR2HSV );
+        Imgproc.cvtColor( left, left, Imgproc.COLOR_BGR2HSV );
+        Imgproc.cvtColor( image, iHSV, Imgproc.COLOR_BGR2HSV );
 
         // C++:
         //int histSize[] = { h_bins, s_bins };
@@ -418,7 +418,11 @@ public class Object3DModel
         // calcHist( &hsv, 1, channels, mask, hist, 2, histSize, ranges, true, false );
 
         boolean accumulate = false;
-        Imgproc.calcHist( Arrays.asList( mHSV ), mChannels, new Mat(), hist, mHistSize, mRanges,
+        //  Imgproc.calcHist( Arrays.asList( tlHSV, brHSV ), mChannels, new Mat(), hist,
+        // mHistSize, mRanges,
+        //          accumulate );
+        Imgproc.calcHist( Arrays.asList( top, bottom, left, right ), mChannels, new Mat(), hist,
+                mHistSize, mRanges,
                 accumulate );
 
         // C++:
@@ -428,10 +432,11 @@ public class Object3DModel
         // C++:
         // calcBackProject( &hsv, 1, channels, hist, backProjection, ranges, 1, true );
         Mat backProjection = new Mat();
-        Imgproc.calcBackProject( Arrays.asList( mHSV ), mChannels, hist, backProjection, mRanges,
+        Imgproc.calcBackProject( Arrays.asList( iHSV ), mChannels, hist, backProjection, mRanges,
                 1 );
 
-        Core.inRange( backProjection, new Scalar( 255 ), new Scalar( 255 ), backProjection );
+
+        //Core.inRange( backProjection, new Scalar( 255 ), new Scalar( 255 ), backProjection );
         Core.inRange( backProjection, new Scalar( 0 ), new Scalar( 0 ), backProjection );
 
         return backProjection;
@@ -468,6 +473,9 @@ public class Object3DModel
         Mat noBackground = new Mat();
         Mat backProjection = histogramBackProjection( image );
 
+
+        image = image.submat( 100, image.rows() - 101, 200, image.cols() - 201 );
+
         int[] rect = cropImage( backProjection );
 
         image = image.submat( rect[0], rect[1], rect[2], rect[3] );
@@ -482,8 +490,12 @@ public class Object3DModel
 
     /**
      * Triangulates face by connecting nearest image pixel points
-     *
-     * @param image - background subtracted image to triangulate
+     * @param image - input image with background removed
+     * @param face - current face (front, right, back, left, top, or botoom) (0-5)
+     * @param minOrMax - true for min (back, right, and bottom faces) false for max (front,
+     *                 left and top faces)
+     * @param horizontalEdge - HashMap of edge points in the horizontal direction
+     * @param verticalEdge - HashMap of edge points in the vertical direction
      */
     public void triangulateImage2D( Mat image, int face, boolean minOrMax, HashMap<Integer,
             Integer> horizontalEdge, HashMap<Integer, Integer> verticalEdge )

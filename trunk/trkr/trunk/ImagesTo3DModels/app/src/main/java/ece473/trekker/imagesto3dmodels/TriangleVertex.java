@@ -22,6 +22,17 @@ public class TriangleVertex extends Point3
         setIndex( 0 );
     }
 
+    /**
+     * Creates a triangle vertex on the correct plane
+     *
+     * @param face      - face of object (front, right, back, left, top, bottom) (0,1,2,3,4,5)
+     * @param row       - current row image Mat
+     * @param column    - current column of image Mat
+     * @param maxRow    - height of image Mat
+     * @param maxColumn - width of image Mat
+     * @param depth     - depth point of vertex
+     * @return - a new TriangleVertex
+     */
     public static TriangleVertex buildTriangleVertex( int face, int row, int column, int maxRow,
                                                       int maxColumn, int depth )
     {

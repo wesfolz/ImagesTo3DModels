@@ -53,6 +53,14 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
 
+        //make window fullscreen
+        this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
+
         cameraView.setOnTouchListener( new View.OnTouchListener()
         {
             @Override
@@ -173,17 +181,17 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         Scalar red = new Scalar( 255, 0, 0 );
         //background rectangles
         Core.rectangle( rectMat, new org.opencv.core.Point( 0, 0 ), new org.opencv
-                .core.Point( 100, 50 ), blue );
-        Core.rectangle( rectMat, new org.opencv.core.Point( cols - 100, rows - 50 ), new org.opencv
+                .core.Point( cols, 100 ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( cols - 200, 0 ), new org.opencv
                 .core.Point( cols, rows ), blue );
-        Core.rectangle( rectMat, new org.opencv.core.Point( 0, rows - 50 ), new org.opencv
-                .core.Point( 100, rows ), blue );
-        Core.rectangle( rectMat, new org.opencv.core.Point( cols - 100, 0 ), new org.opencv
-                .core.Point( cols, 50 ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( 0, 0 ), new org.opencv
+                .core.Point( 200, rows ), blue );
+        Core.rectangle( rectMat, new org.opencv.core.Point( 0, rows - 100 ), new org.opencv
+                .core.Point( cols, rows ), blue );
         //object rectangles
-        Core.rectangle( rectMat, new org.opencv.core.Point( cols / 2 - 200, rows / 2 - 100 ),
-                new org.opencv
-                        .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
+        //  Core.rectangle( rectMat, new org.opencv.core.Point( 200, 100 ),
+        //          new org.opencv
+        //                 .core.Point( cols - 200, rows - 100 ), red );
 
 /*
         Mat grayImg = new Mat(  );
