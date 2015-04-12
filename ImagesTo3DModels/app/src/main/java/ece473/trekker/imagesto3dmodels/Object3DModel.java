@@ -3,12 +3,17 @@ package ece473.trekker.imagesto3dmodels;
 import android.util.Log;
 
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.core.TermCriteria;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.ml.CvSVM;
+import org.opencv.ml.CvSVMParams;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -50,11 +55,12 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
-        //Mat test = subtractBackgroundHistogram( imageArray.get( 0 ) );
-        //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
+        Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
+        //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
+        Highgui.imwrite( directoryName + "/noBackground.jpg", test );
         //ImagePlane testPlane = new ImagePlane( test );
         //testPlane.writeXYZ( directoryName + "/edges.xyz" );
-
+/*
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
@@ -117,7 +123,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-
+        */
     }
 
 
@@ -417,7 +423,7 @@ public class Object3DModel
         // C++:
         // calcHist( &hsv, 1, channels, mask, hist, 2, histSize, ranges, true, false );
 
-        boolean accumulate = false;
+        boolean accumulate = true;
         //  Imgproc.calcHist( Arrays.asList( tlHSV, brHSV ), mChannels, new Mat(), hist,
         // mHistSize, mRanges,
         //          accumulate );
@@ -434,6 +440,15 @@ public class Object3DModel
         Mat backProjection = new Mat();
         Imgproc.calcBackProject( Arrays.asList( iHSV ), mChannels, hist, backProjection, mRanges,
                 1 );
+
+        Mat disc = Imgproc.getStructuringElement( Imgproc.MORPH_ELLIPSE, new Size( 5, 5 ) );
+
+        Imgproc.filter2D( backProjection, backProjection, - 1, disc );
+
+        Imgproc.threshold( backProjection, backProjection, 50, 255, Imgproc.THRESH_BINARY );
+        Core.merge( Arrays.asList( backProjection, backProjection, backProjection ),
+                backProjection );
+        Core.bitwise_and( image, backProjection, backProjection );
 
 
         //Core.inRange( backProjection, new Scalar( 255 ), new Scalar( 255 ), backProjection );
@@ -471,8 +486,8 @@ public class Object3DModel
     public Mat subtractBackgroundHistogram( Mat image )
     {
         Mat noBackground = new Mat();
-        Mat backProjection = histogramBackProjection( image );
-
+        //Mat backProjection = histogramBackProjection( image );
+        Mat backProjection = subtractBackgroundMachineLearning( image );
 
         image = image.submat( 100, image.rows() - 101, 200, image.cols() - 201 );
 
@@ -485,6 +500,77 @@ public class Object3DModel
         image.copyTo( noBackground, backProjection );
 
         return noBackground;
+        //     return backProjection;
+    }
+
+
+    public Mat subtractBackgroundMachineLearning( Mat inputImage )
+    {
+        Mat image = new Mat();
+        Imgproc.cvtColor( inputImage, image, Imgproc.COLOR_BGR2HSV );
+
+//        Mat background = image.submat( 0, 100, 0, image.cols() );
+        //       Mat background = image.submat( 0, image.rows(), image.cols()-200, image.cols() );
+        //       Mat background = image.submat( 0, image.rows(), 0, 200 );
+        Mat background = image.submat( image.rows() - 100, image.rows(), 0, image.cols() );
+        Mat object = image.submat( image.rows() / 2 - 100, image.rows() / 2 + 100,
+                image.cols() / 2 - 200, image.cols() / 2 + 200 );
+        Mat trainData = new Mat( background.rows() * background.cols() + object.rows() + object
+                .cols(), 3, CvType.CV_32FC1 );
+        Mat responses = new Mat( background.rows() * background.cols() + object.rows() + object
+                .cols(), 1, CvType.CV_32FC1 );
+
+        for( int i = 0; i < background.rows(); i++ )
+        {
+            for( int j = 0; j < background.cols(); j++ )
+            {
+                trainData.put( i * background.rows() + j, 0, background.get( i, j ) );
+                responses.put( i * background.rows() + j, 0, - 1.0 );
+            }
+        }
+
+        for( int i = 0; i < object.rows(); i++ )
+        {
+            for( int j = 0; j < object.cols(); j++ )
+            {
+                trainData.put( background.rows() * background.cols() + i * object.rows() + j, 0,
+                        object.get( i, j ) );
+                responses.put( background.rows() * background.cols() + i * object.rows() + j, 0,
+                        1.0 );
+            }
+        }
+        CvSVMParams params = new CvSVMParams();
+        params.set_svm_type( CvSVM.C_SVC );
+        //params.set_C( 0.1 );
+        params.set_kernel_type( CvSVM.LINEAR );
+        params.set_term_crit( new TermCriteria( TermCriteria.COUNT + TermCriteria.EPS, 10000,
+                1e-6 ) );
+        CvSVM svm = new CvSVM();
+        svm.train( trainData, responses, new Mat(), new Mat(), params );
+
+        image = image.submat( 100, image.rows() - 100, 200, image.cols() - 200 );
+        Mat output = new Mat( image.size(), CvType.CV_8UC1 );
+        for( int i = 0; i < image.rows(); i++ )
+        {
+            for( int j = 0; j < image.cols(); j++ )
+            {
+                Mat input = new Mat( 1, 3, CvType.CV_32FC1 );
+                input.put( 0, 0, image.get( i, j ) );
+                float response = svm.predict( input );
+                if( response > 0 )
+                {
+                    output.put( i, j, 255 );
+                }
+                else
+                {
+                    output.put( i, j, 0 );
+                    //output.put( i, j, -1 );
+                }
+
+            }
+        }
+
+        return output;
     }
 
 

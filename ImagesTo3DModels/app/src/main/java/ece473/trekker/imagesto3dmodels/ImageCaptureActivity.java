@@ -189,9 +189,9 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         Core.rectangle( rectMat, new org.opencv.core.Point( 0, rows - 100 ), new org.opencv
                 .core.Point( cols, rows ), blue );
         //object rectangles
-        //  Core.rectangle( rectMat, new org.opencv.core.Point( 200, 100 ),
-        //          new org.opencv
-        //                 .core.Point( cols - 200, rows - 100 ), red );
+        Core.rectangle( rectMat, new org.opencv.core.Point( cols / 2 - 200, rows / 2 - 100 ),
+                new org.opencv
+                        .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
 
 /*
         Mat grayImg = new Mat(  );
