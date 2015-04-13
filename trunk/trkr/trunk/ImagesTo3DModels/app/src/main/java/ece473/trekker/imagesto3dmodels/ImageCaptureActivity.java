@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,14 +52,15 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView.setCvCameraViewListener( this );
 
         //make window fullscreen
-        this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
 
-        cameraView.setOnTouchListener( new View.OnTouchListener()
+   /*     cameraView.setOnTouchListener( new View.OnTouchListener()
         {
             @Override
             public boolean onTouch( View v, MotionEvent event )
@@ -77,7 +76,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 return false;
             }
         } );
-
+*/
         capture = false;
     }
 
