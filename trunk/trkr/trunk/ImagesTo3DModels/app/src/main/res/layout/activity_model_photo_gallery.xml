@@ -52,5 +52,6 @@
         android:id="@+id/progressBar"
         android:layout_above="@+id/create_model_button"
         android:layout_centerHorizontal="true"
-        android:indeterminate="true" />
+        android:indeterminate="true"
+        android:visibility="invisible" />
 </RelativeLayout>
