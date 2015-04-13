@@ -166,6 +166,8 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         OutputStream out = null;
         String testImagePath = MainMenuActivity.appDir + "/test12/images";
 
+        Object3DModel testModel = new Object3DModel("testModel", testImagePath);
+
         File testDir = new File( testImagePath );
         if( testDir.exists() )
         {
@@ -197,16 +199,7 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest6.jpg"
         ) );
         bitmap.compress( Bitmap.CompressFormat.JPEG, 100, out );
-
-        File[] images = new File( testImagePath ).listFiles();
-        ArrayList<Mat> imageArray = new ArrayList<>( images.length );
-        //create array list of Mat objects for processing
-        for( File f : images )
-        {
-            imageArray.add( Highgui.imread( f.getAbsolutePath() ) );
-        }
-
-        assertNotNull( imageArray );
+        assertNotNull(testModel.initData());
 
     }
 
