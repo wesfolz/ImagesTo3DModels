@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -44,10 +45,16 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         //LinearLayout layout = (LinearLayout) findViewById( R.id.photo_gallery_linear_layout );
 
+        final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
         objectName = new String( getIntent().getStringExtra( "modelName" ) );
-
+        String filePath = modelImageDirectory.getAbsolutePath().replace("images", "") + "/" + objectName + ".ply";
+        File objectFile = new File (filePath);
+        if(objectFile.exists()) {
+            openModelButton.setVisibility(View.VISIBLE);
+            openModelButton.setEnabled(true);
+        }
         /*
         File[] images = modelImageDirectory.listFiles();
         for( File f : images )
@@ -265,7 +272,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         if( imgAdapter.getThumbNails().size() == 6 )
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
+            final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
             createButton.setEnabled( false );
+            openModelButton.setEnabled(false);
             Log.e( "createModel", "Model initiated" );
             Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
                     Toast.LENGTH_SHORT ).show();
@@ -291,6 +300,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                                     Toast.LENGTH_LONG ).show();
                             Log.e( "createModel", "Model complete" );
                             createButton.setEnabled( true );
+                            openModelButton.setVisibility(View.VISIBLE);
+                            openModelButton.setEnabled(true);
+
                         }
                     } );
                 }
@@ -325,9 +337,23 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
     {
         Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
                 Toast.LENGTH_SHORT ).show();
-        //   Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.package
-        // .address");
-        //   startActivity(launchIntent);
+
+        String filePath = modelImageDirectory.getAbsolutePath().replace("images", "") + "/" + objectName + ".ply" ;
+
+        try
+        {
+            Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
+            File file = new File(filePath);
+            String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+            String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            myIntent.setDataAndType(Uri.fromFile(file),mimetype);
+            startActivity(myIntent);
+        }
+        catch (Exception e)
+        {
+            // TODO: handle exception
+            String data = e.getMessage();
+        }
 
     }
 
@@ -370,4 +396,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
     };
 
+    public void onBackPressed(){
+        Intent mainIntent = new Intent( this, MainMenuActivity.class );
+        startActivity( mainIntent );
+    }
 }

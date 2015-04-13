@@ -41,5 +41,16 @@
         android:onClick="open3DModel"
         android:layout_alignTop="@+id/create_model_button"
         android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_toEndOf="@+id/imageView"
+        android:enabled="false"
+        android:focusable="false"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_above="@+id/create_model_button"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true" />
 </RelativeLayout>
