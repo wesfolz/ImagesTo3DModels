@@ -55,12 +55,12 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
-        Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
+        //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
-        Highgui.imwrite( directoryName + "/noBackground.jpg", test );
+        //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
         //ImagePlane testPlane = new ImagePlane( test );
         //testPlane.writeXYZ( directoryName + "/edges.xyz" );
-/*
+
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
@@ -123,7 +123,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-        */
+
     }
 
 
@@ -509,10 +509,21 @@ public class Object3DModel
         Mat image = new Mat();
         Imgproc.cvtColor( inputImage, image, Imgproc.COLOR_BGR2HSV );
 
-//        Mat background = image.submat( 0, 100, 0, image.cols() );
-        //       Mat background = image.submat( 0, image.rows(), image.cols()-200, image.cols() );
-        //       Mat background = image.submat( 0, image.rows(), 0, 200 );
+        Mat top = image.submat( 0, 100, 0, image.cols() );
+        //       Mat right = image.submat( 0, image.rows(), image.cols()-200, image.cols() );
+        //      Mat left = image.submat( 0, image.rows(), 0, 200 );
         Mat background = image.submat( image.rows() - 100, image.rows(), 0, image.cols() );
+
+        //    Core.transpose( left,left );
+        //   Core.transpose( right,right );
+
+        //  Log.e( "createModel", "Right size " + right.size() );
+        Log.e( "createModel", "bottom size " + background.size() );
+
+        background.push_back( top );
+        //    background.push_back( right );
+        //   background.push_back( left );
+
         Mat object = image.submat( image.rows() / 2 - 100, image.rows() / 2 + 100,
                 image.cols() / 2 - 200, image.cols() / 2 + 200 );
         Mat trainData = new Mat( background.rows() * background.cols() + object.rows() + object

@@ -18,6 +18,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.OpenCVLoader;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +81,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             }
         } );
 
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        OpenCVLoader.initAsync( OpenCVLoader.OPENCV_VERSION_2_4_6, this, loaderCallback );
     }
 
     /**
@@ -340,5 +350,24 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         imgAdapter.updateAdapter();
     }
 
+
+    /**
+     * Callback that enables camera view
+     */
+    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback( this )
+    {
+        @Override
+        public void onManagerConnected( int status )
+        {
+            switch( status )
+            {
+                default:
+                {
+                    super.onManagerConnected( status );
+                }
+                break;
+            }
+        }
+    };
 
 }
