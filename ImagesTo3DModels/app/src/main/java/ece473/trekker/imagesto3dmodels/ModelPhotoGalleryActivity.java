@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -273,9 +274,12 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
             createButton.setEnabled( false );
             openModelButton.setEnabled(false);
-            Log.e( "createModel", "Model initiated" );
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setEnabled(true);
+            Log.e("createModel", "Model initiated");
             Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
                     Toast.LENGTH_SHORT ).show();
 
@@ -302,6 +306,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                             createButton.setEnabled( true );
                             openModelButton.setVisibility(View.VISIBLE);
                             openModelButton.setEnabled(true);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setEnabled(false);
 
                         }
                     } );

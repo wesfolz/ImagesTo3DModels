@@ -1341,13 +1341,13 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f090022;
         public static final int action_bar_title=0x7f090021;
         public static final int action_context_bar=0x7f090035;
-        public static final int action_delete=0x7f09004b;
+        public static final int action_delete=0x7f09004c;
         public static final int action_menu_divider=0x7f090002;
         public static final int action_menu_presenter=0x7f090003;
         public static final int action_mode_bar=0x7f090031;
         public static final int action_mode_bar_stub=0x7f090030;
         public static final int action_mode_close_button=0x7f090023;
-        public static final int action_settings=0x7f09004a;
+        public static final int action_settings=0x7f09004b;
         public static final int activity_chooser_view_content=0x7f090024;
         public static final int always=0x7f090019;
         public static final int any=0x7f090013;
@@ -1384,6 +1384,7 @@ containing a value of this type.
         public static final int none=0x7f09000e;
         public static final int normal=0x7f09000a;
         public static final int open_3D_model=0x7f090049;
+        public static final int progressBar=0x7f09004a;
         public static final int progress_circular=0x7f090005;
         public static final int progress_horizontal=0x7f090006;
         public static final int radio=0x7f09002e;
