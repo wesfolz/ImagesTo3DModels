@@ -50,11 +50,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
         objectName = new String( getIntent().getStringExtra( "modelName" ) );
-        String filePath = modelImageDirectory.getAbsolutePath().replace("images", "") + "/" + objectName + ".ply";
-        File objectFile = new File (filePath);
-        if(objectFile.exists()) {
-            openModelButton.setVisibility(View.VISIBLE);
-            openModelButton.setEnabled(true);
+        String filePath = modelImageDirectory.getAbsolutePath().replace( "images",
+                "" ) + "/" + objectName + ".ply";
+        File objectFile = new File( filePath );
+        if( objectFile.exists() )
+        {
+            openModelButton.setVisibility( View.VISIBLE );
+            openModelButton.setEnabled( true );
         }
         /*
         File[] images = modelImageDirectory.listFiles();
@@ -274,12 +276,12 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
-            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            final ProgressBar progressBar = (ProgressBar) findViewById( R.id.progressBar );
             createButton.setEnabled( false );
-            openModelButton.setEnabled(false);
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setEnabled(true);
-            Log.e("createModel", "Model initiated");
+            openModelButton.setEnabled( false );
+            progressBar.setVisibility( View.VISIBLE );
+            progressBar.setEnabled( true );
+            Log.e( "createModel", "Model initiated" );
             Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
                     Toast.LENGTH_SHORT ).show();
 
@@ -304,10 +306,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                                     Toast.LENGTH_LONG ).show();
                             Log.e( "createModel", "Model complete" );
                             createButton.setEnabled( true );
-                            openModelButton.setVisibility(View.VISIBLE);
-                            openModelButton.setEnabled(true);
-                            progressBar.setVisibility(View.INVISIBLE);
-                            progressBar.setEnabled(false);
+                            openModelButton.setVisibility( View.VISIBLE );
+                            openModelButton.setEnabled( true );
+                            progressBar.setVisibility( View.INVISIBLE );
+                            progressBar.setEnabled( false );
 
                         }
                     } );
@@ -344,18 +346,21 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
                 Toast.LENGTH_SHORT ).show();
 
-        String filePath = modelImageDirectory.getAbsolutePath().replace("images", "") + "/" + objectName + ".ply" ;
+        String filePath = modelImageDirectory.getAbsolutePath().replace( "images",
+                "" ) + "/" + objectName + ".ply";
 
         try
         {
-            Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
-            File file = new File(filePath);
-            String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
-            String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-            myIntent.setDataAndType(Uri.fromFile(file),mimetype);
-            startActivity(myIntent);
+            Intent myIntent = new Intent( android.content.Intent.ACTION_VIEW );
+            File file = new File( filePath );
+            String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl( Uri.fromFile(
+                    file ).toString() );
+            String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    extension );
+            myIntent.setDataAndType( Uri.fromFile( file ), mimetype );
+            startActivity( myIntent );
         }
-        catch (Exception e)
+        catch( Exception e )
         {
             // TODO: handle exception
             String data = e.getMessage();
@@ -402,7 +407,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
     };
 
-    public void onBackPressed(){
+    public void onBackPressed()
+    {
         Intent mainIntent = new Intent( this, MainMenuActivity.class );
         startActivity( mainIntent );
     }

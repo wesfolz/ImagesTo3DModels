@@ -17,13 +17,14 @@ import org.opencv.ml.CvSVMParams;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by wesley on 2/28/2015.
@@ -55,12 +56,13 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
+        compressFile( directoryName + "/" + modelName + ".ply" );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
         //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
         //ImagePlane testPlane = new ImagePlane( test );
         //testPlane.writeXYZ( directoryName + "/edges.xyz" );
-
+/*
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
@@ -123,7 +125,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-
+*/
     }
 
 
@@ -509,34 +511,43 @@ public class Object3DModel
         Mat image = new Mat();
         Imgproc.cvtColor( inputImage, image, Imgproc.COLOR_BGR2HSV );
 
-        Mat top = image.submat( 0, 100, 0, image.cols() );
-        //       Mat right = image.submat( 0, image.rows(), image.cols()-200, image.cols() );
-        //      Mat left = image.submat( 0, image.rows(), 0, 200 );
-        Mat background = image.submat( image.rows() - 100, image.rows(), 0, image.cols() );
+        Mat backgroundHorizontal = image.submat( 0, 100, 0, image.cols() );
+        Mat backgroundVertical = image.submat( 0, image.rows(), 0, 200 );
+        Mat right = image.submat( 0, image.rows(), image.cols() - 200, image.cols() );
+        Mat bottom = image.submat( image.rows() - 100, image.rows(), 0,
+                image.cols() );
 
-        //    Core.transpose( left,left );
-        //   Core.transpose( right,right );
-
-        //  Log.e( "createModel", "Right size " + right.size() );
-        Log.e( "createModel", "bottom size " + background.size() );
-
-        background.push_back( top );
-        //    background.push_back( right );
-        //   background.push_back( left );
+        backgroundHorizontal.push_back( bottom );
+        backgroundVertical.push_back( right );
 
         Mat object = image.submat( image.rows() / 2 - 100, image.rows() / 2 + 100,
                 image.cols() / 2 - 200, image.cols() / 2 + 200 );
-        Mat trainData = new Mat( background.rows() * background.cols() + object.rows() + object
+        Mat trainData = new Mat( backgroundHorizontal.rows() * backgroundHorizontal.cols() +
+                backgroundVertical.rows() * backgroundVertical.cols() + object.rows() + object
                 .cols(), 3, CvType.CV_32FC1 );
-        Mat responses = new Mat( background.rows() * background.cols() + object.rows() + object
+        Mat responses = new Mat( backgroundHorizontal.rows() * backgroundHorizontal.cols() +
+                backgroundVertical.rows() * backgroundVertical.cols() + object.rows() + object
                 .cols(), 1, CvType.CV_32FC1 );
 
-        for( int i = 0; i < background.rows(); i++ )
+        for( int i = 0; i < backgroundHorizontal.rows(); i++ )
         {
-            for( int j = 0; j < background.cols(); j++ )
+            for( int j = 0; j < backgroundHorizontal.cols(); j++ )
             {
-                trainData.put( i * background.rows() + j, 0, background.get( i, j ) );
-                responses.put( i * background.rows() + j, 0, - 1.0 );
+                trainData.put( i * backgroundHorizontal.rows() + j, 0,
+                        backgroundHorizontal.get( i, j ) );
+                responses.put( i * backgroundHorizontal.rows() + j, 0, - 1.0 );
+            }
+        }
+
+        for( int i = 0; i < backgroundVertical.rows(); i++ )
+        {
+            for( int j = 0; j < backgroundVertical.cols(); j++ )
+            {
+                trainData.put( backgroundHorizontal.rows() * backgroundHorizontal.cols() + i *
+                        backgroundVertical.rows() + j, 0, backgroundVertical.get( i, j ) );
+
+                responses.put( backgroundHorizontal.rows() * backgroundHorizontal.cols() + i *
+                        backgroundVertical.rows() + j, 0, - 1.0 );
             }
         }
 
@@ -544,10 +555,13 @@ public class Object3DModel
         {
             for( int j = 0; j < object.cols(); j++ )
             {
-                trainData.put( background.rows() * background.cols() + i * object.rows() + j, 0,
-                        object.get( i, j ) );
-                responses.put( background.rows() * background.cols() + i * object.rows() + j, 0,
-                        1.0 );
+                trainData.put( backgroundHorizontal.rows() * backgroundHorizontal.cols() +
+                        backgroundVertical.rows() * backgroundVertical.cols() + i *
+                        object.rows() + j, 0, object.get( i, j ) );
+
+                responses.put( backgroundHorizontal.rows() * backgroundHorizontal.cols() +
+                        backgroundVertical.rows() * backgroundVertical.cols() + i *
+                        object.rows() + j, 0, 1.0 );
             }
         }
         CvSVMParams params = new CvSVMParams();
@@ -587,12 +601,13 @@ public class Object3DModel
 
     /**
      * Triangulates face by connecting nearest image pixel points
-     * @param image - input image with background removed
-     * @param face - current face (front, right, back, left, top, or botoom) (0-5)
-     * @param minOrMax - true for min (back, right, and bottom faces) false for max (front,
-     *                 left and top faces)
+     *
+     * @param image          - input image with background removed
+     * @param face           - current face (front, right, back, left, top, or botoom) (0-5)
+     * @param minOrMax       - true for min (back, right, and bottom faces) false for max (front,
+     *                       left and top faces)
      * @param horizontalEdge - HashMap of edge points in the horizontal direction
-     * @param verticalEdge - HashMap of edge points in the vertical direction
+     * @param verticalEdge   - HashMap of edge points in the vertical direction
      */
     public void triangulateImage2D( Mat image, int face, boolean minOrMax, HashMap<Integer,
             Integer> horizontalEdge, HashMap<Integer, Integer> verticalEdge )
@@ -729,6 +744,7 @@ public class Object3DModel
             }
 
             bos.close();
+            compressFile( filepath );
         }
         catch( IOException e )
         {
@@ -772,17 +788,38 @@ public class Object3DModel
             }
 
             bos.close();
+
+            compressFile( filepath );
+
         }
-        catch( FileNotFoundException e )
+        catch( IOException e )
         {
             e.printStackTrace();
         }
-        catch( IOException e1 )
-        {
-            e1.printStackTrace();
-        }
 
         Log.e( "triangulateImage2D", "obj written" );
+    }
+
+    public void compressFile( String filepath )
+    {
+        File outputFile = null;
+        try
+        {
+            outputFile = new File( filepath );
+            FileInputStream fis = new FileInputStream( outputFile );
+            long length = outputFile.length();
+            byte[] byteBuffer = new byte[(int) length];
+            fis.read( byteBuffer );
+            GZIPOutputStream gos = new GZIPOutputStream( new FileOutputStream( new File( filepath
+                    + ".gzip" ) ) );
+            gos.write( byteBuffer );
+            gos.close();
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+
     }
 
     /**
