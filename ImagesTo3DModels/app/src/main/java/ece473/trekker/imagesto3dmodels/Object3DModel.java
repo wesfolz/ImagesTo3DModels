@@ -44,14 +44,15 @@ public class Object3DModel
     /**
      * Creates Model through following steps:
      * 1. Subtract background of all images.
-     * 2. Find four outer edges for each image.
-     * 3. Triangulate each image to generate list of vertices and faces.
-     * 4. Write vertices and faces to graphics file.
+     * 2. Resize each image so edges are all the same length
+     * 3. Find four outer edges for each image.
+     * 4. Triangulate each image to generate list of vertices and faces.
+     * 5. Write vertices and faces to graphics file.
      */
     public void create3DModel()
     {
         ArrayList<Mat> imageArray = initData();
-        ArrayList<Mat> noBackgroundImages = new ArrayList<>();
+        Vector<Mat> noBackgroundImages = new Vector<>();
         Vector<ImagePlane> imagePlanes = new Vector<>();
         Mat nbi;
         int face = 0;
@@ -67,12 +68,19 @@ public class Object3DModel
         {
             //subtract background
             nbi = subtractBackgroundHistogram( m );
-            //write Mat to jpg file
-            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", nbi );
             noBackgroundImages.add( nbi );
-            //       noBackgroundImages.add( m );
+            //noBackgroundImages.add( m );
+        }
+
+        for( Mat m : noBackgroundImages )
+        {
+            //resize images
+            resizeImages( noBackgroundImages, m, face );
             //create image plane
-            imagePlanes.add( new ImagePlane( nbi ) );
+            cropImage( m );
+            imagePlanes.add( new ImagePlane( m ) );
+            //write Mat to jpg file
+            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", m );
             face++;
         }
 
@@ -102,11 +110,6 @@ public class Object3DModel
 
         //Left Face:
         //Left edge of Top, Left edge of Bottom, Left edge of Front, Right Edge of Back
-//        triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
-//                imagePlanes.get( FACE_LEFT ).getPlane(), imagePlanes.get( FACE_TOP ).leftEdge,
-//                imagePlanes.get( FACE_BOTTOM ).leftEdge, imagePlanes.get( FACE_FRONT ).leftEdge,
-//                imagePlanes.get( FACE_BACK ).rightEdge );
-
         triangulateImage2D( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
                 false, imagePlanes.get( FACE_TOP ).leftEdge,
                 imagePlanes.get( FACE_FRONT ).leftEdge );
@@ -124,7 +127,6 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-
     }
 
 
@@ -478,6 +480,126 @@ public class Object3DModel
         return imageArray;
     }
 
+    private void resizeImages( Vector<Mat> images, Mat image, int face )
+    {
+        switch( face )
+        {
+            case FACE_FRONT:
+                float horizontal = images.get( FACE_BOTTOM ).cols();
+                float bottom = image.cols();
+                float vertical = images.get( FACE_RIGHT ).rows();
+                float right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+
+            case FACE_RIGHT:
+                horizontal = images.get( FACE_TOP ).cols();
+                bottom = image.cols();
+                vertical = images.get( FACE_FRONT ).rows();
+                right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+
+            case FACE_BACK:
+                horizontal = images.get( FACE_BOTTOM ).cols();
+                bottom = image.cols();
+                vertical = images.get( FACE_RIGHT ).rows();
+                right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+
+            case FACE_LEFT:
+                horizontal = images.get( FACE_BOTTOM ).cols();
+                bottom = image.cols();
+                vertical = images.get( FACE_RIGHT ).rows();
+                right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+
+            case FACE_TOP:
+                horizontal = images.get( FACE_FRONT ).cols();
+                bottom = image.cols();
+                vertical = images.get( FACE_RIGHT ).rows();
+                right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+
+            case FACE_BOTTOM:
+                horizontal = images.get( FACE_BOTTOM ).cols();
+                bottom = image.cols();
+                vertical = images.get( FACE_RIGHT ).rows();
+                right = image.rows();
+
+                if( horizontal < bottom )
+                {
+                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
+                            horizontal / bottom,
+                            Imgproc.INTER_AREA );
+                }
+                if( vertical < right )
+                {
+                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
+                            Imgproc.INTER_AREA );
+                }
+                break;
+        }
+    }
+
     /**
      * Removes and crops image based on histogram
      *
@@ -487,8 +609,8 @@ public class Object3DModel
     public Mat subtractBackgroundHistogram( Mat image )
     {
         Mat noBackground = new Mat();
-        //Mat backProjection = histogramBackProjection( image );
-        Mat backProjection = subtractBackgroundMachineLearning( image );
+        Mat backProjection = histogramBackProjection( image );
+        //Mat backProjection = subtractBackgroundMachineLearning( image );
 
         image = image.submat( 100, image.rows() - 101, 200, image.cols() - 201 );
 
@@ -622,7 +744,7 @@ public class Object3DModel
         boolean recentlyAdded = false;
         int column;
         int row;
-        int clusterSize = 4;
+        int clusterSize = 8;
         int numCols = image.cols();
         int numRows = image.rows();
         int colIter = numCols - clusterSize;

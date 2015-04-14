@@ -1472,9 +1472,8 @@ containing a value of this type.
         public static final int action_delete=0x7f0b0010;
         public static final int action_settings=0x7f0b0011;
         public static final int app_name=0x7f0b0012;
-        public static final int hello_world=0x7f0b0013;
-        public static final int title_activity_image_capture=0x7f0b0014;
-        public static final int title_activity_model_photo_gallery=0x7f0b0015;
+        public static final int title_activity_image_capture=0x7f0b0013;
+        public static final int title_activity_model_photo_gallery=0x7f0b0014;
     }
     public static final class style {
         /**  Customize your theme here. 
