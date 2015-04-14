@@ -20,18 +20,21 @@ import java.util.ArrayList;
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
  */
-public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<ImageCaptureActivity> {
+public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<ImageCaptureActivity>
+{
 
     private ImageCaptureActivity activity;
 
-    public ImageCaptureActivityTest(){
-        super(ImageCaptureActivity.class);
+    public ImageCaptureActivityTest()
+    {
+        super( ImageCaptureActivity.class );
     }
 
     @Override
-    public void setUp() throws Exception{
+    public void setUp() throws Exception
+    {
         super.setUp();
-        setActivityInitialTouchMode(false);
+        setActivityInitialTouchMode( false );
         activity = getActivity();
     }
 
@@ -52,12 +55,13 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         assertNotNull( image );
     }
 
-    public void testCalibrationButton() throws Exception{
+    public void testCalibrationButton() throws Exception
+    {
         final View decorView = activity.getWindow().getDecorView();
 
-        ImageButton flashButton = (ImageButton) activity.findViewById(R.id.flash_button);
-        ViewAsserts.assertOnScreen(decorView, flashButton);
-        TouchUtils.clickView(this, flashButton);
+        ImageButton flashButton = (ImageButton) activity.findViewById( R.id.flash_button );
+        ViewAsserts.assertOnScreen( decorView, flashButton );
+        TouchUtils.clickView( this, flashButton );
 
         assertTrue( true );
 
@@ -75,9 +79,7 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
 
         Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
 
-        ImagePlane plane = new ImagePlane( image, 0 );
-        plane.setPlane( 0, 0 );
-        plane.findMinEdges();
+        ImagePlane plane = new ImagePlane( image );
 
         assertTrue( plane.topEdge.size() > 0 );
         assertTrue( plane.bottomEdge.size() > 0 );
@@ -97,11 +99,8 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         Object3DModel model = new Object3DModel( "test", testImagePath );
         Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
 
-        ImagePlane plane = new ImagePlane( image, 0 );
-        plane.setPlane( 0, 0 );
-        plane.findMinEdges();
-        model.triangulateImage2D( image, 0, plane.getPlaneFace(), plane.topEdge,
-                plane.bottomEdge, plane.rightEdge, plane.leftEdge );
+        ImagePlane plane = new ImagePlane( image );
+        model.triangulateImage2D( image, 0, false, plane.topEdge, plane.leftEdge );
         assertTrue( model.getTriangleFaceArray().size() > 0 );
         assertTrue( model.getVertexArray().size() > 0 );
     }
@@ -119,11 +118,10 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         Object3DModel model = new Object3DModel( "test", testImagePath );
         Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
 
-        ImagePlane plane = new ImagePlane( image, 0 );
-        plane.setPlane( 0, 0 );
-        plane.findMinEdges();
-        model.triangulateImage2D( image, 0, plane.getPlaneFace(), plane.topEdge,
-                plane.bottomEdge, plane.rightEdge, plane.leftEdge );
+        ImagePlane plane = new ImagePlane( image );
+
+        model.triangulateImage2D( image, 0, true, plane.topEdge,
+                plane.leftEdge );
 
         model.writeOBJFile( MainMenuActivity.appDir + "/test/test.obj" );
         File objFile = new File( MainMenuActivity.appDir + "/test/test.obj" );
@@ -143,11 +141,10 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         Object3DModel model = new Object3DModel( "test", testImagePath );
         Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
 
-        ImagePlane plane = new ImagePlane( image, 0 );
-        plane.setPlane( 0, 0 );
-        plane.findMinEdges();
-        model.triangulateImage2D( image, 0, plane.getPlaneFace(), plane.topEdge,
-                plane.bottomEdge, plane.rightEdge, plane.leftEdge );
+        ImagePlane plane = new ImagePlane( image );
+
+        model.triangulateImage2D( image, 0, true, plane.topEdge,
+                plane.leftEdge );
 
         model.writePLYFile( MainMenuActivity.appDir + "/test/test.ply" );
         File plyFile = new File( MainMenuActivity.appDir + "/test/test.ply" );
@@ -166,7 +163,7 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         OutputStream out = null;
         String testImagePath = MainMenuActivity.appDir + "/test12/images";
 
-        Object3DModel testModel = new Object3DModel("testModel", testImagePath);
+        Object3DModel testModel = new Object3DModel( "testModel", testImagePath );
 
         File testDir = new File( testImagePath );
         if( testDir.exists() )
@@ -199,13 +196,14 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest6.jpg"
         ) );
         bitmap.compress( Bitmap.CompressFormat.JPEG, 100, out );
-        assertNotNull(testModel.initData());
+        assertNotNull( testModel.initData() );
 
     }
 
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         super.tearDown();
     }
 }
