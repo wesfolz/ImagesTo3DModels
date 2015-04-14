@@ -56,13 +56,12 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
-        compressFile( directoryName + "/" + modelName + ".ply" );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
         //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
         //ImagePlane testPlane = new ImagePlane( test );
         //testPlane.writeXYZ( directoryName + "/edges.xyz" );
-/*
+
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
@@ -125,7 +124,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-*/
+
     }
 
 
@@ -800,6 +799,11 @@ public class Object3DModel
         Log.e( "triangulateImage2D", "obj written" );
     }
 
+    /**
+     * Gunzips the file located at filepath
+     *
+     * @param filepath - path to file
+     */
     public void compressFile( String filepath )
     {
         File outputFile = null;
