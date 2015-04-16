@@ -88,6 +88,12 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     delete = false;
                     imgAdapter.updateAdapter();
                 }
+                else{
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    String filename = (String) imgAdapter.getItem( position ).keySet().toArray()[0];
+                    i.setDataAndType(Uri.parse("file://"+modelImageDirectory.getAbsolutePath()+"/"+filename),"image/jpeg");
+                    startActivity(i);
+                }
             }
         } );
 
@@ -272,7 +278,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public boolean createModel( View view )
     {
-        if( imgAdapter.getThumbNails().size() == 6 )
+        if( imgAdapter.getThumbNails().size() < 6 )
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
