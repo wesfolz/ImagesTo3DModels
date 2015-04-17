@@ -41,7 +41,7 @@ public class MainMenuActivity extends ActionBarActivity
 
         setContentView( R.layout.activity_main_menu );
 
-        final GridView gridview = (GridView) findViewById( R.id.buttonGrid );
+        gridview = (GridView) findViewById( R.id.buttonGrid );
         imgAdapter = new ImageAdapter( this );
         gridview.setAdapter( imgAdapter );
 
@@ -125,13 +125,16 @@ public class MainMenuActivity extends ActionBarActivity
         @Override
         public Map<String, Bitmap> getItem( int position )
         {
-
             return mThumbIds.get( position );
         }
 
         public long getItemId( int position )
         {
             return 0;
+        }
+
+        public View getViewByPosition(int position){
+            return views.get(position);
         }
 
         public List<Map<String, Bitmap>> getThumbNails()
@@ -193,7 +196,7 @@ public class MainMenuActivity extends ActionBarActivity
                 imageView.setImageBitmap( mThumbIds.get( position ).get(mThumbIds.get( position ).keySet().toArray()[0]));
                 imageView.setTag("image");
             }
-
+            views.add(position, imageView);
             return imageView;
         }
 
@@ -209,6 +212,7 @@ public class MainMenuActivity extends ActionBarActivity
         //private ArrayList<Bitmap> mThumbIds = getThumbNails();
         final BitmapFactory.Options options = new BitmapFactory.Options();
         private List<Map<String, Bitmap>> mThumbIds = getThumbNails();
+        private ArrayList<View> views = new ArrayList<>();
 
 
     }
@@ -374,7 +378,7 @@ public class MainMenuActivity extends ActionBarActivity
         String outputFilePath = appDir + "/" + filename + "/" + filename;
 
         //create intent to send multiple items
-        Intent emailDataIntent = new Intent( Intent.ACTION_SEND_MULTIPLE );
+        emailDataIntent = new Intent( Intent.ACTION_SEND_MULTIPLE );
         //set mime type to email messages
         emailDataIntent.setType( "message/rfc822" );
         //emailDataIntent.putExtra( Intent.EXTRA_EMAIL, new String[]{"wesleyfolz@gmail.com"} );
@@ -407,17 +411,25 @@ public class MainMenuActivity extends ActionBarActivity
 
     }
 
+    public ImageAdapter getImgAdapter(){
+        return imgAdapter;
+    }
+    public GridView getGridview(){
+        return gridview;
+    }
+
     /**
      * String storing application file name
      */
     public static final String APPLICATION_DIRECTORY_NAME = "Images_To_3D_Models";
     public static final File appDir = createApplicationDirectory();
     public static final File thmNailDir = createDirectory( "thumbNails" );
+    private GridView gridview;
     private String objectName;
     private ImageAdapter imgAdapter;
 
+    Intent emailDataIntent;
     boolean delete = false;
-
     boolean share = false;
 
 }
