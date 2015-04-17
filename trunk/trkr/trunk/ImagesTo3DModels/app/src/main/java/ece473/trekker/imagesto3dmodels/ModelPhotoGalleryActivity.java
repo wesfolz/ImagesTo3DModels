@@ -418,4 +418,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         Intent mainIntent = new Intent( this, MainMenuActivity.class );
         startActivity( mainIntent );
     }
+
+    public File getModelImageDirectory(){
+        return modelImageDirectory;
+    }
 }
