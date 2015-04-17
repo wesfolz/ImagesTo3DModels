@@ -278,7 +278,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public boolean createModel( View view )
     {
-        if( imgAdapter.getThumbNails().size() < 6 )
+        if( imgAdapter.getThumbNails().size() == 6 )
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
