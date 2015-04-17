@@ -39,7 +39,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 
     /**
-     * Tests requirement 1.4 to make sure image planes are creating outer edges
+     * Tests requirement 1.9 to ensure sharing of object file.
      *
      * @throws Exception
      */

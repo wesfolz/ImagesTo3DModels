@@ -926,7 +926,7 @@ public class Object3DModel
      *
      * @param filepath - path to file
      */
-    public void compressFile( String filepath )
+    public static void compressFile(String filepath)
     {
         File outputFile = null;
         try
