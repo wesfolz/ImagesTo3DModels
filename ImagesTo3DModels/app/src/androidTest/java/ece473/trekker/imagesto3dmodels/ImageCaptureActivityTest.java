@@ -15,7 +15,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
@@ -36,23 +35,6 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         super.setUp();
         setActivityInitialTouchMode( false );
         activity = getActivity();
-    }
-
-    public void testImageCaptureButton() throws Exception
-    {
-        final ImageButton captureButton = (ImageButton) activity.findViewById( R.id
-                .capture_button );
-        String testImagePath = MainMenuActivity.appDir + "/test/images/";
-/*        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                captureButton.performClick();
-            }
-        });
-*/
-        Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
-
-        assertNotNull( image );
     }
 
     public void testCalibrationButton() throws Exception

@@ -192,6 +192,9 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 new org.opencv
                         .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
 
+
+        //Mat edges = Object3DModel.detectEdges( inputFrame.rgba() );
+
 /*
         Mat grayImg = new Mat(  );
         Mat binaryMask = new Mat(  );

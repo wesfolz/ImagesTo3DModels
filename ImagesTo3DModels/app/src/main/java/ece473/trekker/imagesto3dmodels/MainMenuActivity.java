@@ -236,12 +236,15 @@ public class MainMenuActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if( id == R.id.action_share )
         {
+            Toast.makeText( getApplicationContext(), "Select model to share.",
+                    Toast.LENGTH_SHORT ).show();
             share = true;
             delete = false;
             return true;
         }
         else if( id == R.id.action_delete )
         {
+            Toast.makeText( getApplicationContext(), "Select model to delete.", Toast.LENGTH_SHORT ).show();
             share = false;
             delete = true;
             return true;
@@ -346,13 +349,11 @@ public class MainMenuActivity extends ActionBarActivity
 
     public void deleteObject( String filename )
     {
-
         File dir = new File( appDir, filename );
         File thmFile = new File( thmNailDir, filename + ".png" );
 
         if( dir.exists() )
         {
-
             DeleteRecursive( dir );
             thmFile.delete();
         }
@@ -372,25 +373,39 @@ public class MainMenuActivity extends ActionBarActivity
         fileOrDirectory.delete();
     }
 
+    /**
+     * Starts an action send intent so that user can share models
+     *
+     * @param filename
+     */
     public void shareModel( String filename )
     {
         share = false;
         String outputFilePath = appDir + "/" + filename + "/" + filename;
-
         //create intent to send multiple items
         emailDataIntent = new Intent( Intent.ACTION_SEND_MULTIPLE );
         //set mime type to email messages
         emailDataIntent.setType( "message/rfc822" );
-        //emailDataIntent.putExtra( Intent.EXTRA_EMAIL, new String[]{"wesleyfolz@gmail.com"} );
         //add a subject to the email
         emailDataIntent.putExtra( Intent.EXTRA_SUBJECT, filename );
         ArrayList<Uri> uris = new ArrayList<>();
-        uris.add( Uri.parse( "file://" + outputFilePath + ".ply" + ".gzip" ) );
-        //uris.add( Uri.parse( "file://" + outputFilePath + ".obj"  ) );
-        //attach files to email
-        emailDataIntent.putParcelableArrayListExtra( Intent.EXTRA_STREAM, uris );
-        //start email client
-        startActivity( emailDataIntent );
+        File plyFile = new File( outputFilePath + ".ply" + ".gzip" );
+        File objFile = new File( outputFilePath + ".obj" + ".gzip" );
+
+        //attach ply file if it exists
+        if( plyFile.exists() )
+            uris.add( Uri.parse( "file://" + outputFilePath + ".ply" + ".gzip" ) );
+
+        //attach obj file if it exists
+        if( objFile.exists() )
+            uris.add( Uri.parse( "file://" + outputFilePath + ".obj" + ".gzip" ) );
+        //attach files to email if one or both exist
+        if( uris.size() > 0 )
+        {
+            emailDataIntent.putParcelableArrayListExtra( Intent.EXTRA_STREAM, uris );
+            //start email client
+            startActivity( emailDataIntent );
+        }
     }
 
     @Override

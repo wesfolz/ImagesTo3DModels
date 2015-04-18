@@ -225,7 +225,6 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
     public void deleteImage( String filename )
     {
-
         File imageFile = new File( modelImageDirectory, filename );
 
         if( imageFile.exists() )
@@ -264,7 +263,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
         else if( id == R.id.action_delete )
         {
-
+            Toast.makeText( getApplicationContext(), "Select photo to delete.",
+                    Toast.LENGTH_SHORT ).show();
             delete = true;
             return true;
         }
