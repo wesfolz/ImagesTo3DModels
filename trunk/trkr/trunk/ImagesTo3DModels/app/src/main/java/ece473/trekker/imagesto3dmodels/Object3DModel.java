@@ -7,6 +7,8 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
@@ -23,7 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -52,8 +54,10 @@ public class Object3DModel
     public void create3DModel()
     {
         ArrayList<Mat> imageArray = initData();
-        Vector<Mat> noBackgroundImages = new Vector<>();
-        Vector<ImagePlane> imagePlanes = new Vector<>();
+        ArrayList<Mat> noBackgroundImages = new ArrayList<>();
+        ArrayList<ImagePlane> imagePlanes = new ArrayList<>();
+        ArrayList<ImagePlane> initialPlanes = new ArrayList<>();
+
         Mat nbi;
         int face = 0;
 
@@ -68,23 +72,35 @@ public class Object3DModel
         {
             //subtract background
             nbi = subtractBackgroundHistogram( m );
-            noBackgroundImages.add( nbi );
-            //noBackgroundImages.add( m );
-        }
+            int[] rect = cropImage( nbi );
 
+            nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
+            initialPlanes.add( new ImagePlane( nbi ) );
+            noBackgroundImages.add( nbi );
+        }
+        face = findMinFace( noBackgroundImages );
+
+        //resize images and find outer edges
         for( Mat m : noBackgroundImages )
         {
+            //start with smallest face
             //resize images
-            resizeImages( noBackgroundImages, m, face );
+            resizeImages( initialPlanes, noBackgroundImages.get( face % 6 ), face % 6 );
+            //int[] rect = cropImage( m );
+
+            //m =  m.submat( rect[0], rect[1], rect[2], rect[3] );
             //create image plane
-            cropImage( m );
-            imagePlanes.add( new ImagePlane( m ) );
+            //imagePlanes.add(  new ImagePlane( noBackgroundImages.get( face%6 ) ));
+            imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            //imagePlanes.get( face%6 ).writeXYZ( directoryName + "/" + face%6 + ".xyz" );
+
             //write Mat to jpg file
-            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", m );
+            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", noBackgroundImages.get( face % 6 ) );
             face++;
         }
 
         imageArray = null;
+
 
         //Front Face:
         //Bottom edge of Top, Top edge of Bottom, Left Edge of Right, Right edge of Left
@@ -147,6 +163,31 @@ public class Object3DModel
                 multiplier));
     }
 
+    private int findMinFace( ArrayList<Mat> images )
+    {
+        int face = 0;
+        int minFace = 0;
+        int min = - 1;
+        for( Mat m : images )
+        {
+            if( min < 0 )
+                min = m.rows();
+
+            if( m.cols() < min )
+            {
+                min = m.cols();
+                minFace = face;
+            }
+            if( m.rows() < min )
+            {
+                min = m.rows();
+                minFace = face;
+            }
+            face++;
+        }
+        return minFace;
+    }
+
 
     /**
      * Finds minimum rectangle to crop the image with
@@ -163,13 +204,16 @@ public class Object3DModel
         int numRows = image.rows();
         int numCols = image.cols();
         double minPixels = 20.0;
+        int pixelValue = 255;
         Scalar sum;
+        //Mat gray = new Mat();
+        //Imgproc.cvtColor( image, gray, Imgproc.COLOR_BGR2GRAY );
 
         //remove top rows
         for( int i = 0; i < numRows; i++ )
         {
             sum = Core.sumElems( image.submat( i, i + 1, 0, width ) );
-            if( sum.val[0] <= minPixels * 255 )
+            if( sum.val[0] <= minPixels * pixelValue )
             {
                 minRow++;
             }
@@ -183,7 +227,7 @@ public class Object3DModel
         for( int i = height; i >= 0; i-- )
         {
             sum = Core.sumElems( image.submat( i - 1, i, 0, width ) );
-            if( sum.val[0] <= minPixels * 255 )
+            if( sum.val[0] <= minPixels * pixelValue )
             {
                 height--;
             }
@@ -196,7 +240,7 @@ public class Object3DModel
         for( int i = 0; i < numCols; i++ )
         {
             sum = Core.sumElems( image.submat( 0, height, i, i + 1 ) );
-            if( sum.val[0] <= minPixels * 255 )
+            if( sum.val[0] <= minPixels * pixelValue )
             {
                 minCol++;
             }
@@ -209,7 +253,7 @@ public class Object3DModel
         for( int i = width; i >= 0; i-- )
         {
             sum = Core.sumElems( image.submat( 0, height, i - 1, i ) );
-            if( sum.val[0] <= minPixels * 255 )
+            if( sum.val[0] <= minPixels * pixelValue )
             {
                 width--;
             }
@@ -227,7 +271,7 @@ public class Object3DModel
         return rectangle;
     }
 
-    /*
+
     public List<MatOfPoint> detectContours( Mat image )
     {
         Mat canny = detectEdges( image );
@@ -275,14 +319,14 @@ public class Object3DModel
             Core.circle( cornerImage, p, 5, new Scalar( 0 ) );
         }
 
-        Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0, 0 ) );
+        //Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0, 0 ) );
 
         Highgui.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
 
         return cornerPoints;
     }
 
-    public Mat detectEdges( Mat image )
+    public static Mat detectEdges( Mat image )
     {
         Mat grayImg = new Mat();
         Mat edges = new Mat();
@@ -292,34 +336,15 @@ public class Object3DModel
         Imgproc.cvtColor( image, grayImg, Imgproc.COLOR_BGR2GRAY );
 
         //detect edges and copy into edges mat
-        Imgproc.Canny( grayImg, edges, 15, 45 );
+        Imgproc.Canny( grayImg, edges, 100, 200 );
 
         //apply edge mask to original image and copy it to display Mat
-        image.copyTo( display, edges );
+        //image.copyTo( display, edges );
 
-        Highgui.imwrite( directoryName + "/cannyEdge.jpg", display );
+        //Highgui.imwrite( directoryName + "/cannyEdge.jpg", display );
 
         return edges;
     }
-
-    public Point findTopLeftCorner( MatOfPoint corners )
-    {
-        Point[] cPoints = corners.toArray();
-        double minX = 1500;
-        double minY = 1500;
-
-        for( Point p : cPoints )
-        {
-            if( p.x < minX && p.y < minY )
-            {
-                minX = p.x;
-                minY = p.y;
-            }
-        }
-
-        return new Point( minX, minY );
-    }
-    */
 
     /**
      * Finds coordinate of point in 3rd dimension
@@ -480,123 +505,90 @@ public class Object3DModel
         return imageArray;
     }
 
-    private void resizeImages( Vector<Mat> images, Mat image, int face )
+    private void resizeImages( ArrayList<ImagePlane> planes, Mat image, int face )
     {
         switch( face )
         {
             case FACE_FRONT:
-                float horizontal = images.get( FACE_BOTTOM ).cols();
-                float bottom = image.cols();
-                float vertical = images.get( FACE_RIGHT ).rows();
-                float right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_BOTTOM ).topEdge.size(),
+                        planes.get( FACE_RIGHT ).leftEdge.size(),
+                        planes.get( FACE_TOP ).bottomEdge.size(),
+                        planes.get( FACE_LEFT ).rightEdge.size() );
                 break;
 
             case FACE_RIGHT:
-                horizontal = images.get( FACE_TOP ).cols();
-                bottom = image.cols();
-                vertical = images.get( FACE_FRONT ).rows();
-                right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_BOTTOM ).rightEdge.size
+                                (), planes.get( FACE_BACK ).leftEdge.size(),
+                        planes.get( FACE_TOP ).rightEdge.size(),
+                        planes.get( FACE_FRONT ).rightEdge.size() );
                 break;
 
             case FACE_BACK:
-                horizontal = images.get( FACE_BOTTOM ).cols();
-                bottom = image.cols();
-                vertical = images.get( FACE_RIGHT ).rows();
-                right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_BOTTOM ).bottomEdge.size
+                                (), planes.get( FACE_LEFT ).leftEdge.size(),
+                        planes.get( FACE_TOP ).topEdge.size(),
+                        planes.get( FACE_RIGHT ).rightEdge.size() );
                 break;
 
             case FACE_LEFT:
-                horizontal = images.get( FACE_BOTTOM ).cols();
-                bottom = image.cols();
-                vertical = images.get( FACE_RIGHT ).rows();
-                right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_BOTTOM ).leftEdge.size()
+                        , planes.get( FACE_FRONT ).leftEdge.size(),
+                        planes.get( FACE_TOP ).leftEdge.size(),
+                        planes.get( FACE_BACK ).rightEdge.size() );
                 break;
 
             case FACE_TOP:
-                horizontal = images.get( FACE_FRONT ).cols();
-                bottom = image.cols();
-                vertical = images.get( FACE_RIGHT ).rows();
-                right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_FRONT ).topEdge.size(),
+                        planes.get( FACE_RIGHT ).topEdge.size(),
+                        planes.get( FACE_BACK ).topEdge.size(),
+                        planes.get( FACE_LEFT ).topEdge.size() );
                 break;
 
             case FACE_BOTTOM:
-                horizontal = images.get( FACE_BOTTOM ).cols();
-                bottom = image.cols();
-                vertical = images.get( FACE_RIGHT ).rows();
-                right = image.rows();
-
-                if( horizontal < bottom )
-                {
-                    Imgproc.resize( image, image, new Size(), horizontal / bottom,
-                            horizontal / bottom,
-                            Imgproc.INTER_AREA );
-                }
-                if( vertical < right )
-                {
-                    Imgproc.resize( image, image, new Size(), vertical / right, vertical / right,
-                            Imgproc.INTER_AREA );
-                }
+                applyResizeFactor( image, planes, face, planes.get( FACE_BACK ).bottomEdge.size()
+                        , planes.get( FACE_LEFT ).bottomEdge.size(),
+                        planes.get( FACE_FRONT ).bottomEdge.size(),
+                        planes.get( FACE_RIGHT ).bottomEdge.size() );
                 break;
+        }
+    }
+
+    private float findMinimum( float a, float b, float c, float d )
+    {
+        float min = a;
+        if( b < min )
+            min = b;
+        if( c < min )
+            min = c;
+        if( d < min )
+            min = d;
+        return min;
+    }
+
+    private void applyResizeFactor( Mat image, ArrayList<ImagePlane> planes, int face,
+                                    float bottom, float right, float top, float left )
+    {
+    /*    float horizontal = planes.get( f1 ).cols();
+        float bottom = image.cols();
+        float vertical = planes.get( f2 ).rows();
+        float right = image.rows();
+        float horizontal2 = planes.get(f3).cols();
+        float vertical2 = planes.get( f4 ).rows();
+        float minHor = findMinimum( horizontal, horizontal2 );
+        float minVert = findMinimum( vertical, vertical2 );
+*/
+
+        float currentBottom = planes.get( face ).bottomEdge.size();
+        float currentRight = planes.get( face ).rightEdge.size();
+        float currentTop = planes.get( face ).topEdge.size();
+        float currentLeft = planes.get( face ).leftEdge.size();
+        float minRatio = findMinimum( bottom / currentBottom, right / currentRight,
+                top / currentTop, left / currentLeft );
+
+        if( minRatio < 1 && minRatio > 0 )
+        {
+            Imgproc.resize( image, image, new Size(), minRatio, minRatio, Imgproc.INTER_AREA );
+            Log.e( "createModel", "image size " + image.size() );
         }
     }
 
@@ -744,7 +736,7 @@ public class Object3DModel
         boolean recentlyAdded = false;
         int column;
         int row;
-        int clusterSize = 8;
+        int clusterSize = 4;
         int numCols = image.cols();
         int numRows = image.rows();
         int colIter = numCols - clusterSize;
