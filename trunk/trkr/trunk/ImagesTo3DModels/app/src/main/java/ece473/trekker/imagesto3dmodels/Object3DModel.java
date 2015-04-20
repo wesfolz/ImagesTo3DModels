@@ -503,7 +503,9 @@ public class Object3DModel
         //create array list of Mat objects for processing
         for( File f : images )
         {
-            imageArray.add( Highgui.imread( f.getAbsolutePath() ) );
+            Mat bgr = Highgui.imread( f.getAbsolutePath() );
+            Imgproc.cvtColor( bgr, bgr, Imgproc.COLOR_RGB2BGR );
+            imageArray.add( bgr );
         }
 
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );

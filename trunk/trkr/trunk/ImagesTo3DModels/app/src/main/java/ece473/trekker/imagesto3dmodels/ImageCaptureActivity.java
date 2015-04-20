@@ -20,6 +20,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -135,8 +136,11 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
             String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(
                     captureNumber ) + ".jpg";
+            Mat bgr = inputFrame.rgba();
+            //convert to rgba before writing file
+            Imgproc.cvtColor( bgr, bgr, Imgproc.COLOR_BGR2RGB );
             //write mat to jpg file
-            Highgui.imwrite( fileName, inputFrame.rgba() );
+            Highgui.imwrite( fileName, bgr );
             try
             {
                 String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent()
