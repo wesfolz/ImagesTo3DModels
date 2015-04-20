@@ -56,7 +56,7 @@ public class Object3DModel
         ArrayList<Mat> imageArray = initData();
         ArrayList<Mat> noBackgroundImages = new ArrayList<>();
         ArrayList<ImagePlane> imagePlanes = new ArrayList<>();
-        ArrayList<ImagePlane> initialPlanes = new ArrayList<>();
+        // ArrayList<ImagePlane> initialPlanes = new ArrayList<>();
 
         Mat nbi;
         int face = 0;
@@ -75,27 +75,32 @@ public class Object3DModel
             int[] rect = cropImage( nbi );
 
             nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
-            initialPlanes.add( new ImagePlane( nbi ) );
+            //initialPlanes.add( new ImagePlane( nbi ) );
+            imagePlanes.add( new ImagePlane( nbi ) );
             noBackgroundImages.add( nbi );
         }
+
+        //start with smallest face
         face = findMinFace( noBackgroundImages );
 
         //resize images and find outer edges
         for( Mat m : noBackgroundImages )
         {
-            //start with smallest face
             //resize images
-            resizeImages( initialPlanes, noBackgroundImages.get( face % 6 ), face % 6 );
+//            resizeImages( initialPlanes, noBackgroundImages.get( face % 6 ), face % 6 );
+            resizeImages( imagePlanes, noBackgroundImages.get( face % 6 ), face % 6 );
             //int[] rect = cropImage( m );
 
             //m =  m.submat( rect[0], rect[1], rect[2], rect[3] );
             //create image plane
             //imagePlanes.add(  new ImagePlane( noBackgroundImages.get( face%6 ) ));
-            imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            //imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            imagePlanes.set( face % 6, new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
             //imagePlanes.get( face%6 ).writeXYZ( directoryName + "/" + face%6 + ".xyz" );
 
             //write Mat to jpg file
-            Highgui.imwrite( directoryName + "/noBackground" + face + ".jpg", noBackgroundImages.get( face % 6 ) );
+            Highgui.imwrite( directoryName + "/noBackground" + face % 6 + ".jpg",
+                    noBackgroundImages.get( face % 6 ) );
             face++;
         }
 
@@ -319,7 +324,8 @@ public class Object3DModel
             Core.circle( cornerImage, p, 5, new Scalar( 0 ) );
         }
 
-        //Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0, 0 ) );
+        //Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0,
+        // 0 ) );
 
         Highgui.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
 
@@ -546,9 +552,9 @@ public class Object3DModel
 
             case FACE_BOTTOM:
                 applyResizeFactor( image, planes, face, planes.get( FACE_BACK ).bottomEdge.size()
-                        , planes.get( FACE_LEFT ).bottomEdge.size(),
+                        , planes.get( FACE_RIGHT ).bottomEdge.size(),
                         planes.get( FACE_FRONT ).bottomEdge.size(),
-                        planes.get( FACE_RIGHT ).bottomEdge.size() );
+                        planes.get( FACE_LEFT ).bottomEdge.size() );
                 break;
         }
     }
@@ -704,7 +710,6 @@ public class Object3DModel
                     output.put( i, j, 0 );
                     //output.put( i, j, -1 );
                 }
-
             }
         }
 
@@ -918,7 +923,7 @@ public class Object3DModel
      *
      * @param filepath - path to file
      */
-    public static void compressFile(String filepath)
+    public static void compressFile( String filepath )
     {
         File outputFile = null;
         try
