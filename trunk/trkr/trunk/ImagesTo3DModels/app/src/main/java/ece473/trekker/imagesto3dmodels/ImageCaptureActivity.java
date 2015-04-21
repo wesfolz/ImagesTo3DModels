@@ -38,13 +38,29 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_image_capture );
-        getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+        getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager
+                .LayoutParams.FLAG_FULLSCREEN );
 
         modelName = getIntent().getStringExtra( "modelName" );
         imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
         captureNumber = getCaptureNumber();
 
-        this.getWindow().getDecorView();
+        //make window fullscreen
+        final View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener( new View
+                .OnSystemUiVisibilityChangeListener()
+        {
+            @Override
+            public void onSystemUiVisibilityChange( int visibility )
+            {
+                decorView.setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
+            }
+        } );
 
         //create directory to save images in
 
@@ -52,14 +68,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
 
-        //make window fullscreen
-        this.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
 
    /*     cameraView.setOnTouchListener( new View.OnTouchListener()
         {
@@ -88,7 +96,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         if( hasFocus )
         {
             //make window fullscreen
-            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION

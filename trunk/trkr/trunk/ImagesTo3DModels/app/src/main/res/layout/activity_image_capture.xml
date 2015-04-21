@@ -27,7 +27,8 @@
             android:layout_below="@+id/camera_view"
             android:layout_toLeftOf="@+id/capture_button"
             android:layout_toStartOf="@+id/capture_button"
-            android:layout_gravity="center_horizontal|top"/>
+            android:layout_gravity="center_horizontal|top"
+            android:background="#3265b2ff"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -40,7 +41,8 @@
             android:layout_toEndOf="@+id/camera_view"
             android:layout_gravity="left|top"
             android:onClick="setFlash"
-            android:layout_marginLeft="200px"/>
+            android:layout_marginLeft="200px"
+            android:background="#3265b2ff"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -49,7 +51,8 @@
             android:onClick="captureImage"
             android:id="@+id/capture_button"
             android:layout_gravity="right|top"
-            android:layout_marginRight="200px"/>
+            android:layout_marginRight="200px"
+            android:background="#3265b2ff"/>
 
     </FrameLayout>
 
