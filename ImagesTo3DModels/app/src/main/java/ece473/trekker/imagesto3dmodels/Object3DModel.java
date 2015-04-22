@@ -61,6 +61,7 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
+        //Mat test = removeBackground( imageArray.get( 0 ) );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
         //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
@@ -71,12 +72,13 @@ public class Object3DModel
         for( Mat m : imageArray )
         {
             //subtract background
+            //nbi = removeBackground( m );
             nbi = subtractBackgroundHistogram( m );
             int[] rect = cropImage( nbi );
 
             nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
             //initialPlanes.add( new ImagePlane( nbi ) );
-            imagePlanes.add( new ImagePlane( nbi ) );
+            imagePlanes.add(new ImagePlane(nbi));
             noBackgroundImages.add( nbi );
         }
 
@@ -148,6 +150,7 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
+
     }
 
 
@@ -193,6 +196,69 @@ public class Object3DModel
         return minFace;
     }
 
+    /**
+     *
+     */
+    private Mat removeBackground( Mat image ) throws IndexOutOfBoundsException {
+
+        int threshold = 50;
+        int j = 0;
+        double diffRed = 0;
+        double diffBlue = 0;
+        double diffGreen = 0;
+        double[] prevPixel;
+        double[] pixel;
+        double[] blackPixel = {0,0,0};
+
+        for (int i=0; i < image.rows() ; i++){
+
+            pixel = image.get(i, 0);
+
+            for (j=1; j < image.cols() ; j++){
+
+                prevPixel = pixel;
+                pixel = image.get(i, j);
+
+                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                image.put(i,j-1,blackPixel);
+
+                if ((diffRed + diffBlue + diffGreen) > threshold){
+                    break;
+                }
+            }
+
+            if (j == image.cols()){
+                image.put(i,j-1,blackPixel);
+            }
+            else{
+                pixel = image.get(i, image.cols()-1);
+
+                for (j=image.cols()-2; j > 1 ; j--){
+
+                    prevPixel = pixel;
+                    pixel = image.get(i, j);
+
+                    diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                    diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                    diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                    image.put(i,j+1,blackPixel);
+
+                    if ((diffRed + diffBlue + diffGreen) > threshold){
+                        break;
+                    }
+                }
+                if (j == 0) {
+                    throw new IndexOutOfBoundsException();
+                }
+            }
+        }
+
+        return image;
+    }
 
     /**
      * Finds minimum rectangle to crop the image with
@@ -498,14 +564,15 @@ public class Object3DModel
      */
     public ArrayList<Mat> initData()
     {
+        Mat bgr = null;
         File[] images = new File( directoryName + "/images" ).listFiles();
         ArrayList<Mat> imageArray = new ArrayList<>( images.length );
         //create array list of Mat objects for processing
         for( File f : images )
         {
-            Mat bgr = Highgui.imread( f.getAbsolutePath() );
-            Imgproc.cvtColor( bgr, bgr, Imgproc.COLOR_RGB2BGR );
-            imageArray.add( bgr );
+            Mat rgb = Highgui.imread( f.getAbsolutePath() );
+            //Imgproc.cvtColor( rgb, bgr, Imgproc.COLOR_RGB2BGR );
+            imageArray.add( rgb );
         }
 
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );

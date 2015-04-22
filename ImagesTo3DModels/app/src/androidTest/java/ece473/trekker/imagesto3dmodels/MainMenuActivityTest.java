@@ -67,7 +67,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
             }
         });
-
         if (!flag[0]) {
             // Wait (if necessary) for the asynchronous runOnUiThread to do its work
             synchronized (flag) {
