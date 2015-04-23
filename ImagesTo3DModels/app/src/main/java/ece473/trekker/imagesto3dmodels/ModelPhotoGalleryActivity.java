@@ -32,12 +32,6 @@ import java.util.Map;
 
 public class ModelPhotoGalleryActivity extends ActionBarActivity
 {
-
-    private File modelImageDirectory;
-    private String objectName;
-    boolean delete = false;
-    private ImageAdapter imgAdapter;
-
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
@@ -50,6 +44,14 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
         objectName = new String( getIntent().getStringExtra( "modelName" ) );
+        if( getIntent().hasExtra( "thresholds" ) )
+            threshold = getIntent().getIntArrayExtra( "thresholds" );
+        else
+        {
+            threshold = new int[6];
+            for( int i = 0; i < 6; i++ )
+                threshold[i] = 127;
+        }
         String filePath = modelImageDirectory.getAbsolutePath().replace( "images",
                 "" ) + "/" + objectName + ".ply";
         File objectFile = new File( filePath );
@@ -88,11 +90,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     delete = false;
                     imgAdapter.updateAdapter();
                 }
-                else{
-                    Intent i = new Intent(Intent.ACTION_VIEW);
+                else
+                {
+                    Intent i = new Intent( Intent.ACTION_VIEW );
                     String filename = (String) imgAdapter.getItem( position ).keySet().toArray()[0];
-                    i.setDataAndType(Uri.parse("file://"+modelImageDirectory.getAbsolutePath()+"/"+filename),"image/jpeg");
-                    startActivity(i);
+                    i.setDataAndType( Uri.parse( "file://" + modelImageDirectory.getAbsolutePath
+                            () + "/" + filename ), "image/jpeg" );
+                    startActivity( i );
                 }
             }
         } );
@@ -234,7 +238,6 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         }
         else
         {
-
             Toast.makeText( getApplicationContext(), "Error Deleting!", Toast.LENGTH_SHORT ).show();
         }
 
@@ -278,7 +281,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public boolean createModel( View view )
     {
-        if( imgAdapter.getThumbNails().size() < 6 )
+        if( imgAdapter.getThumbNails().size() <= 6 )
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
@@ -300,7 +303,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     String name = getIntent().getStringExtra( "modelName" );
                     String directory = getIntent().getStringExtra( "modelImageDirectory" );
                     Object3DModel model = new Object3DModel( name, directory );
-                    model.create3DModel();
+                    model.create3DModel( threshold );
 
                     //toast has to be run on the ui thread
                     runOnUiThread( new Runnable()
@@ -323,7 +326,6 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             } ).start();
 
             return true;
-
         }
         else
         {
@@ -419,7 +421,15 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         startActivity( mainIntent );
     }
 
-    public File getModelImageDirectory(){
+    public File getModelImageDirectory()
+    {
         return modelImageDirectory;
     }
+
+
+    private int[] threshold;
+    private File modelImageDirectory;
+    private String objectName;
+    boolean delete = false;
+    private ImageAdapter imgAdapter;
 }
