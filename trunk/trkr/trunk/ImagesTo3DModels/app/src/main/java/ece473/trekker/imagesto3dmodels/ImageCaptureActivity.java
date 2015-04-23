@@ -10,15 +10,15 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -45,6 +45,8 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         imageDirectory = MainMenuActivity.createDirectory( modelName + "/images" );
         captureNumber = getCaptureNumber();
 
+        thresholds = new int[6];
+
         //make window fullscreen
         final View decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener( new View
@@ -68,6 +70,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView.setVisibility( SurfaceView.VISIBLE );
         cameraView.setCvCameraViewListener( this );
 
+        seekBar = (SeekBar) findViewById( R.id.seekBar );
+        seekBar.setProgress( 127 );
+
+        toggleButton = (ToggleButton) findViewById( R.id.toggleButton );
 
    /*     cameraView.setOnTouchListener( new View.OnTouchListener()
         {
@@ -136,11 +142,12 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     @Override
     public Mat onCameraFrame( CameraBridgeViewBase.CvCameraViewFrame inputFrame )
     {
-
         //if the capture button was clicked save the frame to the Mat array
         if( capture )
         {
             capture = false;
+
+            thresholds[captureNumber - 1] = seekBar.getProgress();
 
             String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(
                     captureNumber ) + ".jpg";
@@ -175,7 +182,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                         }
                     }
                 }
-
             }
             catch( FileNotFoundException e )
             {
@@ -184,7 +190,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
-
+/*
         Mat rectMat = inputFrame.rgba();
         int rows = rectMat.rows() - 1;
         int cols = rectMat.cols() - 1;
@@ -203,22 +209,14 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         Core.rectangle( rectMat, new org.opencv.core.Point( cols / 2 - 200, rows / 2 - 100 ),
                 new org.opencv
                         .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
-
-
-        //Mat edges = Object3DModel.detectEdges( inputFrame.rgba() );
-
-/*
-        Mat grayImg = new Mat(  );
-        Mat binaryMask = new Mat(  );
-        Imgproc.cvtColor( inputFrame.rgba(), grayImg, Imgproc.COLOR_RGB2GRAY );
-        double thresh = grayImg.get( 0,0 )[0] + 50.0;
-
-        Imgproc.threshold( grayImg, binaryMask, thresh, 255, Imgproc.THRESH_TOZERO_INV );
-
-        return binaryMask;
 */
-
-        return rectMat;
+        if( toggleButton.isChecked() )
+        {
+            Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
+            return edges;
+        }
+        //return rectMat;
+        return inputFrame.rgba();
     }
 
 
@@ -267,7 +265,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         {
             Toast.makeText( getApplicationContext(), "Maximum Number of Captures Reached.",
                     Toast.LENGTH_SHORT ).show();
-
         }
     }
 
@@ -281,8 +278,9 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         Intent galleryIntent = new Intent( this, ModelPhotoGalleryActivity.class );
         galleryIntent.putExtra( "modelName", modelName );
         galleryIntent.putExtra( "modelImageDirectory", imageDirectory.getAbsolutePath() );
+        //galleryIntent.putExtra( "threshold", seekBar.getProgress() );
+        galleryIntent.putExtra( "thresholds", thresholds );
         startActivity( galleryIntent );
-
     }
 
 
@@ -351,6 +349,12 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * View displaying camera preview
      */
     private TrekkerCameraView cameraView;
+
+    private SeekBar seekBar;
+
+    private ToggleButton toggleButton;
+
+    private int[] thresholds;
 
     /**
      * Boolean specifying that next camera frame should be saved

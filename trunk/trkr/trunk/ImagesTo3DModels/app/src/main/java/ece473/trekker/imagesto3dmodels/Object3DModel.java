@@ -51,7 +51,7 @@ public class Object3DModel
      * 4. Triangulate each image to generate list of vertices and faces.
      * 5. Write vertices and faces to graphics file.
      */
-    public void create3DModel()
+    public void create3DModel( int[] thresholds )
     {
         ArrayList<Mat> imageArray = initData();
         ArrayList<Mat> noBackgroundImages = new ArrayList<>();
@@ -71,15 +71,22 @@ public class Object3DModel
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
+            nbi = detectEdges( m, thresholds[face] );
+            Core.inRange( nbi, new Scalar( 0 ), new Scalar( 0 ), nbi );
+            m.copyTo( nbi, nbi );
+            //Highgui.imwrite( directoryName + "/edgeApplied" + face+ ".jpg", nbi );
             //subtract background
-            //nbi = removeBackground( m );
-            nbi = subtractBackgroundHistogram( m );
+            nbi = removeBackground( nbi );
+            //nbi = subtractBackgroundHistogram( m );
             int[] rect = cropImage( nbi );
 
             nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
             //initialPlanes.add( new ImagePlane( nbi ) );
-            imagePlanes.add(new ImagePlane(nbi));
+            imagePlanes.add( new ImagePlane( nbi ) );
             noBackgroundImages.add( nbi );
+            //imagePlanes.add( new ImagePlane( m ) );
+            //noBackgroundImages.add( m );
+            face++;
         }
 
         //start with smallest face
@@ -107,7 +114,6 @@ public class Object3DModel
         }
 
         imageArray = null;
-
 
         //Front Face:
         //Bottom edge of Top, Top edge of Bottom, Left Edge of Right, Right edge of Left
@@ -150,7 +156,6 @@ public class Object3DModel
                         .bottomEdge );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
-
     }
 
 
@@ -199,7 +204,8 @@ public class Object3DModel
     /**
      *
      */
-    private Mat removeBackground( Mat image ) throws IndexOutOfBoundsException {
+    private Mat removeBackground( Mat image ) throws IndexOutOfBoundsException
+    {
 
         int threshold = 50;
         int j = 0;
@@ -208,50 +214,60 @@ public class Object3DModel
         double diffGreen = 0;
         double[] prevPixel;
         double[] pixel;
-        double[] blackPixel = {0,0,0};
+        double[] blackPixel = {0, 0, 0};
 
-        for (int i=0; i < image.rows() ; i++){
+        for( int i = 0; i < image.rows(); i++ )
+        {
 
-            pixel = image.get(i, 0);
+            pixel = image.get( i, 0 );
 
-            for (j=1; j < image.cols() ; j++){
+            for( j = 1; j < image.cols(); j++ )
+            {
 
                 prevPixel = pixel;
-                pixel = image.get(i, j);
+                pixel = image.get( i, j );
 
-                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+            /*    diffRed = Math.abs(pixel[0] - prevPixel[0]);
                 diffBlue = Math.abs(pixel[1] - prevPixel[1]);
                 diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+*/
+                image.put( i, j - 1, blackPixel );
 
-                image.put(i,j-1,blackPixel);
-
-                if ((diffRed + diffBlue + diffGreen) > threshold){
+                //              if ((diffRed + diffBlue + diffGreen) > threshold){
+                if( pixel[0] == 0 )
+                {
                     break;
                 }
             }
 
-            if (j == image.cols()){
-                image.put(i,j-1,blackPixel);
+            if( j == image.cols() )
+            {
+                image.put( i, j - 1, blackPixel );
             }
-            else{
-                pixel = image.get(i, image.cols()-1);
+            else
+            {
+                pixel = image.get( i, image.cols() - 1 );
 
-                for (j=image.cols()-2; j > 1 ; j--){
+                for( j = image.cols() - 2; j > 1; j-- )
+                {
 
                     prevPixel = pixel;
-                    pixel = image.get(i, j);
-
+                    pixel = image.get( i, j );
+/*
                     diffRed = Math.abs(pixel[0] - prevPixel[0]);
                     diffBlue = Math.abs(pixel[1] - prevPixel[1]);
                     diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+*/
+                    image.put( i, j + 1, blackPixel );
 
-                    image.put(i,j+1,blackPixel);
-
-                    if ((diffRed + diffBlue + diffGreen) > threshold){
+                    // if ((diffRed + diffBlue + diffGreen) > threshold){
+                    if( pixel[0] == 0 )
+                    {
                         break;
                     }
                 }
-                if (j == 0) {
+                if( j == 0 )
+                {
                     throw new IndexOutOfBoundsException();
                 }
             }
@@ -345,7 +361,7 @@ public class Object3DModel
 
     public List<MatOfPoint> detectContours( Mat image )
     {
-        Mat canny = detectEdges( image );
+        Mat canny = detectEdges( image, 0 );
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
 
@@ -398,22 +414,15 @@ public class Object3DModel
         return cornerPoints;
     }
 
-    public static Mat detectEdges( Mat image )
+    public static Mat detectEdges( Mat image, double threshold )
     {
-        Mat grayImg = new Mat();
         Mat edges = new Mat();
-        Mat display = new Mat();
 
         //convert image to grayscale
-        Imgproc.cvtColor( image, grayImg, Imgproc.COLOR_BGR2GRAY );
+        Imgproc.cvtColor( image, edges, Imgproc.COLOR_BGR2GRAY );
 
         //detect edges and copy into edges mat
-        Imgproc.Canny( grayImg, edges, 100, 200 );
-
-        //apply edge mask to original image and copy it to display Mat
-        //image.copyTo( display, edges );
-
-        //Highgui.imwrite( directoryName + "/cannyEdge.jpg", display );
+        Imgproc.Canny( edges, edges, 0, threshold );
 
         return edges;
     }
@@ -564,15 +573,15 @@ public class Object3DModel
      */
     public ArrayList<Mat> initData()
     {
-        Mat bgr = null;
+        Mat bgr = new Mat();
         File[] images = new File( directoryName + "/images" ).listFiles();
         ArrayList<Mat> imageArray = new ArrayList<>( images.length );
         //create array list of Mat objects for processing
         for( File f : images )
         {
             Mat rgb = Highgui.imread( f.getAbsolutePath() );
-            //Imgproc.cvtColor( rgb, bgr, Imgproc.COLOR_RGB2BGR );
-            imageArray.add( rgb );
+            Imgproc.cvtColor( rgb, bgr, Imgproc.COLOR_RGB2BGR );
+            imageArray.add( bgr.clone() );
         }
 
         Log.e( "Object3DModel", Integer.toString( imageArray.size() ) );

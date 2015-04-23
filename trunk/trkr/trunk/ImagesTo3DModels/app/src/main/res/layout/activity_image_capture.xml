@@ -8,8 +8,9 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ece473.trekker.imagesto3dmodels.TrekkerCameraView
             android:layout_width="fill_parent"
@@ -53,6 +54,28 @@
             android:layout_gravity="right|top"
             android:layout_marginRight="200px"
             android:background="#3265b2ff"/>
+
+        <SeekBar
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:layout_gravity="center_horizontal|bottom"
+            android:splitTrack="false"
+            android:progressTint="#ffff1712"
+            android:max="255"/>
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/toggleButton"
+            android:layout_gravity="left|bottom"
+            android:clickable="true"
+            android:textOff="Show Edges"
+            android:textOn="Show Color"
+            android:checked="false"
+            android:background="#3265b2ff"
+            android:layout_marginLeft="10dp"/>
 
     </FrameLayout>
 
