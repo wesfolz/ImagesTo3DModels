@@ -71,7 +71,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         cameraView.setCvCameraViewListener( this );
 
         seekBar = (SeekBar) findViewById( R.id.seekBar );
-        seekBar.setProgress( 127 );
+        seekBar.setProgress( 100 );
 
         toggleButton = (ToggleButton) findViewById( R.id.toggleButton );
 
@@ -212,7 +212,8 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 */
         if( toggleButton.isChecked() )
         {
-            Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
+            //Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
+            Mat edges = Object3DModel.drawBox( inputFrame.rgba(), seekBar.getProgress() );
             return edges;
         }
         //return rectMat;

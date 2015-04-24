@@ -50,7 +50,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             threshold = new int[6];
             for( int i = 0; i < 6; i++ )
-                threshold[i] = 127;
+                //threshold[i] = 127;
+                threshold[i] = 50;
         }
         String filePath = modelImageDirectory.getAbsolutePath().replace( "images",
                 "" ) + "/" + objectName + ".ply";

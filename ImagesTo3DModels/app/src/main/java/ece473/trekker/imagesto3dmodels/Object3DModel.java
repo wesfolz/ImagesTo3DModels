@@ -61,7 +61,7 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
-        //Mat test = removeBackground( imageArray.get( 0 ) );
+        //Mat test = removeBackground( imageArray.get( 0 ), thresholds[0] );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
         //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
@@ -71,12 +71,12 @@ public class Object3DModel
         //create array of images without backgrounds
         for( Mat m : imageArray )
         {
-            nbi = detectEdges( m, thresholds[face] );
-            Core.inRange( nbi, new Scalar( 0 ), new Scalar( 0 ), nbi );
-            m.copyTo( nbi, nbi );
+            //nbi = detectEdges( m, thresholds[face] );
+            //Core.inRange( nbi, new Scalar( 0 ), new Scalar( 0 ), nbi );
+            //m.copyTo( nbi, nbi );
             //Highgui.imwrite( directoryName + "/edgeApplied" + face+ ".jpg", nbi );
             //subtract background
-            nbi = removeBackground( nbi );
+            nbi = removeBackground( m, thresholds[face] );
             //nbi = subtractBackgroundHistogram( m );
             int[] rect = cropImage( nbi );
 
@@ -199,76 +199,90 @@ public class Object3DModel
             face++;
         }
         return minFace;
+
+    }
+
+    public static Mat drawBox(Mat image, int threshold){
+
+        int[] edges = boundObject(image, threshold);
+        Point pt1 = new Point(edges[0],edges[1]);
+        Point pt2 = new Point(edges[2],edges[3]);
+        Scalar sc1 = new Scalar(255,0,0);
+        Core.rectangle(image,pt1,pt2,sc1,3);
+        return image;
+    }
+
+    public Mat cropImage2(Mat image, int threshold){
+
+        int[] edges = boundObject(image, threshold);
+        return image.submat(edges[1], edges[3], edges[0], edges[2]);
     }
 
     /**
      *
      */
-    private Mat removeBackground( Mat image ) throws IndexOutOfBoundsException
+    public Mat removeBackground(Mat image, int threshold) throws IndexOutOfBoundsException
     {
 
-        int threshold = 50;
-        int j = 0;
+        int j;
         double diffRed = 0;
         double diffBlue = 0;
         double diffGreen = 0;
         double[] prevPixel;
         double[] pixel;
         double[] blackPixel = {0, 0, 0};
+        double pixelDiff;
 
-        for( int i = 0; i < image.rows(); i++ )
-        {
+        image = cropImage2(image, threshold);
 
-            pixel = image.get( i, 0 );
+        for( int i = 0; i < image.rows(); i++ ) {
 
-            for( j = 1; j < image.cols(); j++ )
-            {
+            pixel = image.get(i, 0);
 
-                prevPixel = pixel;
-                pixel = image.get( i, j );
-
-            /*    diffRed = Math.abs(pixel[0] - prevPixel[0]);
-                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
-                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
-*/
-                image.put( i, j - 1, blackPixel );
-
-                //              if ((diffRed + diffBlue + diffGreen) > threshold){
-                if( pixel[0] == 0 )
-                {
-                    break;
-                }
-            }
-
-            if( j == image.cols() )
-            {
-                image.put( i, j - 1, blackPixel );
-            }
-            else
-            {
-                pixel = image.get( i, image.cols() - 1 );
-
-                for( j = image.cols() - 2; j > 1; j-- )
-                {
+            if ( (pixel[0] + pixel[1] + pixel[2]) > 450) {
+                for (j = 1; j < image.cols(); j++) {
 
                     prevPixel = pixel;
-                    pixel = image.get( i, j );
-/*
+                    pixel = image.get(i, j);
+
                     diffRed = Math.abs(pixel[0] - prevPixel[0]);
                     diffBlue = Math.abs(pixel[1] - prevPixel[1]);
                     diffGreen = Math.abs(pixel[2] - prevPixel[2]);
-*/
-                    image.put( i, j + 1, blackPixel );
 
-                    // if ((diffRed + diffBlue + diffGreen) > threshold){
-                    if( pixel[0] == 0 )
-                    {
+                    image.put(i, j - 1, blackPixel);
+
+                    if ((diffRed + diffBlue + diffGreen) > threshold) {
+                        //if( pixel[0] == 0 ){
                         break;
+
                     }
                 }
-                if( j == 0 )
-                {
-                    throw new IndexOutOfBoundsException();
+                if (j == image.cols()) {
+                    image.put(i, j - 1, blackPixel);
+                } else {
+                    pixel = image.get(i, image.cols() - 1);
+                    if ( (pixel[0] + pixel[1] + pixel[2]) > 450) {
+                        for (j = image.cols() - 2; j > 1; j--) {
+
+                            prevPixel = pixel;
+                            pixel = image.get(i, j);
+
+                            diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                            diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                            diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                            image.put(i, j + 1, blackPixel);
+
+                            if ((diffRed + diffBlue + diffGreen) > threshold) {
+                                //if( pixel[0] == 0 ){
+
+                                break;
+                            }
+                        }
+                        if (j == 0) {
+                            throw new IndexOutOfBoundsException();
+                        }
+                    }
                 }
             }
         }
@@ -422,7 +436,7 @@ public class Object3DModel
         Imgproc.cvtColor( image, edges, Imgproc.COLOR_BGR2GRAY );
 
         //detect edges and copy into edges mat
-        Imgproc.Canny( edges, edges, 0, threshold );
+        Imgproc.Canny(edges, edges, 0, threshold);
 
         return edges;
     }
@@ -480,6 +494,127 @@ public class Object3DModel
     {
         return triangleFaceArray;
     }
+
+    public static int[] boundObject(Mat image, int threshold){
+
+        int j;
+        double diffRed = 0;
+        double diffBlue = 0;
+        double diffGreen = 0;
+        double[] prevPixel;
+        double[] pixel;
+        double pixelDiff;
+        int minCol = 2000;
+        int maxCol = 0;
+        int minRow = 2000;
+        int maxRow = 0;
+
+        //Find the min Row and Col
+        for( int i = 0; i < image.rows(); i+=100 ) {
+
+            pixel = image.get( i, 0 );
+
+            for( j = 1; j < image.cols(); j+=5 ) {
+
+                prevPixel = pixel;
+                pixel = image.get( i, j );
+
+                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                pixelDiff = diffRed + diffBlue + diffGreen;
+
+                if ( pixelDiff > threshold){
+
+                    if (j < minCol) {
+                        minCol = j;
+
+                    }
+                    break;
+                }
+            }
+        }
+
+        for(  j = minCol; j < image.cols(); j+=100 ) {
+
+            pixel = image.get( 0, j );
+
+            for(int  i = 1; i < image.rows(); i+=5 ) {
+
+                prevPixel = pixel;
+                pixel = image.get( i, j );
+
+                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                pixelDiff = diffRed + diffBlue + diffGreen;
+
+                if ( pixelDiff > threshold){
+
+                    if (i < minRow) {
+                        minRow = i;
+                    }
+                    break;
+                }
+            }
+        }
+
+        //Find the max Row and Col
+        for( int i = minRow; i < image.rows(); i+=100 ) {
+
+            pixel = image.get( i, image.cols()-1 );
+
+            for( j = image.cols()-2; j > minCol; j-=5 ) {
+
+                prevPixel = pixel;
+                pixel = image.get( i, j );
+
+                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                pixelDiff = diffRed + diffBlue + diffGreen;
+
+                if ( pixelDiff > threshold){
+
+                    if (j > maxCol) {
+                        maxCol = j;
+                    }
+                }
+            }
+        }
+
+        for(  j = minCol; j < maxCol; j+=100 ) {
+
+            pixel = image.get( image.rows()-1, j );
+
+            for(int  i = image.rows() - 2; i > minRow; i-=5 ) {
+
+                prevPixel = pixel;
+                pixel = image.get( i, j );
+
+                diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                pixelDiff = diffRed + diffBlue + diffGreen;
+
+                if ( pixelDiff > threshold){
+
+                    if (i > maxRow) {
+                        maxRow = i;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return new int[]{minCol, minRow, maxCol, maxRow};
+
+    }
+
 
     /**
      * Calculates histogram and back projection
