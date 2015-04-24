@@ -55,15 +55,6 @@
             android:layout_marginRight="200px"
             android:background="#3265b2ff"/>
 
-        <SeekBar
-            android:layout_width="215dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar"
-            android:layout_gravity="center_horizontal|bottom"
-            android:splitTrack="false"
-            android:progressTint="#ffff1712"
-            android:max="255"/>
-
         <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,6 +67,16 @@
             android:checked="false"
             android:background="#3265b2ff"
             android:layout_marginLeft="10dp"/>
+
+        <SeekBar
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:layout_gravity="right|center_vertical"
+            android:splitTrack="false"
+            android:progressTint="#ffff1712"
+            android:max="255"
+            android:rotation="270"/>
 
     </FrameLayout>
 

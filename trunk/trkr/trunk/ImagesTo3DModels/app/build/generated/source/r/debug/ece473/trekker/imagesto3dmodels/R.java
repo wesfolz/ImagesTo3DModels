@@ -1399,7 +1399,7 @@ containing a value of this type.
         public static final int search_plate=0x7f09003c;
         public static final int search_src_text=0x7f09003d;
         public static final int search_voice_btn=0x7f090041;
-        public static final int seekBar=0x7f090046;
+        public static final int seekBar=0x7f090047;
         public static final int shortcut=0x7f09002d;
         public static final int showCustom=0x7f09000f;
         public static final int showHome=0x7f090010;
@@ -1408,7 +1408,7 @@ containing a value of this type.
         public static final int submit_area=0x7f09003f;
         public static final int tabMode=0x7f09000b;
         public static final int title=0x7f09002a;
-        public static final int toggleButton=0x7f090047;
+        public static final int toggleButton=0x7f090046;
         public static final int up=0x7f090008;
         public static final int useLogo=0x7f090012;
         public static final int withText=0x7f09001d;
