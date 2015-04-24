@@ -26,16 +26,16 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: ece473.trekker.imagesto3dmodels" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="91b41ade-8e8c-49b8-8664-60adb9031fee" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/ece473/trekker/imagesto3dmodels/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/ece473/trekker/imagesto3dmodels/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Images To 3D Models.iws" />
@@ -64,17 +64,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Object3DModel.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Object3DModel.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.035715" vertical-offset="612" max-vertical-offset="20383">
-              <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+            <state vertical-scroll-proportion="3.5196688" vertical-offset="3706" max-vertical-offset="21046">
+              <caret line="318" column="17" selection-start-line="318" selection-start-column="17" selection-end-line="318" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#16523#16524#0" expanded="true" />
-                <element signature="e#16557#16558#0" expanded="true" />
-                <element signature="e#16622#16623#0" expanded="true" />
-                <element signature="e#16662#16663#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,7 +79,7 @@
       <file leaf-file-name="TrekkerCameraView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/TrekkerCameraView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="61" max-vertical-offset="765">
+            <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="884">
               <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
               <folding />
             </state>
@@ -93,11 +89,9 @@
       <file leaf-file-name="ImageCaptureActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5" vertical-offset="3076" max-vertical-offset="6392">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3332" max-vertical-offset="6545">
               <caret line="196" column="42" selection-start-line="196" selection-start-column="41" selection-end-line="196" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -105,31 +99,34 @@
       <file leaf-file-name="MainMenuActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="6715">
-              <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-              <folding />
+            <state vertical-scroll-proportion="-5.321429" vertical-offset="7790" max-vertical-offset="9673">
+              <caret line="485" column="45" selection-start-line="485" selection-start-column="45" selection-end-line="485" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2609#2979#0" expanded="true" />
+                <element signature="e#2956#2957#0" expanded="true" />
+                <element signature="e#3040#3333#0" expanded="true" />
+                <element signature="e#3310#3311#0" expanded="true" />
+                <element signature="e#14233#14642#0" expanded="true" />
+                <element signature="e#14623#14624#0" expanded="true" />
+                <element signature="e#15153#17272#0" expanded="true" />
+                <element signature="e#17253#17254#0" expanded="true" />
+                <element signature="e#17340#17341#0" expanded="true" />
+                <element signature="e#17373#17374#0" expanded="true" />
+                <element signature="e#17408#17409#0" expanded="true" />
+                <element signature="e#17439#17440#0" expanded="true" />
+                <element signature="e#18500#18779#0" expanded="true" />
+                <element signature="e#18763#18764#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_image_capture.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.851851" vertical-offset="1019" max-vertical-offset="1513">
-              <caret line="74" column="58" selection-start-line="74" selection-start-column="58" selection-end-line="74" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModelPhotoGalleryActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ModelPhotoGalleryActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.211663" vertical-offset="0" max-vertical-offset="6613">
-              <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+            <state vertical-scroll-proportion="-14.607142" vertical-offset="5167" max-vertical-offset="6613">
+              <caret line="375" column="9" selection-start-line="354" selection-start-column="0" selection-end-line="375" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -1976,19 +1973,19 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MyApplication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_model_photo_gallery.xml" />
         <option value="$PROJECT_DIR$/openCVLibrary2410/src/main/java/org/opencv/highgui/Highgui.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_model_photo_gallery.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/ece473/trekker/imagesto3dmodels/MainMenuActivityTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java" />
       </list>
     </option>
   </component>
@@ -1998,7 +1995,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="22" />
-    <option name="width" value="1382" />
+    <option name="width" value="1378" />
     <option name="height" value="754" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -2027,6 +2024,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -2134,6 +2133,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Images To 3D Models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ImagesTo3DModels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2188,8 +2217,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2232,124 +2259,6 @@
       <recent name="C:\Users\wesley\AndroidStudioProjects\ImagesTo3DModels\app\src\main\res\drawable\hdpi" />
       <recent name="C:\Users\wesley\AndroidStudioProjects\ImagesTo3DModels\app\src\main\res\drawable" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\r\debug\android\support\v7\appcompat\R.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\r\debug\org\opencv\R.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\build\generated\source\r\debug\ece473\trekker\imagesto3dmodels\R.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\src\main\java\ece473\trekker\imagesto3dmodels\ImageCaptureActivity.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\src\main\java\ece473\trekker\imagesto3dmodels\ModelPhotoGalleryActivity.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\src\main\java\ece473\trekker\imagesto3dmodels\Object3DModel.java</PATH>
-            <PATH vcs="svn" revision="1833">D:\ECE473\Project\ImagesTo3DModels\app\src\main\res\layout\activity_image_capture.xml</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="false" name="testNumberOfImages...()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
@@ -2779,7 +2688,11 @@
       <created>1429738301118</created>
       <updated>1429738301118</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Improved removeBackground Algorithm, added boundobject and cropimage2">
+      <created>1429887564261</created>
+      <updated>1429887564261</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2803,7 +2716,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="22" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="22" width="1378" height="754" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2811,21 +2724,21 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4464883" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13210702" sideWeight="0.76323754" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7424749" sideWeight="0.76323754" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.115384616" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.115384616" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13210702" sideWeight="0.23676248" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14548495" sideWeight="0.17905918" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25083613" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2742475" sideWeight="0.82072616" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14548495" sideWeight="0.8201821" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2257525" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40015128" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28517398" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28603944" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5618729" sideWeight="0.8676248" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2841,11 +2754,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12040134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.115384616" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.115384616" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13043478" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19213313" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5618729" sideWeight="0.8895613" order="2" side_tool="false" content_ui="tabs" />
@@ -2863,8 +2776,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.65384614" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1638796" sideWeight="0.82072616" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40015128" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40015128" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26588628" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2883,7 +2796,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added ImageCaptureActivity" />
     <MESSAGE value="Moved ic_launcher to drawable directory" />
     <MESSAGE value="Added opencv camera view to ImageCaptureActivity" />
     <MESSAGE value="Added button to ImageCaptureActivity" />
@@ -2908,7 +2820,8 @@
     <MESSAGE value="Added UnitTest for File Sharing." />
     <MESSAGE value="Added UnitTest for Compression." />
     <MESSAGE value="Added removeBackground algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added removeBackground algorithm" />
+    <MESSAGE value="Improved removeBackground Algorithm, added boundobject and cropimage2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved removeBackground Algorithm, added boundobject and cropimage2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3099,16 +3012,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5964912" vertical-offset="0" max-vertical-offset="342">
-          <caret line="12" column="23" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImagePlane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19101124" vertical-offset="986" max-vertical-offset="5321">
@@ -3204,13 +3107,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
-          <caret line="11" column="45" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/test/InstrumentationTestCase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.14864865" vertical-offset="4798" max-vertical-offset="5780">
@@ -3246,7 +3142,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="8.757576" vertical-offset="1479" max-vertical-offset="20366">
           <caret line="385" column="5" selection-start-line="385" selection-start-column="5" selection-end-line="385" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3260,7 +3155,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_image_capture.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.851851" vertical-offset="1019" max-vertical-offset="1513">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1019" max-vertical-offset="1513">
           <caret line="74" column="58" selection-start-line="74" selection-start-column="58" selection-end-line="74" selection-end-column="58" />
           <folding />
         </state>
@@ -3269,43 +3164,74 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="6715">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3332" max-vertical-offset="6545">
+          <caret line="196" column="42" selection-start-line="196" selection-start-column="41" selection-end-line="196" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.035715" vertical-offset="612" max-vertical-offset="20383">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#16523#16524#0" expanded="true" />
-            <element signature="e#16557#16558#0" expanded="true" />
-            <element signature="e#16622#16623#0" expanded="true" />
-            <element signature="e#16662#16663#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-8.185185" vertical-offset="0" max-vertical-offset="340">
+          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ImageCaptureActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5" vertical-offset="3076" max-vertical-offset="6392">
-          <caret line="196" column="42" selection-start-line="196" selection-start-column="41" selection-end-line="196" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#595#618#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/ModelPhotoGalleryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.211663" vertical-offset="0" max-vertical-offset="6613">
-          <caret line="60" column="43" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+        <state vertical-scroll-proportion="-14.607142" vertical-offset="5167" max-vertical-offset="6613">
+          <caret line="375" column="9" selection-start-line="354" selection-start-column="0" selection-end-line="375" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/MainMenuActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.321429" vertical-offset="7790" max-vertical-offset="9673">
+          <caret line="485" column="45" selection-start-line="485" selection-start-column="45" selection-end-line="485" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2609#2979#0" expanded="true" />
+            <element signature="e#2956#2957#0" expanded="true" />
+            <element signature="e#3040#3333#0" expanded="true" />
+            <element signature="e#3310#3311#0" expanded="true" />
+            <element signature="e#14233#14642#0" expanded="true" />
+            <element signature="e#14623#14624#0" expanded="true" />
+            <element signature="e#15153#17272#0" expanded="true" />
+            <element signature="e#17253#17254#0" expanded="true" />
+            <element signature="e#17340#17341#0" expanded="true" />
+            <element signature="e#17373#17374#0" expanded="true" />
+            <element signature="e#17408#17409#0" expanded="true" />
+            <element signature="e#17439#17440#0" expanded="true" />
+            <element signature="e#18500#18779#0" expanded="true" />
+            <element signature="e#18763#18764#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ece473/trekker/imagesto3dmodels/Object3DModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.5196688" vertical-offset="3706" max-vertical-offset="21046">
+          <caret line="318" column="17" selection-start-line="318" selection-start-column="17" selection-end-line="318" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

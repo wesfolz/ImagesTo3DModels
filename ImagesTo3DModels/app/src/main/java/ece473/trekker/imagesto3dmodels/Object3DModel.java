@@ -8,6 +8,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -27,6 +28,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
+
+import static org.opencv.imgproc.Imgproc.getRotationMatrix2D;
 
 /**
  * Created by wesley on 2/28/2015.
@@ -223,7 +226,7 @@ public class Object3DModel
      */
     public Mat removeBackground(Mat image, int threshold) throws IndexOutOfBoundsException
     {
-
+        Mat rotImage = null;
         int j;
         double diffRed = 0;
         double diffBlue = 0;
@@ -234,6 +237,35 @@ public class Object3DModel
         double pixelDiff;
 
         image = cropImage2(image, threshold);
+/*
+        for(int sides = 1; sides <=4; sides++) {
+            for (int i = image.rows() / 2; i < image.rows(); i++) {
+
+                pixel = image.get(i, 0);
+                if ((pixel[0] + pixel[1] + pixel[2]) > 450) {
+                    for (j = 1; j < image.cols(); j++) {
+
+                        prevPixel = pixel;
+                        pixel = image.get(i, j);
+
+                        diffRed = Math.abs(pixel[0] - prevPixel[0]);
+                        diffBlue = Math.abs(pixel[1] - prevPixel[1]);
+                        diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+
+                        image.put(i, j - 1, blackPixel);
+
+                        if ((diffRed + diffBlue + diffGreen) > threshold) {
+                            //if( pixel[0] == 0 ){
+                            break;
+
+                        }
+                    }
+                }
+            }
+            rotateImage(image, 90, rotImage);
+            image = rotImage;
+        }
+*/
 
         for( int i = 0; i < image.rows(); i++ ) {
 
@@ -257,6 +289,7 @@ public class Object3DModel
 
                     }
                 }
+
                 if (j == image.cols()) {
                     image.put(i, j - 1, blackPixel);
                 } else {
@@ -288,6 +321,18 @@ public class Object3DModel
         }
 
         return image;
+    }
+
+    /**
+     * Rotate an image
+     */
+    public void rotateImage(Mat image, double angle, Mat newImage)
+    {
+        int len = Math.max(image.cols(), image.rows());
+        Point pt = new Point(len/2, len/2);
+        Mat r = getRotationMatrix2D(pt, angle, 1.0);
+
+        Imgproc.warpAffine(image, newImage, r, new Size(len, len));
     }
 
     /**

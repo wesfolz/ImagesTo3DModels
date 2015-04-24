@@ -1,6 +1,7 @@
 package ece473.trekker.imagesto3dmodels;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +25,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 
 public class MainMenuActivity extends ActionBarActivity
@@ -234,6 +242,12 @@ public class MainMenuActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if( id == R.id.action_import ) {
+            importModel();
+            share = false;
+            delete = false;
+            return true;
+        }
         if( id == R.id.action_share )
         {
             Toast.makeText( getApplicationContext(), "Select model to share.",
@@ -426,6 +440,68 @@ public class MainMenuActivity extends ActionBarActivity
 
     }
 
+    private void importModel() {
+
+        Dialog dialog = null;
+        loadFileList();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setTitle("Choose your file");
+                if(mFileList == null) {
+                    Log.e("WES IS COOL", "Showing file picker before loading the file list");
+                    dialog = builder.create();
+                    return;
+                }
+                builder.setItems(mFileList, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        byte[] buffer = new byte[1024];
+                        int len;
+
+                        mChosenFile = downloadDir + "/" + mFileList[which];
+                        Log.e("FileName",mChosenFile);
+
+                        try {
+                            GZIPInputStream file2unzip = new GZIPInputStream(new FileInputStream(mChosenFile));
+                            FileOutputStream outfile = new FileOutputStream(mChosenFile.replace(".gzip",""));
+                            while((len = file2unzip.read(buffer)) > 0){
+                                outfile.write(buffer, 0 , len);
+                            }
+
+                            file2unzip.close();
+                            outfile.close();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
+                                Toast.LENGTH_SHORT ).show();
+
+                        try
+                        {
+                            Intent myIntent = new Intent( android.content.Intent.ACTION_VIEW );
+                            File file = new File(mChosenFile.replace(".gzip","")  );
+                            String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl( Uri.fromFile(
+                                    file ).toString() );
+                            String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                                    extension );
+                            myIntent.setDataAndType( Uri.fromFile( file ), mimetype );
+                            startActivity( myIntent );
+                        }
+                        catch( Exception e )
+                        {
+                            // TODO: handle exception
+                            String data = e.getMessage();
+                        }
+                    }
+                }).create().show();
+
+
+
+    }
+
     public ImageAdapter getImgAdapter(){
         return imgAdapter;
     }
@@ -446,5 +522,60 @@ public class MainMenuActivity extends ActionBarActivity
     Intent emailDataIntent;
     boolean delete = false;
     boolean share = false;
+
+    //In an Activity
+    private String[] mFileList;
+    private String downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+    private File mPath = new File(downloadDir);
+    private String mChosenFile;
+    private static final String FTYPE = ".gzip";
+
+    private void loadFileList() {
+        try {
+            mPath.mkdirs();
+        }
+        catch(SecurityException e) {
+            Log.e("WES IS COOL", "unable to write on the sd card " + e.toString());
+        }
+        if(mPath.exists()) {
+            FilenameFilter filter = new FilenameFilter() {
+
+                @Override
+                public boolean accept(File dir, String filename) {
+                    File sel = new File(dir, filename);
+                    return filename.contains(FTYPE) || sel.isDirectory();
+                }
+
+            };
+            mFileList = mPath.list(filter);
+        }
+        else {
+            mFileList= new String[0];
+        }
+    }
+/*
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        switch(id) {
+            case DIALOG_LOAD_FILE:
+                builder.setTitle("Choose your file");
+                if(mFileList == null) {
+                    Log.e("WES IS COOL", "Showing file picker before loading the file list");
+                    dialog = builder.create();
+                    return dialog;
+                }
+                builder.setItems(mFileList, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mChosenFile = mFileList[which];
+                        //you can do stuff with the file here too
+                    }
+                });
+                break;
+        }
+        dialog = builder.show();
+        return dialog;
+    }*/
 
 }
