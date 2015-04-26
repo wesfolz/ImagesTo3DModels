@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.util.Log;
@@ -162,6 +166,9 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                         .getStringExtra( "modelName" ) + ".png";
                 Bitmap thumbImage = ThumbnailUtils.extractThumbnail( BitmapFactory.decodeFile(
                         fileName ), THUMBNAIL_SIZE, THUMBNAIL_SIZE );
+
+                thumbImage = drawTextToBitmap(thumbImage, modelName );
+
                 OutputStream out = null;
                 try
                 {
@@ -345,6 +352,40 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             }
         }
     };
+
+    /**
+     * Draws text onto Bitmaps
+     *
+     * @param bitmap
+     * @param gText
+     */
+    public Bitmap drawTextToBitmap(Bitmap bitmap, String gText) {
+
+        android.graphics.Bitmap.Config bitmapConfig =
+                bitmap.getConfig();
+        // set default bitmap config if none
+        if(bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable,
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.BLACK);
+        // text size in pixels
+        paint.setTextSize(40-(int)(gText.length()*1.75));
+        // draw text to the Canvas bottom
+        Rect bounds = new Rect();
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = (bitmap.getWidth() - bounds.width())/2;
+        int y = bitmap.getHeight() - 10;
+
+        canvas.drawText(gText, x, y, paint);
+
+        return bitmap;
+    }
 
     /**
      * View displaying camera preview
