@@ -78,6 +78,17 @@
             android:max="255"
             android:rotation="270"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Threshold"
+            android:layout_below="@+id/seekBar"
+            android:id="@+id/textView"
+            android:layout_gravity="right|center_vertical"
+            android:autoText="false"
+            android:rotation="270"/>
+
     </FrameLayout>
 
 </RelativeLayout>
