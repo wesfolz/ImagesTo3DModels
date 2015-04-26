@@ -153,13 +153,13 @@ public class MainMenuActivity extends ActionBarActivity
 
             if( thmNailDir.exists() )
             {
-                options.inSampleSize = 2;
+                //options.inSampleSize = 2;
                 File[] files = thmNailDir.listFiles();
                 for( File file : files )
                 {
                     if( file.exists() )
                     {
-                        Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(), options );
+                        Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
                         String bitmapName = file.getName().replace( ".png", "" );
                         //thumbnails.add(myBitmap);
                         thumbnails.add( createBitmap( bitmapName, myBitmap ) );
