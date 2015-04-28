@@ -44,6 +44,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
         objectName = new String( getIntent().getStringExtra( "modelName" ) );
+        setTitle( objectName );
         if( getIntent().hasExtra( "thresholds" ) )
             threshold = getIntent().getIntArrayExtra( "thresholds" );
         else
@@ -282,7 +283,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public boolean createModel( View view )
     {
-        if( imgAdapter.getThumbNails().size() <= 6 )
+        if( imgAdapter.getThumbNails().size() <= 6 && imgAdapter.getThumbNails().size() >= 2 )
         {
             final Button createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
@@ -292,7 +293,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             progressBar.setVisibility( View.VISIBLE );
             progressBar.setEnabled( true );
             Log.e( "createModel", "Model initiated" );
-            Toast.makeText( MyApplication.getAppContext(), "Creating 3D Model...",
+            Toast.makeText( MyApplication.getAppContext(), "Creating Model...",
                     Toast.LENGTH_SHORT ).show();
 
             //create 3D model on separate thread to keep ui responsive
@@ -304,7 +305,16 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     String name = getIntent().getStringExtra( "modelName" );
                     String directory = getIntent().getStringExtra( "modelImageDirectory" );
                     Object3DModel model = new Object3DModel( name, directory );
-                    model.create3DModel( threshold );
+                    if(imgAdapter.getCount() < 6)
+                    {
+                        model.create2DModel( threshold );
+                        Log.e("createModel", "creating2DModel");
+                    }
+                    else
+                    {
+                        model.create3DModel( threshold );
+                        Log.e("createModel", "creating3DModel");
+                    }
 
                     //toast has to be run on the ui thread
                     runOnUiThread( new Runnable()
@@ -312,7 +322,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                         @Override
                         public void run()
                         {
-                            Toast.makeText( MyApplication.getAppContext(), "3D Model Complete!",
+                            Toast.makeText( MyApplication.getAppContext(), "Model Complete!",
                                     Toast.LENGTH_LONG ).show();
                             Log.e( "createModel", "Model complete" );
                             createButton.setEnabled( true );

@@ -55,19 +55,6 @@
             android:layout_marginRight="200px"
             android:background="#3265b2ff"/>
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/toggleButton"
-            android:layout_gravity="left|bottom"
-            android:clickable="true"
-            android:textOff="Show Edges"
-            android:textOn="Show Color"
-            android:checked="false"
-            android:background="#3265b2ff"
-            android:layout_marginLeft="10dp"/>
-
         <SeekBar
             android:layout_width="215dp"
             android:layout_height="wrap_content"
