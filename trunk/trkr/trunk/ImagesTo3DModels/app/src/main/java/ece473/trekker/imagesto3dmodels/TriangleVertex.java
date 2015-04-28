@@ -34,7 +34,7 @@ public class TriangleVertex extends Point3
      * @return - a new TriangleVertex
      */
     public static TriangleVertex buildTriangleVertex( int face, int row, int column, int maxRow,
-                                                      int maxColumn, int depth )
+                                                      int maxColumn, double depth )
     {
         switch( face )
         {

@@ -82,7 +82,7 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
         Mat image = Highgui.imread( testImagePath + "noBackground.jpg" );
 
         ImagePlane plane = new ImagePlane( image );
-        model.triangulateImage2D( image, 0, false, plane.topEdge, plane.leftEdge );
+        model.triangulateImage( image, 0, false, plane.topEdge, plane.leftEdge, true );
         assertTrue( model.getTriangleFaceArray().size() > 0 );
         assertTrue( model.getVertexArray().size() > 0 );
     }
@@ -102,8 +102,8 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
 
         ImagePlane plane = new ImagePlane( image );
 
-        model.triangulateImage2D( image, 0, true, plane.topEdge,
-                plane.leftEdge );
+        model.triangulateImage( image, 0, true, plane.topEdge,
+                plane.leftEdge, true );
 
         model.writeOBJFile( MainMenuActivity.appDir + "/test/test.obj" );
         File objFile = new File( MainMenuActivity.appDir + "/test/test.obj" );
@@ -125,8 +125,8 @@ public class ImageCaptureActivityTest extends ActivityInstrumentationTestCase2<I
 
         ImagePlane plane = new ImagePlane( image );
 
-        model.triangulateImage2D( image, 0, true, plane.topEdge,
-                plane.leftEdge );
+        model.triangulateImage( image, 0, true, plane.topEdge,
+                plane.leftEdge, true );
 
         model.writePLYFile( MainMenuActivity.appDir + "/test/test.ply" );
         File plyFile = new File( MainMenuActivity.appDir + "/test/test.ply" );

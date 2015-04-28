@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -76,8 +75,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
         seekBar = (SeekBar) findViewById( R.id.seekBar );
         seekBar.setProgress( 100 );
-
-        toggleButton = (ToggleButton) findViewById( R.id.toggleButton );
 
    /*     cameraView.setOnTouchListener( new View.OnTouchListener()
         {
@@ -217,14 +214,13 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 new org.opencv
                         .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
 */
-        if( toggleButton.isChecked() )
-        {
-            //Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
-            Mat edges = Object3DModel.drawBox( inputFrame.rgba(), seekBar.getProgress() );
-            return edges;
-        }
+
+        //Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
+        Mat edges = Object3DModel.drawBox( inputFrame.rgba(), seekBar.getProgress() );
+        return edges;
+
         //return rectMat;
-        return inputFrame.rgba();
+        //return inputFrame.rgba();
     }
 
 
@@ -393,8 +389,6 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
     private TrekkerCameraView cameraView;
 
     private SeekBar seekBar;
-
-    private ToggleButton toggleButton;
 
     private int[] thresholds;
 
