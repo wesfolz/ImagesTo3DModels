@@ -24,7 +24,9 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             threshold = new int[6];
             for( int i = 0; i < 6; i++ )
                 //threshold[i] = 127;
-                threshold[i] = 50;
+                threshold[i] = 40;
         }
         String filePath = modelImageDirectory.getAbsolutePath().replace( "images",
                 "" ) + "/" + objectName + ".ply";
@@ -155,9 +157,11 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
             if( modelImageDirectory.exists() )
             {
-                File[] files = modelImageDirectory.listFiles();
-                for( File file : files )
+                String[] files = modelImageDirectory.list();
+                Arrays.sort(files);
+                for( String filename : files )
                 {
+                    File file = new File(modelImageDirectory +"/" +filename);
                     if( file.exists() )
                     {
                         String fileName = file.getName();
@@ -261,12 +265,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if( id == R.id.action_settings )
-        {
-            return true;
-        }
-        else if( id == R.id.action_delete )
+
+        if( id == R.id.action_delete )
         {
             Toast.makeText( getApplicationContext(), "Select photo to delete.",
                     Toast.LENGTH_SHORT ).show();

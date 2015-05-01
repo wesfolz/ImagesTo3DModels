@@ -269,18 +269,111 @@ public class Object3DModel
     /**
      *
      */
-    public Mat removeBackground(Mat image, int threshold) throws IndexOutOfBoundsException
+    public Mat removeBackground(Mat image, int threshold)
     {
         int j;
         double diffRed = 0;
         double diffBlue = 0;
         double diffGreen = 0;
         double[] prevPixel;
-        double[] pixel;
+        double[] pix;
         double[] blackPixel = {0, 0, 0};
-        double pixelDiff;
 
+        int offset;
         image = cropImage2(image, threshold);
+        int max = Math.max(image.rows(), image.cols());
+        int row = image.rows()/2;
+        int col = image.cols()/2;
+
+        int pixChange;
+
+        for( int i = 0; i < max; i++) {
+
+            offset = (int)(i*Math.pow(-1,i));
+
+            if (i < image.rows()){
+                row += offset;
+                pix = image.get(row, 0);
+                if ( (maxMinDiff(pix[0], pix[1], pix[2]) < begThresh) && (pix[0] + pix[1] + pix [2] < 740)) {
+                    for (j = 1; j < image.cols(); j++) {
+
+                        prevPixel = pix;
+                        pix = image.get(row, j);
+
+
+                        //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                        //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                        pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
+
+                        image.put(row, j - 1, blackPixel);
+
+                        if (pixChange > threshold) {
+                            break;
+                        }
+                    }
+                }
+                pix = image.get(row, image.cols()-1);
+                if ((maxMinDiff(pix[0], pix[1], pix[2]) < begThresh) && (pix[0] + pix[1] + pix [2] < 740)) {
+                    for (j = image.cols() - 2; j > 1; j--) {
+
+                        prevPixel = pix;
+                        pix = image.get(i, j);
+
+                        //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                        //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                        pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
+
+                        image.put(row, j + 1, blackPixel);
+
+                        if (pixChange > threshold) {
+                            break;
+                        }
+                    }
+
+                }
+            }
+            if (i < image.cols()){
+                col += offset;
+                pix = image.get(0, col);
+                if ((maxMinDiff(pix[0], pix[1], pix[2]) < begThresh) && (pix[0] + pix[1] + pix [2] < 740)) {
+                    for (j = 1; j < image.rows(); j++) {
+
+                        prevPixel = pix;
+                        pix = image.get(j, col);
+
+                        //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                        //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                        pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
+
+                        image.put(j - 1, col, blackPixel);
+
+                        if (pixChange > threshold) {
+                            break;
+                        }
+                    }
+                }
+                pix = image.get(image.rows()-1, col);
+                if ((maxMinDiff(pix[0], pix[1], pix[2]) < begThresh) && (pix[0] + pix[1] + pix [2] < 740)) {
+                    for (j = image.rows() - 2; j > 1; j--) {
+
+                        prevPixel = pix;
+                        pix = image.get(j, col);
+
+                        //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                        //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                        pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
+
+                        image.put(j + 1, col, blackPixel);
+
+                        if (pixChange > threshold) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
 
         for( int i = 0; i < image.rows(); i++ ) {
 
@@ -332,10 +425,39 @@ public class Object3DModel
                     }
                 }
             }
-        }
+        }*/
 
         return image;
     }
+
+    private static int rgbPyth(double x1, double x2, double y1, double y2, double z1, double z2){
+
+        return (int) Math.sqrt(Math.pow(Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2)),2)+Math.pow(z1-z2,2));
+
+    }
+
+    private int absDiff(double r1,double r2, double b1,double b2, double g1,double g2){
+
+        double diffRed = Math.abs(r1 - r2);
+        double diffBlue = Math.abs(b1 - b2);
+        double diffGreen = Math.abs(g1 - g2);
+
+        return (int) (diffRed + diffBlue + diffGreen);
+    }
+
+    private static int maxMinDiff(double r1, double b1, double g1){
+
+        double max = Math.max(r1, b1);
+        max = Math.max(max, g1);
+
+        double min = Math.min(r1, b1);
+        min = Math.min(min, g1);
+
+        return (int) (max - min);
+
+    }
+
+
 
     /**
      * Finds minimum rectangle to crop the image with
@@ -549,30 +671,28 @@ public class Object3DModel
         double diffBlue = 0;
         double diffGreen = 0;
         double[] prevPixel;
-        double[] pixel;
-        double pixelDiff;
+        double[] pix;
+        int pixChange;
         int minCol = 2000;
         int maxCol = 0;
         int minRow = 2000;
         int maxRow = 0;
 
         //Find the min Row and Col
-        for( int i = 0; i < image.rows(); i+=100 ) {
+        for( int i = 0; i < image.rows(); i+=50 ) {
 
-            pixel = image.get( i, 0 );
+            pix = image.get( i, 0 );
 
             for( j = 1; j < image.cols(); j+=5 ) {
 
-                prevPixel = pixel;
-                pixel = image.get( i, j );
+                prevPixel = pix;
+                pix = image.get( i, j );
 
-                diffRed = Math.abs(pixel[0] - prevPixel[0]);
-                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
-                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+                //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
 
-                pixelDiff = diffRed + diffBlue + diffGreen;
-
-                if ( pixelDiff > threshold){
+                if ( pixChange > threshold){
 
                     if (j < minCol) {
                         minCol = j;
@@ -583,22 +703,21 @@ public class Object3DModel
             }
         }
 
-        for(  j = minCol; j < image.cols(); j+=100 ) {
+        for(  j = minCol; j < image.cols(); j+=50 ) {
 
-            pixel = image.get( 0, j );
+            pix = image.get( 0, j );
 
             for(int  i = 1; i < image.rows(); i+=5 ) {
 
-                prevPixel = pixel;
-                pixel = image.get( i, j );
+                prevPixel = pix;
+                pix = image.get( i, j );
 
-                diffRed = Math.abs(pixel[0] - prevPixel[0]);
-                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
-                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+                //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
 
-                pixelDiff = diffRed + diffBlue + diffGreen;
 
-                if ( pixelDiff > threshold){
+                if ( pixChange > threshold){
 
                     if (i < minRow) {
                         minRow = i;
@@ -609,22 +728,21 @@ public class Object3DModel
         }
 
         //Find the max Row and Col
-        for( int i = minRow; i < image.rows(); i+=100 ) {
+        for( int i = minRow; i < image.rows(); i+=50) {
 
-            pixel = image.get( i, image.cols()-1 );
+            pix = image.get( i, image.cols()-1 );
 
             for( j = image.cols()-2; j > minCol; j-=5 ) {
 
-                prevPixel = pixel;
-                pixel = image.get( i, j );
+                prevPixel = pix;
+                pix = image.get( i, j );
 
-                diffRed = Math.abs(pixel[0] - prevPixel[0]);
-                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
-                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+                //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
 
-                pixelDiff = diffRed + diffBlue + diffGreen;
 
-                if ( pixelDiff > threshold){
+                if ( pixChange > threshold){
 
                     if (j > maxCol) {
                         maxCol = j;
@@ -633,22 +751,20 @@ public class Object3DModel
             }
         }
 
-        for(  j = minCol; j < maxCol; j+=100 ) {
+        for(  j = minCol; j < maxCol; j+=50 ) {
 
-            pixel = image.get( image.rows()-1, j );
+            pix = image.get( image.rows()-1, j );
 
             for(int  i = image.rows() - 2; i > minRow; i-=5 ) {
 
-                prevPixel = pixel;
-                pixel = image.get( i, j );
+                prevPixel = pix;
+                pix = image.get( i, j );
 
-                diffRed = Math.abs(pixel[0] - prevPixel[0]);
-                diffBlue = Math.abs(pixel[1] - prevPixel[1]);
-                diffGreen = Math.abs(pixel[2] - prevPixel[2]);
+                //pixChange = absDiff(pix[0],prevPixel[0],pix[1],prevPixel[1],pix[2],prevPixel[2]);
+                //pixChange = rgbPyth(pix[0], prevPixel[0], pix[1], prevPixel[1], pix[2], prevPixel[2]);
+                pixChange = maxMinDiff(pix[0], pix[1], pix[2]);
 
-                pixelDiff = diffRed + diffBlue + diffGreen;
-
-                if ( pixelDiff > threshold){
+                if ( pixChange > threshold){
 
                     if (i > maxRow) {
                         maxRow = i;
@@ -756,11 +872,13 @@ public class Object3DModel
     public ArrayList<Mat> initData()
     {
         Mat bgr = new Mat();
-        File[] images = new File( directoryName + "/images" ).listFiles();
+        String[] images = new File( directoryName + "/images" ).list();
+        Arrays.sort(images);
         ArrayList<Mat> imageArray = new ArrayList<>( images.length );
         //create array list of Mat objects for processing
-        for( File f : images )
+        for( String fileName : images )
         {
+            File f = new File(directoryName + "/images/"+fileName);
             Mat rgb = Highgui.imread( f.getAbsolutePath() );
             Imgproc.cvtColor( rgb, bgr, Imgproc.COLOR_RGB2BGR );
             imageArray.add( bgr.clone() );
@@ -1250,7 +1368,7 @@ public class Object3DModel
      * Name of this model
      */
     private String modelName;
-
+    private static final int begThresh = 20;
 
     public static final int FACE_FRONT = 2;
 
