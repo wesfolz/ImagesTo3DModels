@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -75,6 +76,9 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
         seekBar = (SeekBar) findViewById( R.id.seekBar );
         seekBar.setProgress( 100 );
+
+        imageFace = (TextView) findViewById( R.id.imageFace );
+        imageFace.setText( imageNames[captureNumber] + " Face" );
 
    /*     cameraView.setOnTouchListener( new View.OnTouchListener()
         {
@@ -148,10 +152,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         {
             capture = false;
 
-            thresholds[captureNumber - 1] = seekBar.getProgress();
+            thresholds[captureNumber] = seekBar.getProgress();
 
-            String fileName = imageDirectory.getAbsolutePath() + "/capture" + Integer.toString(
-                    captureNumber ) + ".jpg";
+            String fileName = imageDirectory.getAbsolutePath() + "/" + captureNumber +
+                    imageNames[captureNumber] + ".jpg";
             Mat bgr = inputFrame.rgba();
             //convert to rgba before writing file
             Imgproc.cvtColor( bgr, bgr, Imgproc.COLOR_BGR2RGB );
@@ -164,7 +168,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 Bitmap thumbImage = ThumbnailUtils.extractThumbnail( BitmapFactory.decodeFile(
                         fileName ), THUMBNAIL_SIZE, THUMBNAIL_SIZE );
 
-                thumbImage = drawTextToBitmap(thumbImage, modelName );
+                thumbImage = drawTextToBitmap( thumbImage, modelName );
 
                 OutputStream out = null;
                 try
@@ -191,7 +195,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             {
                 e.printStackTrace();
             }
-            captureNumber++;
+            //captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
 /*
@@ -260,8 +264,15 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      */
     public void captureImage( View view )
     {
-        if( getCaptureNumber() < 7 )
+        captureNumber = getCaptureNumber();
+        if( captureNumber < imageNames.length )
         {
+            Toast.makeText( getApplicationContext(), imageNames[captureNumber] + " Face " +
+                    "Captured", Toast.LENGTH_SHORT ).show();
+            if( captureNumber + 1 < imageNames.length )
+                imageFace.setText( imageNames[captureNumber + 1] + " Face" );
+            else
+                imageFace.setText( imageNames[captureNumber] + " Face" );
             //cameraView.turnOnFlash();
             capture = true;
         }
@@ -290,7 +301,8 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
 
     private int getCaptureNumber()
     {
-        int numberOfCaptures = 1;
+        int numberOfCaptures = 0;
+        int imageCount = 0;
         if( imageDirectory.exists() )
         {
             File[] fileList = imageDirectory.listFiles();
@@ -305,10 +317,14 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 if( f.isFile() )
                 {
                     String fileName = f.getName();
-                    if( fileName.contains( "capture" ) ) numberOfCaptures++;
+                    if( fileName.contains( imageNames[imageCount] ) )
+                        numberOfCaptures++;
+                    else
+                        return numberOfCaptures;
 
                 }
                 // make something with the name
+                imageCount++;
             }
         }
         return numberOfCaptures;
@@ -355,30 +371,32 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * @param bitmap
      * @param gText
      */
-    public Bitmap drawTextToBitmap(Bitmap bitmap, String gText) {
+    public Bitmap drawTextToBitmap( Bitmap bitmap, String gText )
+    {
 
         android.graphics.Bitmap.Config bitmapConfig =
                 bitmap.getConfig();
         // set default bitmap config if none
-        if(bitmapConfig == null) {
+        if( bitmapConfig == null )
+        {
             bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
         }
         // resource bitmaps are imutable,
         // so we need to convert it to mutable one
-        bitmap = bitmap.copy(bitmapConfig, true);
+        bitmap = bitmap.copy( bitmapConfig, true );
 
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.BLACK);
+        Canvas canvas = new Canvas( bitmap );
+        Paint paint = new Paint( Paint.ANTI_ALIAS_FLAG );
+        paint.setColor( Color.BLACK );
         // text size in pixels
-        paint.setTextSize(40-(int)(gText.length()*1.75));
+        paint.setTextSize( 40 - (int) (gText.length() * 1.75) );
         // draw text to the Canvas bottom
         Rect bounds = new Rect();
-        paint.getTextBounds(gText, 0, gText.length(), bounds);
-        int x = (bitmap.getWidth() - bounds.width())/2;
+        paint.getTextBounds( gText, 0, gText.length(), bounds );
+        int x = (bitmap.getWidth() - bounds.width()) / 2;
         int y = bitmap.getHeight() - 10;
 
-        canvas.drawText(gText, x, y, paint);
+        canvas.drawText( gText, x, y, paint );
 
         return bitmap;
     }
@@ -387,6 +405,8 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * View displaying camera preview
      */
     private TrekkerCameraView cameraView;
+
+    private TextView imageFace;
 
     private SeekBar seekBar;
 
@@ -401,6 +421,8 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
      * Name of 3D model to be created
      */
     private String modelName;
+
+    public static final String[] imageNames = {"Top", "Bottom", "Front", "Right", "Back", "Left"};
 
     /**
      * Directory storing all images for current model

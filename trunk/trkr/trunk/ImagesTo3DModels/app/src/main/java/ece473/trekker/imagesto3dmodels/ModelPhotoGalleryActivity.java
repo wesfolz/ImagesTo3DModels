@@ -24,7 +24,6 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -81,7 +80,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             public void onItemClick( AdapterView<?> parent, View v, int position, long id )
             {
-                Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
+                //Toast.makeText( getApplicationContext(), "" + position,
+                // Toast.LENGTH_SHORT ).show();
 
                 //if( (position == imgAdapter.getCount() - 1) && (imgAdapter.getCount() != 6)  )
                 if( v.getTag() == "plus" )
@@ -158,14 +158,14 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             if( modelImageDirectory.exists() )
             {
                 String[] files = modelImageDirectory.list();
-                Arrays.sort(files);
+                Arrays.sort( files );
                 for( String filename : files )
                 {
-                    File file = new File(modelImageDirectory +"/" +filename);
+                    File file = new File( modelImageDirectory + "/" + filename );
                     if( file.exists() )
                     {
                         String fileName = file.getName();
-                        if( fileName.contains( "capture" ) )
+                        if( fileName.contains( ".jpg" ) )
                         {
                             Bitmap myBitmap = BitmapFactory.decodeFile( file.getAbsolutePath(),
                                     options );
@@ -305,15 +305,15 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     String name = getIntent().getStringExtra( "modelName" );
                     String directory = getIntent().getStringExtra( "modelImageDirectory" );
                     Object3DModel model = new Object3DModel( name, directory );
-                    if(imgAdapter.getCount() < 6)
+                    if( imgAdapter.getCount() < 6 )
                     {
                         model.create2DModel( threshold );
-                        Log.e("createModel", "creating2DModel");
+                        Log.e( "createModel", "creating2DModel" );
                     }
                     else
                     {
                         model.create3DModel( threshold );
-                        Log.e("createModel", "creating3DModel");
+                        Log.e( "createModel", "creating3DModel" );
                     }
 
                     //toast has to be run on the ui thread
