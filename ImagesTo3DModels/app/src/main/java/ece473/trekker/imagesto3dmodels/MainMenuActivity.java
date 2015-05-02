@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -57,7 +56,8 @@ public class MainMenuActivity extends ActionBarActivity
         {
             public void onItemClick( AdapterView<?> parent, View v, int position, long id )
             {
-                Toast.makeText( getApplicationContext(), "" + position, Toast.LENGTH_SHORT ).show();
+                //Toast.makeText( getApplicationContext(), "" + position,
+                // Toast.LENGTH_SHORT ).show();
 
                 if( v.getTag() == "plus" )
                 {
@@ -141,8 +141,9 @@ public class MainMenuActivity extends ActionBarActivity
             return 0;
         }
 
-        public View getViewByPosition(int position){
-            return views.get(position);
+        public View getViewByPosition( int position )
+        {
+            return views.get( position );
         }
 
         public List<Map<String, Bitmap>> getThumbNails()
@@ -196,15 +197,16 @@ public class MainMenuActivity extends ActionBarActivity
             if( position == mThumbIds.size() )
             {
                 imageView.setImageResource( R.drawable.plus );
-                imageView.setTag("plus");
+                imageView.setTag( "plus" );
 
             }
             else if( position < mThumbIds.size() )
             {
-                imageView.setImageBitmap( mThumbIds.get( position ).get(mThumbIds.get( position ).keySet().toArray()[0]));
-                imageView.setTag("image");
+                imageView.setImageBitmap( mThumbIds.get( position ).get( mThumbIds.get( position
+                ).keySet().toArray()[0] ) );
+                imageView.setTag( "image" );
             }
-            views.add(position, imageView);
+            views.add( position, imageView );
             return imageView;
         }
 
@@ -213,7 +215,6 @@ public class MainMenuActivity extends ActionBarActivity
             mThumbIds = getThumbNails();
             notifyDataSetChanged();
         }
-
 
 
         // references to our images
@@ -242,7 +243,8 @@ public class MainMenuActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if( id == R.id.action_import ) {
+        if( id == R.id.action_import )
+        {
             importModel();
             share = false;
             delete = false;
@@ -258,7 +260,8 @@ public class MainMenuActivity extends ActionBarActivity
         }
         else if( id == R.id.action_delete )
         {
-            Toast.makeText( getApplicationContext(), "Select model to delete.", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( getApplicationContext(), "Select model to delete.",
+                    Toast.LENGTH_SHORT ).show();
             share = false;
             delete = true;
             return true;
@@ -378,7 +381,7 @@ public class MainMenuActivity extends ActionBarActivity
 
     }
 
-    public static void DeleteRecursive(File fileOrDirectory)
+    public static void DeleteRecursive( File fileOrDirectory )
     {
         if( fileOrDirectory.isDirectory() )
             for( File child : fileOrDirectory.listFiles() )
@@ -423,89 +426,106 @@ public class MainMenuActivity extends ActionBarActivity
     }
 
     @Override
-    public void onBackPressed(){
-        new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
+    public void onBackPressed()
+    {
+        new AlertDialog.Builder( this )
+                .setTitle( "Really Exit?" )
+                .setMessage( "Are you sure you want to exit?" )
+                .setNegativeButton( android.R.string.no, null )
+                .setPositiveButton( android.R.string.yes, new DialogInterface.OnClickListener()
+                {
 
-                    public void onClick(DialogInterface arg0, int arg1){
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                    public void onClick( DialogInterface arg0, int arg1 )
+                    {
+                        Intent intent = new Intent( Intent.ACTION_MAIN );
+                        intent.addCategory( Intent.CATEGORY_HOME );
+                        intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                        startActivity( intent );
                     }
-                }).create().show();
+                } ).create().show();
 
     }
 
-    private void importModel() {
+    private void importModel()
+    {
 
         Dialog dialog = null;
         loadFileList();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder( this );
 
-                builder.setTitle("Choose your file");
-                if(mFileList == null) {
-                    Log.e("WES IS COOL", "Showing file picker before loading the file list");
-                    dialog = builder.create();
-                    return;
-                }
-                builder.setItems(mFileList, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+        builder.setTitle( "Choose your file" );
+        if( mFileList == null )
+        {
+            Log.e( "WES IS COOL", "Showing file picker before loading the file list" );
+            dialog = builder.create();
+            return;
+        }
+        builder.setItems( mFileList, new DialogInterface.OnClickListener()
+        {
+            public void onClick( DialogInterface dialog, int which )
+            {
 
-                        byte[] buffer = new byte[1024];
-                        int len;
+                byte[] buffer = new byte[1024];
+                int len;
 
-                        mChosenFile = downloadDir + "/" + mFileList[which];
-                        Log.e("FileName",mChosenFile);
+                mChosenFile = downloadDir + "/" + mFileList[which];
+                Log.e( "FileName", mChosenFile );
 
-                        try {
-                            GZIPInputStream file2unzip = new GZIPInputStream(new FileInputStream(mChosenFile));
-                            FileOutputStream outfile = new FileOutputStream(mChosenFile.replace(".gzip",""));
-                            while((len = file2unzip.read(buffer)) > 0){
-                                outfile.write(buffer, 0 , len);
-                            }
-
-                            file2unzip.close();
-                            outfile.close();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
-                                Toast.LENGTH_SHORT ).show();
-
-                        try
-                        {
-                            Intent myIntent = new Intent( android.content.Intent.ACTION_VIEW );
-                            File file = new File(mChosenFile.replace(".gzip","")  );
-                            String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl( Uri.fromFile(
-                                    file ).toString() );
-                            String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                                    extension );
-                            myIntent.setDataAndType( Uri.fromFile( file ), mimetype );
-                            startActivity( myIntent );
-                        }
-                        catch( Exception e )
-                        {
-                            // TODO: handle exception
-                            String data = e.getMessage();
-                        }
+                try
+                {
+                    GZIPInputStream file2unzip = new GZIPInputStream( new FileInputStream(
+                            mChosenFile ) );
+                    FileOutputStream outfile = new FileOutputStream( mChosenFile.replace( "" +
+                            ".gzip", "" ) );
+                    while( (len = file2unzip.read( buffer )) > 0 )
+                    {
+                        outfile.write( buffer, 0, len );
                     }
-                }).create().show();
 
+                    file2unzip.close();
+                    outfile.close();
+
+                }
+                catch( IOException e )
+                {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText( MyApplication.getAppContext(), "Opening 3D Model...",
+                        Toast.LENGTH_SHORT ).show();
+
+                try
+                {
+                    Intent myIntent = new Intent( android.content.Intent.ACTION_VIEW );
+                    File file = new File( mChosenFile.replace( ".gzip", "" ) );
+                    String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl( Uri
+                            .fromFile(
+                            file ).toString() );
+                    String mimetype = android.webkit.MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(
+                            extension );
+                    myIntent.setDataAndType( Uri.fromFile( file ), mimetype );
+                    startActivity( myIntent );
+                }
+                catch( Exception e )
+                {
+                    // TODO: handle exception
+                    String data = e.getMessage();
+                }
+            }
+        } ).create().show();
 
 
     }
 
-    public ImageAdapter getImgAdapter(){
+    public ImageAdapter getImgAdapter()
+    {
         return imgAdapter;
     }
-    public GridView getGridview(){
+
+    public GridView getGridview()
+    {
         return gridview;
     }
 
@@ -525,32 +545,40 @@ public class MainMenuActivity extends ActionBarActivity
 
     //In an Activity
     private String[] mFileList;
-    private String downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-    private File mPath = new File(downloadDir);
+    private String downloadDir = Environment.getExternalStoragePublicDirectory( Environment
+            .DIRECTORY_DOWNLOADS ).getPath();
+    private File mPath = new File( downloadDir );
     private String mChosenFile;
     private static final String FTYPE = ".gzip";
 
-    private void loadFileList() {
-        try {
+    private void loadFileList()
+    {
+        try
+        {
             mPath.mkdirs();
         }
-        catch(SecurityException e) {
-            Log.e("WES IS COOL", "unable to write on the sd card " + e.toString());
+        catch( SecurityException e )
+        {
+            Log.e( "WES IS COOL", "unable to write on the sd card " + e.toString() );
         }
-        if(mPath.exists()) {
-            FilenameFilter filter = new FilenameFilter() {
+        if( mPath.exists() )
+        {
+            FilenameFilter filter = new FilenameFilter()
+            {
 
                 @Override
-                public boolean accept(File dir, String filename) {
-                    File sel = new File(dir, filename);
-                    return filename.contains(FTYPE) || sel.isDirectory();
+                public boolean accept( File dir, String filename )
+                {
+                    File sel = new File( dir, filename );
+                    return filename.contains( FTYPE ) || sel.isDirectory();
                 }
 
             };
-            mFileList = mPath.list(filter);
+            mFileList = mPath.list( filter );
         }
-        else {
-            mFileList= new String[0];
+        else
+        {
+            mFileList = new String[0];
         }
     }
 /*
