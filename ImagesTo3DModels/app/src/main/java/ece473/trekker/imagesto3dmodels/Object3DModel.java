@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2015 Wesley Folz, Ryan Hoefferle
+ *
+ * This file is part of Images to 3D Models.
+ *
+ * Images to 3D Models is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Images to 3D Models is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Images to 3D Models.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package ece473.trekker.imagesto3dmodels;
 
 import android.util.Log;
@@ -9,6 +28,7 @@ import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
@@ -53,10 +73,10 @@ public class Object3DModel
         int face = 0;
         for( Mat m : imageArray )
         {
-            nbi = removeBackground( m, thresholds[face] );
-            int[] rect = cropImage( nbi );
-
-            nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
+            //nbi = removeBackground( m, thresholds[face] );
+            //int[] rect = cropImage( nbi );
+            nbi = imageSegmentation( m, thresholds[face] );
+            //nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
             imagePlanes.add( new ImagePlane( nbi ) );
             noBackgroundImages.add( nbi );
             face++;
@@ -70,8 +90,8 @@ public class Object3DModel
             resizeImages2D( imagePlanes, noBackgroundImages.get( face % 2 ), face % 2 );
             imagePlanes.set( face % 2, new ImagePlane( noBackgroundImages.get( face % 2 ) ) );
             //write Mat to jpg file
-            Highgui.imwrite( directoryName + "/noBackground" + face % 2 + ".jpg",
-                    noBackgroundImages.get( face % 2 ) );
+            //Highgui.imwrite( directoryName + "/noBackground" + face % 2 + ".jpg",
+             //       noBackgroundImages.get( face % 2 ) );
             face++;
         }
 
@@ -109,7 +129,7 @@ public class Object3DModel
         Mat nbi;
         int face = 0;
 
-        //Mat test = removeBackground( imageArray.get( 0 ), thresholds[0] );
+        //Mat test = imageSegmentation( imageArray.get( 0 ), thresholds[0] );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
         //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
@@ -124,12 +144,15 @@ public class Object3DModel
             //m.copyTo( nbi, nbi );
             //Highgui.imwrite( directoryName + "/edgeApplied" + face+ ".jpg", nbi );
             //subtract background
-            nbi = removeBackground( m, thresholds[face] );
+            //nbi = removeBackground( m, thresholds[face] );
+            nbi = imageSegmentation( m, thresholds[face] );
             //nbi = subtractBackgroundHistogram( m );
-            int[] rect = cropImage( nbi );
+            //int[] rect = cropImage( nbi );
+            //nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
 
-            nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
-            //initialPlanes.add( new ImagePlane( nbi ) );
+            //int[] rect = cropImage( m );
+
+            //m = m.submat( rect[0], rect[1], rect[2], rect[3] );
             imagePlanes.add( new ImagePlane( nbi ) );
             noBackgroundImages.add( nbi );
             //imagePlanes.add( new ImagePlane( m ) );
@@ -139,25 +162,25 @@ public class Object3DModel
 
         //start with smallest face
         face = findMinFace( noBackgroundImages );
-
+        Log.e("createModel", "starting face " + face);
+        Mat colorCorrected = new Mat();
         //resize images and find outer edges
         for( Mat m : noBackgroundImages )
         {
             //resize images
-//            resizeImages( initialPlanes, noBackgroundImages.get( face % 6 ), face % 6 );
             resizeImages( imagePlanes, noBackgroundImages.get( face % 6 ), face % 6 );
-            //int[] rect = cropImage( m );
+            //int[] rect = cropImage( noBackgroundImages.get( face % 6 ) );
 
-            //m =  m.submat( rect[0], rect[1], rect[2], rect[3] );
+           // noBackgroundImages.set(face%6, noBackgroundImages.get( face % 6 ).submat( rect[0], rect[1], rect[2], rect[3] ));
             //create image plane
-            //imagePlanes.add(  new ImagePlane( noBackgroundImages.get( face%6 ) ));
-            //imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
             imagePlanes.set( face % 6, new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
-            //imagePlanes.get( face%6 ).writeXYZ( directoryName + "/" + face%6 + ".xyz" );
+            //imagePlanes.get( face%6 ).writeXYZ( directoryName + "/edge" + face % 6 + ".xyz" );
 
             //write Mat to jpg file
-            Highgui.imwrite( directoryName + "/noBackground" + face % 6 + ".jpg",
-                    noBackgroundImages.get( face % 6 ) );
+            //Imgproc.cvtColor( noBackgroundImages.get( face%6 ), colorCorrected, Imgproc.COLOR_BGR2RGB );
+            //Highgui.imwrite( directoryName + "/noBackground" + face % 6 + ".jpg",
+             //       colorCorrected );
             face++;
         }
 
@@ -195,8 +218,7 @@ public class Object3DModel
         //Top Face:
         //Top edge of Back, Top edge of Front, Top edge of Right, Top Edge of Left
         triangulateImage( noBackgroundImages.get( FACE_TOP ), FACE_TOP,
-                false, imagePlanes.get( FACE_FRONT ).topEdge,
-                imagePlanes.get( FACE_RIGHT ).topEdge, true );
+                false, imagePlanes.get( FACE_FRONT ).topEdge,                imagePlanes.get( FACE_RIGHT ).topEdge, true );
 
         //Bottom Face:
         //Bottom edge of Front, Bottom edge of Back, Bottom Edge of Right, Bottom edge of Left
@@ -206,8 +228,8 @@ public class Object3DModel
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
         writeOBJFile( directoryName + "/" + modelName + ".obj" );
-    }
 
+    }
 
     private boolean checkTriangleSize( TriangleVertex[] tv, int clusterSize )
     {
@@ -254,10 +276,10 @@ public class Object3DModel
 
     public static Mat drawBox( Mat image, int threshold )
     {
-
+        int offset = 0;
         int[] edges = boundObject( image, threshold );
-        Point pt1 = new Point( edges[0], edges[1] );
-        Point pt2 = new Point( edges[2], edges[3] );
+        Point pt1 = new Point( edges[0]-offset, edges[1]-offset );
+        Point pt2 = new Point( edges[2] + offset, edges[3] + offset );
         Scalar sc1 = new Scalar( 255, 0, 0 );
         Core.rectangle( image, pt1, pt2, sc1, 3 );
         return image;
@@ -265,7 +287,6 @@ public class Object3DModel
 
     public Mat cropImage2( Mat image, int threshold )
     {
-
         int[] edges = boundObject( image, threshold );
         return image.submat( edges[1], edges[3], edges[0], edges[2] );
     }
@@ -918,6 +939,33 @@ public class Object3DModel
 
         return backProjection;
     }
+
+    private Mat imageSegmentation(Mat image, int threshold)
+    {
+        Mat mask = new Mat();
+        Mat sureBackground = new Mat();
+        Mat maybeBackground = new Mat();
+        Mat output = new Mat();
+        int offset = 0;
+        int[] bounds = boundObject( image, threshold );
+        Point pt1 = new Point( bounds[0]-offset, bounds[1]-offset );
+        Point pt2 = new Point( bounds[2]+offset, bounds[3]+offset );
+//        Rect roi = new Rect( 550, 100, 850, 825 );
+        Rect roi = new Rect( pt1, pt2 );
+        //output = image.submat( roi );
+
+        Imgproc.grabCut( image, mask, roi, new Mat(), new Mat(), 1, Imgproc.GC_INIT_WITH_RECT );
+        Core.inRange( mask, new Scalar( Imgproc.GC_PR_FGD ), new Scalar( Imgproc.GC_PR_FGD ),
+                sureBackground );
+        //Core.inRange( mask, new Scalar( Imgproc.GC_PR_FGD ), new Scalar( Imgproc.GC_PR_FGD ), maybeBackground );
+
+        image.copyTo( output, sureBackground );
+        //output.copyTo( output, maybeBackground );
+
+        output = cropImage2( output, threshold );
+        return output;
+    }
+
 
     /**
      * Initialize model name and array of Mat objects

@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2015 Wesley Folz, Ryan Hoefferle
+ *
+ * This file is part of Images to 3D Models.
+ *
+ * Images to 3D Models is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Images to 3D Models is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Images to 3D Models.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package ece473.trekker.imagesto3dmodels;
 
 import android.app.Activity;
@@ -23,6 +43,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -219,12 +240,15 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                         .core.Point( cols / 2 + 200, rows / 2 + 100 ), red );
 */
 
-        //Mat edges = Object3DModel.detectEdges( inputFrame.rgba(), seekBar.getProgress() );
         Mat edges = Object3DModel.drawBox( inputFrame.rgba(), seekBar.getProgress() );
         return edges;
-
+/*
+        Mat boxFrame = inputFrame.rgba();
+        Point[] box = createRectanglePoints(inputFrame.rgba(), seekBar.getProgress());
+        Core.rectangle( boxFrame,box[0], box[1] , new Scalar( 255, 0, 0 ) );
+*/
         //return rectMat;
-        //return inputFrame.rgba();
+        //return boxFrame;
     }
 
 
@@ -296,6 +320,19 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         //galleryIntent.putExtra( "threshold", seekBar.getProgress() );
         galleryIntent.putExtra( "thresholds", thresholds );
         startActivity( galleryIntent );
+    }
+
+    public static Point[] createRectanglePoints(Mat frame, int size)
+    {
+        Point[] corners = new Point[2];
+        int rows = frame.rows();
+        int cols = frame.cols();
+
+        corners[0] = new Point( cols-(cols*size/255), rows-(rows*size/255) );
+
+        corners[1] = new Point( (cols*size/255), (rows*size/255) );
+
+        return corners;
     }
 
 

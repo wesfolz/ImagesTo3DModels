@@ -1,18 +1,30 @@
+/*
+ * Copyright (c) 2015 Wesley Folz, Ryan Hoefferle
+ *
+ * This file is part of Images to 3D Models.
+ *
+ * Images to 3D Models is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Images to 3D Models is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Images to 3D Models.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package ece473.trekker.imagesto3dmodels;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
 import android.test.ViewAsserts;
 import android.test.suitebuilder.annotation.MediumTest;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-
-import junit.framework.Assert;
 
 /**
  * Created by Ryan Hoefferle on 3/29/2015.
