@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2015 Wesley Folz, Ryan Hoefferle
+ *
+ * This file is part of Images to 3D Models.
+ *
+ * Images to 3D Models is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Images to 3D Models is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Images to 3D Models.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package ece473.trekker.imagesto3dmodels;
 
 import org.opencv.core.Mat;
@@ -116,6 +135,7 @@ public class ImagePlane
         int numRows = input.rows();
         int numCols = input.cols() - 1;
         int rowCounter;
+        int finalKey=0;
 
         for( int i = 1; i < numCols; i++ )
         {
@@ -129,17 +149,21 @@ public class ImagePlane
                     //            i + 1 )[0] != 0 )
                     //    {
                     bottomVertices.put( i, rowCounter );
+                    finalKey = i;
+
                     //     }
                     break;
                 }
                 rowCounter--;
             }
+        }
+        for(int i=0; i<numCols; i++)
+        {
             //fill holes in edge with previous edge point if it exists
-          /*  if( ! bottomVertices.containsKey( i ) && bottomVertices.containsKey( i - 1 ) )
+            if( ! bottomVertices.containsKey( i ) && bottomVertices.containsKey( i - 1 ) && i<finalKey )
             {
                 bottomVertices.put( i, bottomVertices.get( i - 1 ) );
             }
-       */
         }
 
         return bottomVertices;
@@ -158,6 +182,7 @@ public class ImagePlane
         int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
+        int finalKey = 0;
 
         for( int i = 1; i < numRows; i++ )
         {
@@ -171,6 +196,7 @@ public class ImagePlane
                     //            colCounter )[0] != 0 )
                     //    {
                     leftVertices.put( i, colCounter );
+                    finalKey = i;
                     //   }
                     break;
                 }
@@ -182,6 +208,14 @@ public class ImagePlane
                 leftVertices.put( i, leftVertices.get( i - 1 ) );
             }
             */
+        }
+        for(int i=0; i<numCols; i++)
+        {
+            //fill holes in edge with previous edge point if it exists
+            if( ! leftVertices.containsKey( i ) && leftVertices.containsKey( i - 1 ) && i<finalKey )
+            {
+                leftVertices.put( i, leftVertices.get( i - 1 ) );
+            }
         }
 
         return leftVertices;
@@ -201,6 +235,7 @@ public class ImagePlane
         int numRows = input.rows() - 1;
         int numCols = input.cols();
         int colCounter;
+        int finalKey =0;
 
         for( int i = 1; i < numRows; i++ )
         {
@@ -214,6 +249,7 @@ public class ImagePlane
                     //               colCounter )[0] != 0 )
                     //       {
                     rightVertices.put( i, colCounter );
+                    finalKey = i;
                     //      }
                     break;
                 }
@@ -226,6 +262,14 @@ public class ImagePlane
                 rightVertices.put( i, rightVertices.get( i - 1 ) );
             }
             */
+        }
+        for(int i=0; i<numCols; i++)
+        {
+            //fill holes in edge with previous edge point if it exists
+            if( ! rightVertices.containsKey( i ) && rightVertices.containsKey( i - 1 ) && i<finalKey )
+            {
+                rightVertices.put( i, rightVertices.get( i - 1 ) );
+            }
         }
 
         return rightVertices;
@@ -244,6 +288,7 @@ public class ImagePlane
         int numRows = input.rows();
         int numCols = input.cols() - 1;
         int rowCounter;
+        int finalKey = 0;
 
         for( int i = 1; i < numCols; i++ )
         {
@@ -257,6 +302,7 @@ public class ImagePlane
                     //              i + 1 )[0] != 0 )
                     //      {
                     topVertices.put( i, rowCounter );
+                    finalKey = i;
                     //      }
                     break;
                 }
@@ -268,6 +314,14 @@ public class ImagePlane
             {
                 topVertices.put( i, topVertices.get( i - 1 ) );
             }*/
+        }
+        for(int i=0; i<numCols; i++)
+        {
+            //fill holes in edge with previous edge point if it exists
+            if( ! topVertices.containsKey( i ) && topVertices.containsKey( i - 1 ) && i<finalKey )
+            {
+                topVertices.put( i, topVertices.get( i - 1 ) );
+            }
         }
 
         return topVertices;
