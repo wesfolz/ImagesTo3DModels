@@ -94,6 +94,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         final GridView gridview = (GridView) findViewById( R.id.buttonGrid );
         imgAdapter = new ImageAdapter( this );
         gridview.setAdapter( imgAdapter );
+        if (modelImageDirectory.list().length < 6) {
+            Toast.makeText(getApplicationContext(), "Press \"+\" to capture a new image.", Toast.LENGTH_SHORT).show();
+        }
+
 
         gridview.setOnItemClickListener( new AdapterView.OnItemClickListener()
         {
