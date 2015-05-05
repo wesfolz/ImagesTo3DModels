@@ -70,65 +70,55 @@ public class MainMenuActivity extends ActionBarActivity
         gridview = (GridView) findViewById( R.id.buttonGrid );
         imgAdapter = new ImageAdapter( this );
         gridview.setAdapter( imgAdapter );
+        Toast.makeText( getApplicationContext(),"Press \"+\" to create a new model.", Toast.LENGTH_SHORT ).show();
 
-        gridview.setOnItemClickListener( new AdapterView.OnItemClickListener()
-        {
-            public void onItemClick( AdapterView<?> parent, View v, int position, long id )
-            {
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //Toast.makeText( getApplicationContext(), "" + position,
                 // Toast.LENGTH_SHORT ).show();
 
-                if( v.getTag() == "plus" )
-                {
+                if (v.getTag() == "plus") {
                     final View view = v;
                     AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder( MainMenuActivity.this );
-                    builder.setTitle( "Model Name" );
+                    builder = new AlertDialog.Builder(MainMenuActivity.this);
+                    builder.setTitle("Model Name");
 
                     // Set up the input
-                    final EditText input = new EditText( MainMenuActivity.this );
+                    final EditText input = new EditText(MainMenuActivity.this);
                     // Specify the type of input expected; this, for example,
                     // sets the input as a password, and will mask the text
-                    input.setInputType( InputType.TYPE_CLASS_TEXT );
-                    builder.setView( input );
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
 
                     // Set up the buttons
-                    builder.setPositiveButton( "OK", new DialogInterface.OnClickListener()
-                    {
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick( DialogInterface dialog, int which )
-                        {
+                        public void onClick(DialogInterface dialog, int which) {
                             objectName = input.getText().toString();
-                            initiateCapture( view );
+                            initiateCapture(view);
                         }
-                    } );
-                    builder.setNegativeButton( "Cancel", new DialogInterface.OnClickListener()
-                    {
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick( DialogInterface dialog, int which )
-                        {
+                        public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
-                    } );
+                    });
                     builder.show();
-                }
-                else if( delete )
-                {
-                    deleteObject( (String) imgAdapter.getItem( position ).keySet().toArray()[0] );
+                } else if (delete) {
+                    deleteObject((String) imgAdapter.getItem(position).keySet().toArray()[0]);
                     delete = false;
                     imgAdapter.updateAdapter();
-                }
-                else if( share )
-                {
-                    shareModel( (String) imgAdapter.getItem( position ).keySet().toArray()[0] );
-                }
-                else
-                {
-                    openPhotoGallery( v, (String) imgAdapter.getItem( position ).keySet().toArray
-                            ()[0] );
+                } else if (share) {
+                    shareModel((String) imgAdapter.getItem(position).keySet().toArray()[0]);
+                } else {
+                    String modelName = (String) imgAdapter.getItem( position ).keySet().toArray()[0];
+                    Toast.makeText(getApplicationContext(), "Opening the "+ modelName +" model.", Toast.LENGTH_SHORT).show();
+
+                    openPhotoGallery(v, modelName);
                 }
             }
-        } );
+        });
 
     }
 
