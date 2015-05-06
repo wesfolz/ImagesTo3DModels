@@ -61,6 +61,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         //LinearLayout layout = (LinearLayout) findViewById( R.id.photo_gallery_linear_layout );
 
         final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
+        createButton = (Button) findViewById( R.id.create_model_button );
 
         modelImageDirectory = new File( getIntent().getStringExtra( "modelImageDirectory" ) );
         objectName = new String( getIntent().getStringExtra( "modelName" ) );
@@ -81,6 +82,10 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         {
             openModelButton.setVisibility( View.VISIBLE );
             openModelButton.setEnabled( true );
+            if( ! getIntent().hasExtra( "createEnabled" ) )
+            {
+                createButton.setEnabled( false );
+            }
         }
         /*
         File[] images = modelImageDirectory.listFiles();
@@ -109,6 +114,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                 //if( (position == imgAdapter.getCount() - 1) && (imgAdapter.getCount() != 6)  )
                 if( v.getTag() == "plus" )
                 {
+                    createButton.setEnabled( true );
                     initiateCapture( v );
                 }
                 else if( delete )
@@ -128,6 +134,8 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
             }
         } );
 
+        progressBar = (ProgressBar) findViewById( R.id.progressBar );
+        progressBar.setVisibility( View.INVISIBLE );
     }
 
     @Override
@@ -262,7 +270,7 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
 
         if( imageFile.exists() )
         {
-
+            createButton.setEnabled( true );
             imageFile.delete();
         }
         else
@@ -300,19 +308,33 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
     }
 
     /**
+     * Returns true if 2-6 images have been captured
+     *
+     * @return
+     */
+    public boolean validCaptureNumber()
+    {
+        return imgAdapter.getThumbNails().size() <= 6 && imgAdapter.getThumbNails().size() >= 2;
+    }
+
+
+    /**
      * Called when create model button is pressed creates new 3D model from images
      *
      * @param view - create_model_button
      */
     public boolean createModel( View view )
     {
-        if( imgAdapter.getThumbNails().size() <= 6 && imgAdapter.getThumbNails().size() >= 2 )
+        if( validCaptureNumber())
         {
-            final Button createButton = (Button) findViewById( R.id.create_model_button );
+            createButton = (Button) findViewById( R.id.create_model_button );
             final Button openModelButton = (Button) findViewById( R.id.open_3D_model );
-            final ProgressBar progressBar = (ProgressBar) findViewById( R.id.progressBar );
+            final ProgressBar indeterminate = (ProgressBar) findViewById( R.id.progressBarIndeterminate );
             createButton.setEnabled( false );
             openModelButton.setEnabled( false );
+            progressBar.setProgress( 0 );
+            indeterminate.setVisibility( View.VISIBLE );
+            indeterminate.setEnabled( true );
             progressBar.setVisibility( View.VISIBLE );
             progressBar.setEnabled( true );
             Log.e( "createModel", "Model initiated" );
@@ -330,11 +352,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                     Object3DModel model = new Object3DModel( name, directory );
                     if( imgAdapter.getCount() < 6 )
                     {
+                        model.setOwnerActivity( ModelPhotoGalleryActivity.this );
                         model.create2DModel( threshold );
                         Log.e( "createModel", "creating2DModel" );
                     }
                     else
                     {
+                        model.setOwnerActivity( ModelPhotoGalleryActivity.this );
                         model.create3DModel( threshold );
                         Log.e( "createModel", "creating3DModel" );
                     }
@@ -348,11 +372,13 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
                             Toast.makeText( MyApplication.getAppContext(), "Model Complete!",
                                     Toast.LENGTH_LONG ).show();
                             Log.e( "createModel", "Model complete" );
-                            createButton.setEnabled( true );
+                            //createButton.setEnabled( true );
                             openModelButton.setVisibility( View.VISIBLE );
                             openModelButton.setEnabled( true );
                             progressBar.setVisibility( View.INVISIBLE );
                             progressBar.setEnabled( false );
+                            indeterminate.setVisibility( View.INVISIBLE );
+                            indeterminate.setEnabled( false );
 
                         }
                     } );
@@ -417,11 +443,22 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
      */
     public void initiateCapture( View view )
     {
-
         Intent captureIntent = new Intent( this, ImageCaptureActivity.class );
         //sends name of model to image capture activity
         captureIntent.putExtra( "modelName", objectName );
         startActivity( captureIntent );
+    }
+
+    public void updateProgress( final int value )
+    {
+        runOnUiThread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressBar.incrementProgressBy( value );
+            }
+        } );
     }
 
     public void updateImgAdapter()
@@ -460,6 +497,9 @@ public class ModelPhotoGalleryActivity extends ActionBarActivity
         return modelImageDirectory;
     }
 
+    private Button createButton;
+
+    private ProgressBar progressBar;
 
     private int[] threshold;
     private File modelImageDirectory;

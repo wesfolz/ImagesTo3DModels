@@ -52,23 +52,22 @@ public class ModelPhotoGalleryActivityTest extends
         Intent galleryIntent = new Intent();
         galleryIntent.setClassName( "ece473.trekker.imagesto3dmodels",
                 "ece473.trekker.imagesto3dmodels.ModelPhotoGalleryActivity" );
-        galleryIntent.putExtra( "modelName", "test" );
-        galleryIntent.putExtra( "modelImageDirectory", MainMenuActivity.appDir + "/test/images" );
+        galleryIntent.putExtra( "modelName", "test12" );
+        galleryIntent.putExtra( "modelImageDirectory", MainMenuActivity.appDir + "/test12/images" );
         setActivityIntent( galleryIntent );
         activity = getActivity();
     }
 
     /**
-     * Tests requirement 2.2 to see if an 6 images must be present to do 3D conversion
+     * Tests requirement 2.2 to see if 2-6 images must be present to do 3D conversion
      *
      * @throws Exception
      */
     public void testNumberOfImages() throws Exception
     {
-
         OutputStream out = null;
 
-        String testImagePath = MainMenuActivity.appDir + "/test/images";
+        String testImagePath = MainMenuActivity.appDir + "/test12/images";
 
         File testDir = new File( testImagePath );
         if( testDir.exists() )
@@ -76,8 +75,8 @@ public class ModelPhotoGalleryActivityTest extends
             MainMenuActivity.DeleteRecursive( testDir );
         }
 
-        MainMenuActivity.createDirectory( "test" );
-        MainMenuActivity.createDirectory( "test/images" );
+        MainMenuActivity.createDirectory( "test12" );
+        MainMenuActivity.createDirectory( "test12/images" );
 
 
         View dummyView = activity.findViewById( R.id.create_model_button );
@@ -98,7 +97,7 @@ public class ModelPhotoGalleryActivityTest extends
 
             }
         } );
-        assertFalse( activity.createModel( dummyView ) );
+        assertFalse( activity.validCaptureNumber() );
 
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest2.jpg"
         ) );
@@ -110,10 +109,9 @@ public class ModelPhotoGalleryActivityTest extends
             {
 
                 activity.updateImgAdapter();
-
             }
         } );
-        assertFalse( activity.createModel( dummyView ) );
+        assertTrue( activity.validCaptureNumber() );
 
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest3.jpg"
         ) );
@@ -123,12 +121,10 @@ public class ModelPhotoGalleryActivityTest extends
             @Override
             public void run()
             {
-
                 activity.updateImgAdapter();
-
             }
         } );
-        assertFalse( activity.createModel( dummyView ) );
+        assertTrue( activity.validCaptureNumber() );
 
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest4.jpg"
         ) );
@@ -143,7 +139,7 @@ public class ModelPhotoGalleryActivityTest extends
 
             }
         } );
-        assertFalse( activity.createModel( dummyView ) );
+        assertTrue( activity.validCaptureNumber() );
 
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest5.jpg"
         ) );
@@ -158,7 +154,7 @@ public class ModelPhotoGalleryActivityTest extends
 
             }
         } );
-        assertFalse( activity.createModel( dummyView ) );
+        assertTrue( activity.validCaptureNumber() );
 
         out = new BufferedOutputStream( new FileOutputStream( testImagePath + "/capturetest6.jpg"
         ) );
@@ -173,8 +169,7 @@ public class ModelPhotoGalleryActivityTest extends
 
             }
         } );
-        assertTrue( activity.createModel( dummyView ) );
-
+        assertTrue( activity.validCaptureNumber() );
     }
 
     /**
@@ -187,7 +182,7 @@ public class ModelPhotoGalleryActivityTest extends
 
         OutputStream out = null;
 
-        String testImagePath = MainMenuActivity.appDir + "/test/images";
+        String testImagePath = MainMenuActivity.appDir + "/test12/images";
 
         File testDir = new File( testImagePath );
         if( testDir.exists() )
@@ -195,8 +190,8 @@ public class ModelPhotoGalleryActivityTest extends
             MainMenuActivity.DeleteRecursive( testDir );
         }
 
-        MainMenuActivity.createDirectory( "test" );
-        MainMenuActivity.createDirectory( "test/images" );
+        MainMenuActivity.createDirectory( "test12" );
+        MainMenuActivity.createDirectory( "test12/images" );
 
 
         final View dummyView = activity.findViewById( R.id.create_model_button );

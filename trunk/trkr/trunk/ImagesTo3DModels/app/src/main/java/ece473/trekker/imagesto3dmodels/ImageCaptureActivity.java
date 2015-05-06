@@ -219,6 +219,10 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             //captureNumber++;
             Log.e( "onCameraFrame", "Mat size: " + inputFrame.rgba().size() );
         }
+        if( getCaptureNumber() >= 6 )
+        {
+            captureComplete( null );
+        }
 /*
         Mat rectMat = inputFrame.rgba();
         int rows = rectMat.rows() - 1;
@@ -297,13 +301,14 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
                 imageFace.setText( imageNames[captureNumber + 1] + " Face" );
             else
                 imageFace.setText( imageNames[captureNumber] + " Face" );
-            //cameraView.turnOnFlash();
+
             capture = true;
         }
         else
         {
             Toast.makeText( getApplicationContext(), "Maximum Number of Captures Reached.",
                     Toast.LENGTH_SHORT ).show();
+            captureComplete( null );
         }
     }
 
@@ -317,7 +322,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
         Intent galleryIntent = new Intent( this, ModelPhotoGalleryActivity.class );
         galleryIntent.putExtra( "modelName", modelName );
         galleryIntent.putExtra( "modelImageDirectory", imageDirectory.getAbsolutePath() );
-        //galleryIntent.putExtra( "threshold", seekBar.getProgress() );
+        galleryIntent.putExtra( "createEnabled", true );
         galleryIntent.putExtra( "thresholds", thresholds );
         startActivity( galleryIntent );
     }
