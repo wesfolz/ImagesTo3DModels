@@ -76,9 +76,11 @@ public class Object3DModel
             //nbi = removeBackground( m, thresholds[face] );
             //int[] rect = cropImage( nbi );
             nbi = imageSegmentation( m, thresholds[face] );
+            ownerActivity.updateProgress( 3 );
             //nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
             imagePlanes.add( new ImagePlane( nbi ) );
             noBackgroundImages.add( nbi );
+            ownerActivity.updateProgress( 3 );
             face++;
         }
         //start with smallest face
@@ -88,7 +90,9 @@ public class Object3DModel
         for( Mat m : noBackgroundImages )
         {
             resizeImages2D( imagePlanes, noBackgroundImages.get( face % 2 ), face % 2 );
+            ownerActivity.updateProgress( 3 );
             imagePlanes.set( face % 2, new ImagePlane( noBackgroundImages.get( face % 2 ) ) );
+            ownerActivity.updateProgress( 3 );
             //write Mat to jpg file
             //Highgui.imwrite( directoryName + "/noBackground" + face % 2 + ".jpg",
              //       noBackgroundImages.get( face % 2 ) );
@@ -100,14 +104,18 @@ public class Object3DModel
                 false,
                 imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_BOTTOM ).leftEdge,
                 false );
+        ownerActivity.updateProgress( 3 );
 
         //Bottom Face:
         triangulateImage( noBackgroundImages.get( FACE_BOTTOM ), FACE_BOTTOM,
                 false, imagePlanes.get( FACE_TOP ).topEdge,
                 imagePlanes.get( FACE_TOP ).leftEdge, false );
+        ownerActivity.updateProgress( 3 );
 
         writePLYFile( directoryName + "/" + modelName + ".ply" );
+        ownerActivity.updateProgress( 1 );
         writeOBJFile( directoryName + "/" + modelName + ".obj" );
+        ownerActivity.updateProgress( 1 );
     }
 
 
@@ -146,6 +154,7 @@ public class Object3DModel
             //subtract background
             //nbi = removeBackground( m, thresholds[face] );
             nbi = imageSegmentation( m, thresholds[face] );
+            ownerActivity.updateProgress( 1 );
             //nbi = subtractBackgroundHistogram( m );
             //int[] rect = cropImage( nbi );
             //nbi = nbi.submat( rect[0], rect[1], rect[2], rect[3] );
@@ -154,6 +163,7 @@ public class Object3DModel
 
             //m = m.submat( rect[0], rect[1], rect[2], rect[3] );
             imagePlanes.add( new ImagePlane( nbi ) );
+            ownerActivity.updateProgress( 1 );
             noBackgroundImages.add( nbi );
             //imagePlanes.add( new ImagePlane( m ) );
             //noBackgroundImages.add( m );
@@ -169,12 +179,14 @@ public class Object3DModel
         {
             //resize images
             resizeImages( imagePlanes, noBackgroundImages.get( face % 6 ), face % 6 );
+            ownerActivity.updateProgress( 1 );
             //int[] rect = cropImage( noBackgroundImages.get( face % 6 ) );
 
            // noBackgroundImages.set(face%6, noBackgroundImages.get( face % 6 ).submat( rect[0], rect[1], rect[2], rect[3] ));
             //create image plane
-            imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            //imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
             imagePlanes.set( face % 6, new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
+            ownerActivity.updateProgress( 1 );
             //imagePlanes.get( face%6 ).writeXYZ( directoryName + "/edge" + face % 6 + ".xyz" );
 
             //write Mat to jpg file
@@ -194,6 +206,7 @@ public class Object3DModel
                 false,
                 imagePlanes.get( FACE_BOTTOM ).topEdge, imagePlanes.get( FACE_RIGHT ).leftEdge,
                 true );
+        ownerActivity.updateProgress( 1 );
 
         //Right Face:
         //Right edge of Top, Right edge of Bottom, Left Edge of Back (right),
@@ -201,12 +214,14 @@ public class Object3DModel
         triangulateImage( noBackgroundImages.get( FACE_RIGHT ), FACE_RIGHT,
                 true, imagePlanes.get( FACE_TOP ).rightEdge,
                 imagePlanes.get( FACE_FRONT ).rightEdge, true );
+        ownerActivity.updateProgress( 1 );
 
         //Back Face:
         //Top edge of Top, Bottom edge of Bottom, Left edge of Left, Right Edge of Right
         triangulateImage( noBackgroundImages.get( FACE_BACK ), FACE_BACK,
                 true, imagePlanes.get( FACE_BOTTOM ).bottomEdge,
                 imagePlanes.get( FACE_RIGHT ).rightEdge, true );
+        ownerActivity.updateProgress( 1 );
 
 
         //Left Face:
@@ -214,21 +229,27 @@ public class Object3DModel
         triangulateImage( noBackgroundImages.get( FACE_LEFT ), FACE_LEFT,
                 false, imagePlanes.get( FACE_TOP ).leftEdge,
                 imagePlanes.get( FACE_FRONT ).leftEdge, true );
+        ownerActivity.updateProgress( 1 );
 
         //Top Face:
         //Top edge of Back, Top edge of Front, Top edge of Right, Top Edge of Left
         triangulateImage( noBackgroundImages.get( FACE_TOP ), FACE_TOP,
-                false, imagePlanes.get( FACE_FRONT ).topEdge,                imagePlanes.get( FACE_RIGHT ).topEdge, true );
+                false, imagePlanes.get( FACE_FRONT ).topEdge,
+                imagePlanes.get( FACE_RIGHT ).topEdge, true );
 
+        ownerActivity.updateProgress( 1 );
         //Bottom Face:
         //Bottom edge of Front, Bottom edge of Back, Bottom Edge of Right, Bottom edge of Left
         triangulateImage( noBackgroundImages.get( FACE_BOTTOM ), FACE_BOTTOM,
                 true, imagePlanes.get( FACE_FRONT ).bottomEdge, imagePlanes.get( FACE_LEFT )
                         .bottomEdge, true );
 
-        writePLYFile( directoryName + "/" + modelName + ".ply" );
-        writeOBJFile( directoryName + "/" + modelName + ".obj" );
+        ownerActivity.updateProgress( 1 );
 
+        writePLYFile( directoryName + "/" + modelName + ".ply" );
+        ownerActivity.updateProgress( 1 );
+        writeOBJFile( directoryName + "/" + modelName + ".obj" );
+        ownerActivity.updateProgress( 1 );
     }
 
     private boolean checkTriangleSize( TriangleVertex[] tv, int clusterSize )
@@ -246,6 +267,16 @@ public class Object3DModel
                 tv[0].z - tv[2].z
         ) <= clusterSize * multiplier) && (Math.abs( tv[1].z - tv[2].z ) <= clusterSize *
                 multiplier));
+    }
+
+    public ModelPhotoGalleryActivity getOwnerActivity()
+    {
+        return ownerActivity;
+    }
+
+    public void setOwnerActivity( ModelPhotoGalleryActivity ownerActivity )
+    {
+        this.ownerActivity = ownerActivity;
     }
 
     private int findMinFace( ArrayList<Mat> images )
@@ -753,7 +784,6 @@ public class Object3DModel
 
                 if( pixChange > threshold )
                 {
-
                     if( j < minCol )
                     {
                         minCol = j;
@@ -851,7 +881,6 @@ public class Object3DModel
         }
 
         return new int[]{minCol, minRow, maxCol, maxRow};
-
     }
 
 
@@ -1466,6 +1495,8 @@ public class Object3DModel
     private String directoryName;
 
     private String modelDirectory;
+
+    private ModelPhotoGalleryActivity ownerActivity;
 
     /**
      * Name of this model

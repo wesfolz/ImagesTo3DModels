@@ -349,15 +349,15 @@ int id action_bar_spinner 0x7f090001
 int id action_bar_subtitle 0x7f090022
 int id action_bar_title 0x7f090021
 int id action_context_bar 0x7f090035
-int id action_delete 0x7f090051
-int id action_import 0x7f09004f
+int id action_delete 0x7f090052
+int id action_import 0x7f090050
 int id action_menu_divider 0x7f090002
 int id action_menu_presenter 0x7f090003
 int id action_mode_bar 0x7f090031
 int id action_mode_bar_stub 0x7f090030
 int id action_mode_close_button 0x7f090023
-int id action_settings 0x7f09004e
-int id action_share 0x7f090050
+int id action_settings 0x7f09004f
+int id action_share 0x7f090051
 int id activity_chooser_view_content 0x7f090024
 int id always 0x7f090019
 int id any 0x7f090013
@@ -396,6 +396,7 @@ int id none 0x7f09000e
 int id normal 0x7f09000a
 int id open_3D_model 0x7f09004c
 int id progressBar 0x7f09004d
+int id progressBarIndeterminate 0x7f09004e
 int id progress_circular 0x7f090005
 int id progress_horizontal 0x7f090006
 int id radio 0x7f09002e
