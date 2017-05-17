@@ -32,10 +32,10 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.ml.CvSVM;
-import org.opencv.ml.CvSVMParams;
+//import org.opencv.ml.CvSVM;
+//import org.opencv.ml.CvSVMParams;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -94,8 +94,8 @@ public class Object3DModel
             imagePlanes.set( face % 2, new ImagePlane( noBackgroundImages.get( face % 2 ) ) );
             ownerActivity.updateProgress( 3 );
             //write Mat to jpg file
-            //Highgui.imwrite( directoryName + "/noBackground" + face % 2 + ".jpg",
-             //       noBackgroundImages.get( face % 2 ) );
+            //Imgcodecs.imwrite( directoryName + "/noBackground" + face % 2 + ".jpg",
+            //       noBackgroundImages.get( face % 2 ) );
             face++;
         }
 
@@ -140,7 +140,7 @@ public class Object3DModel
         //Mat test = imageSegmentation( imageArray.get( 0 ), thresholds[0] );
         //Mat test = subtractBackgroundHistogram( imageArray.get( 3 ) );
         //Mat test = subtractBackgroundMachineLearning(imageArray.get( 0 ));
-        //Highgui.imwrite( directoryName + "/noBackground.jpg", test );
+        //Imgcodecs.imwrite( directoryName + "/noBackground.jpg", test );
         //ImagePlane testPlane = new ImagePlane( test );
         //testPlane.writeXYZ( directoryName + "/edges.xyz" );
 
@@ -150,7 +150,7 @@ public class Object3DModel
             //nbi = detectEdges( m, thresholds[face] );
             //Core.inRange( nbi, new Scalar( 0 ), new Scalar( 0 ), nbi );
             //m.copyTo( nbi, nbi );
-            //Highgui.imwrite( directoryName + "/edgeApplied" + face+ ".jpg", nbi );
+            //Imgcodecs.imwrite( directoryName + "/edgeApplied" + face+ ".jpg", nbi );
             //subtract background
             //nbi = removeBackground( m, thresholds[face] );
             nbi = imageSegmentation( m, thresholds[face] );
@@ -182,7 +182,7 @@ public class Object3DModel
             ownerActivity.updateProgress( 1 );
             //int[] rect = cropImage( noBackgroundImages.get( face % 6 ) );
 
-           // noBackgroundImages.set(face%6, noBackgroundImages.get( face % 6 ).submat( rect[0], rect[1], rect[2], rect[3] ));
+            // noBackgroundImages.set(face%6, noBackgroundImages.get( face % 6 ).submat( rect[0], rect[1], rect[2], rect[3] ));
             //create image plane
             //imagePlanes.add( new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
             imagePlanes.set( face % 6, new ImagePlane( noBackgroundImages.get( face % 6 ) ) );
@@ -191,8 +191,8 @@ public class Object3DModel
 
             //write Mat to jpg file
             //Imgproc.cvtColor( noBackgroundImages.get( face%6 ), colorCorrected, Imgproc.COLOR_BGR2RGB );
-            //Highgui.imwrite( directoryName + "/noBackground" + face % 6 + ".jpg",
-             //       colorCorrected );
+            //Imgcodecs.imwrite( directoryName + "/noBackground" + face % 6 + ".jpg",
+            //       colorCorrected );
             face++;
         }
 
@@ -312,7 +312,8 @@ public class Object3DModel
         Point pt1 = new Point( edges[0]-offset, edges[1]-offset );
         Point pt2 = new Point( edges[2] + offset, edges[3] + offset );
         Scalar sc1 = new Scalar( 255, 0, 0 );
-        Core.rectangle( image, pt1, pt2, sc1, 3 );
+
+        Imgproc.rectangle( image, pt1, pt2, sc1, 3 );
         return image;
     }
 
@@ -640,7 +641,7 @@ public class Object3DModel
         Mat drawing = Mat.zeros( canny.size(), CvType.CV_8UC3 );
         Imgproc.drawContours( drawing, contours, - 1, new Scalar( 100, 50, 200 ) );
 
-        Highgui.imwrite( directoryName + "/contours.jpg", drawing );
+        Imgcodecs.imwrite( directoryName + "/contours.jpg", drawing );
 
         return contours;
     }
@@ -672,13 +673,13 @@ public class Object3DModel
 
         for( Point p : cPoints )
         {
-            Core.circle( cornerImage, p, 5, new Scalar( 0 ) );
+            Imgproc.circle( cornerImage, p, 5, new Scalar( 0 ) );
         }
 
         //Core.circle( cornerImage, findTopLeftCorner( cornerPoints ), 50, new Scalar( 255, 0,
         // 0 ) );
 
-        Highgui.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
+        Imgcodecs.imwrite( directoryName + "/harrisCorner.jpg", cornerImage );
 
         return cornerPoints;
     }
@@ -1011,7 +1012,7 @@ public class Object3DModel
         for( String fileName : images )
         {
             File f = new File( directoryName + "/images/" + fileName );
-            Mat rgb = Highgui.imread( f.getAbsolutePath() );
+            Mat rgb = Imgcodecs.imread( f.getAbsolutePath() );
             Imgproc.cvtColor( rgb, bgr, Imgproc.COLOR_RGB2BGR );
             imageArray.add( bgr.clone() );
         }
@@ -1102,7 +1103,7 @@ public class Object3DModel
     }
 
     private void applyResizeFactor( Mat image, ArrayList<ImagePlane> planes, int face,
-                                    float bottom, float right, float top, float left )
+            float bottom, float right, float top, float left )
     {
     /*    float horizontal = planes.get( f1 ).cols();
         float bottom = image.cols();
@@ -1154,7 +1155,7 @@ public class Object3DModel
         //     return backProjection;
     }
 
-
+/*
     public Mat subtractBackgroundMachineLearning( Mat inputImage )
     {
         Mat image = new Mat();
@@ -1245,7 +1246,7 @@ public class Object3DModel
 
         return output;
     }
-
+*/
 
     /**
      * Triangulates face by connecting nearest image pixel points

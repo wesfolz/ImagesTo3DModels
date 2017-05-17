@@ -44,7 +44,7 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.BufferedOutputStream;
@@ -181,7 +181,7 @@ public class ImageCaptureActivity extends Activity implements CameraBridgeViewBa
             //convert to rgba before writing file
             Imgproc.cvtColor( bgr, bgr, Imgproc.COLOR_BGR2RGB );
             //write mat to jpg file
-            Highgui.imwrite( fileName, bgr );
+            Imgcodecs.imwrite( fileName, bgr );
             try
             {
                 String outFile = MainMenuActivity.thmNailDir.getPath() + "/" + getIntent()
